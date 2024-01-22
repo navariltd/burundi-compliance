@@ -1,0 +1,114 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-23 01:12:58.156431",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "username_and_password_are_provided_by_obr_section",
+  "column_break_xbtx",
+  "username",
+  "password",
+  "column_break_kuje",
+  "environment",
+  "section_break_qbab",
+  "column_break_riwa",
+  "testing_apis",
+  "production_urls_column",
+  "production",
+  "tab_2_tab",
+  "accounts"
+ ],
+ "fields": [
+  {
+   "fieldname": "username_and_password_are_provided_by_obr_section",
+   "fieldtype": "Section Break",
+   "label": "Username and Password provided by OBR"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "section_break_qbab",
+   "fieldtype": "Section Break",
+   "label": "APIs"
+  },
+  {
+   "fieldname": "production_urls_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "production",
+   "fieldtype": "Table",
+   "label": "Production APIs",
+   "options": "EBIMS APIs"
+  },
+  {
+   "fieldname": "testing_apis",
+   "fieldtype": "Table",
+   "label": "Testing APIs",
+   "options": "EBIMS APIs"
+  },
+  {
+   "fieldname": "column_break_riwa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tab_2_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "accounts",
+   "fieldtype": "Table",
+   "label": "Accounts",
+   "options": "EBIMS Account"
+  },
+  {
+   "fieldname": "column_break_xbtx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_kuje",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "environment",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Environment",
+   "options": "\nTesting\nProduction",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-01-23 01:39:44.587215",
+ "modified_by": "Administrator",
+ "module": "Burundi Compliance",
+ "name": "EBIMS Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
