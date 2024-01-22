@@ -1,2 +1,2 @@
-# burundi_etims_compliance
-Burundi OBR Tax integration with ERPNxet
+# burundi_ebms_compliance
+Burundi OBR Tax integration with ERPNext
