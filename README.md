@@ -1,7 +1,7 @@
-## Burundi Compliance
+# Burundi Compliance
 
-Burundi OBR Tax Inegration
+Burundi OBR Tax Integration with ERPNext
 
 #### License
 
-mit
+MIT
