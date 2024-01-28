@@ -1,2 +1,7 @@
-# burundi_ebms_compliance
-Burundi OBR Tax integration with ERPNext
+# Burundi Compliance
+
+Burundi OBR Tax Integration with ERPNext
+
+#### License
+
+MIT

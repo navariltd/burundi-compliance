@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "creation": "2024-01-23 01:30:38.638551",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "account_type",
+  "cgst_account",
+  "sgst_account",
+  "igst_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "account_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Account Type",
+   "options": "Input\nOutput\nReverse Charge",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "cgst_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "CGST Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "sgst_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "SGST / UTGST Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "igst_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "IGST Account",
+   "options": "Account",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-23 01:31:14.519346",
+ "modified_by": "Administrator",
+ "module": "Burundi Compliance",
+ "name": "EBIMS Account",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
