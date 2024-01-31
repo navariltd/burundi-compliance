@@ -128,8 +128,7 @@ fixtures=[
 
 doc_events = {
 	"Sales Invoice":{
-        "onload": "burundi_compliance.burundi_compliance.overrides.sales_invoice.onload",
-        "on_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.before_cancel",
+        
         "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
         
     }

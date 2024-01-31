@@ -71,8 +71,3 @@ def on_submit(doc, method=None):
     
     frappe.msgprint(f"Invoice data sent to OBR. Result: {result}")
     
-def on_cancel(doc, method=None):
-    frappe.msgprint("Invoice cancelled")
-    
-def on_load(doc):
-    frappe.msgprint("Invoice loaded")
