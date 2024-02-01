@@ -16,7 +16,10 @@
   "testing_apis",
   "production",
   "tab_2_tab",
-  "accounts"
+  "accounts",
+  "more_details_tab",
+  "taxpayers_sector_of_activity",
+  "taxpayers_legal_form"
  ],
  "fields": [
   {
@@ -85,12 +88,27 @@
    "label": "Environment",
    "options": "\nTesting\nProduction",
    "reqd": 1
+  },
+  {
+   "fieldname": "more_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Details"
+  },
+  {
+   "fieldname": "taxpayers_sector_of_activity",
+   "fieldtype": "Data",
+   "label": "Taxpayer's Sector of Activity"
+  },
+  {
+   "fieldname": "taxpayers_legal_form",
+   "fieldtype": "Data",
+   "label": "Taxpayer's Legal Form"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-31 14:26:20.802457",
+ "modified": "2024-02-01 14:06:48.460429",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "EBIMS Settings",
