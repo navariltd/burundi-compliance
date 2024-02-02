@@ -19,7 +19,8 @@
   "accounts",
   "more_details_tab",
   "taxpayers_sector_of_activity",
-  "taxpayers_legal_form"
+  "taxpayers_legal_form",
+  "system_identification_given_by_obr"
  ],
  "fields": [
   {
@@ -103,12 +104,17 @@
    "fieldname": "taxpayers_legal_form",
    "fieldtype": "Data",
    "label": "Taxpayer's Legal Form"
+  },
+  {
+   "fieldname": "system_identification_given_by_obr",
+   "fieldtype": "Data",
+   "label": "System Identification(given by OBR)"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-01 14:06:48.460429",
+ "modified": "2024-02-02 11:53:00.662032",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "EBIMS Settings",

@@ -41,7 +41,8 @@ class OBRAPIBase:
             "password": ebims_settings.password,
             "environment": ebims_settings.environment,
             "tp_legal_form": ebims_settings.taxpayers_legal_form,
-            "tp_activity_sector": ebims_settings.taxpayers_sector_of_activity
+            "tp_activity_sector": ebims_settings.taxpayers_sector_of_activity,
+            "system_identification_given_by_obr":ebims_settings.system_identification_given_by_obr
         }
         return auth_details
 
