@@ -132,9 +132,18 @@ doc_events = {
         "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
         "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
         
+        
+    },
+    "Purchase Receipt":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
+    },
+    "Delivery Note":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit"
+    },
+    "Stock Entry":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
     }
 }
-
 
 # Scheduled Tasks
 # ---------------
