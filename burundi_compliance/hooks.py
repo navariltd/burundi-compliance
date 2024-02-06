@@ -142,6 +142,9 @@ doc_events = {
     },
     "Stock Entry":{
         "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
+    },
+    "Stock Reconciliation":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_reconciliation.on_submit"
     }
 }
 

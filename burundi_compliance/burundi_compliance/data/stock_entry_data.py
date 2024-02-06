@@ -12,7 +12,11 @@ def get_stock_entry_items(doc):
         'Material Issue': 'ST',
         'Material Transfer': 'ET',
         'Material Receipt': 'EI',
-        # Add more mappings as needed
+        'Repack': 'SAU',
+        'Material Consumption for Manufacture': 'SAU',
+        'Material Transfer for Manufacture': 'SAU',
+        'Send to Subcontractor': 'SAU',
+        'Manufacture':'EI'
     }
     
     # Get the item movement type based on stock entry type
@@ -37,8 +41,7 @@ def get_stock_entry_items(doc):
             "item_purchase_or_sale_price": item.valuation_rate,  # Assuming valuation rate is used for price
             "item_purchase_or_sale_currency": doc.company_currency,
             "item_movement_type": movement_type,
-            #"item_movement_invoice_ref": doc.name,
-#"item_movement_description": item.description,
+  "item_movement_description": item.description if item.description else '',
             "item_movement_date": str(doc.posting_date),
             # You may want to add additional fields specific to each movement type
         }
