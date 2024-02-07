@@ -7,6 +7,8 @@ import frappe
 from ..custom_exceptions import AuthenticationError, InvoiceAdditionError
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 from burundi_compliance.burundi_compliance.api_classes.add_invoices import SalesInvoicePoster
+from burundi_compliance.burundi_compliance.api_classes.check_tin import TinVerifier
+
 class EBIMSSettings(Document):
 	
 	'''validate before saving the record'''
@@ -53,4 +55,19 @@ class EBIMSSettings(Document):
 	# 	except AuthenticationError as e:
 	# 		frappe.msgprint(f"Authentication failed: {str(e)}")
 
-	
+
+	# def onload(self):
+    # # Check Tin
+	# 	obr_integration = OBRAPIBase()
+	# 	tin = {"tp_TIN": "4001040247"}
+	# 	token = obr_integration.authenticate()
+	# 	frappe.msgprint(f"Authentication successful. Token: {token}")
+
+	# 	tin_verifier = TinVerifier(token)
+	# 	try:
+	# 		result = tin_verifier.check_tin(tin)
+	# 		frappe.msgprint(f"Check TIN result: {result}")
+	# 	except Exception as e:
+	# 		frappe.msgprint(f"Error checking TIN: {str(e)}")
+
+		

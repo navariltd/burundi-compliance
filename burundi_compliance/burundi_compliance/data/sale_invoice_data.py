@@ -1,135 +1,135 @@
-
-import frappe 
-from ..api_classes.base import OBRAPIBase
-
-obr_base=OBRAPIBase()
-obr_base.get_auth_details()
-auth_details=obr_base.get_auth_details()
-from ..utils.invoice_signature import create_invoice_signature
-    
-def prepare_invoice_data(doc, is_credit_note=False, credit_note_reference=None):
-    if is_credit_note:
-        if doc.custom_creating_payment_entry == 1:
-            invoice_type = "RC"  # Reimbursement Deposit
-        else:
-            invoice_type = "FN"  # Credit Note
-    else:
-        invoice_type = "FA"  # Normal Invoice
-    invoice_signature = create_invoice_signature(doc)
-        
-    invoice_data = {
-        "invoice_number": doc.name,
-        "invoice_date": doc.posting_date,
-        "invoice_type": invoice_type,
-        "tp_type": "2",  # check on this
-        "tp_name": doc.company,  # check on this
-        "tp_tin": "1000000000001",  # check on this
-        "tp_address": doc.company_address,
-        "tp_phone_number": "0740743521",  # check on this
-        "tp_address_commune": doc.company_address_display,
-        "tp_address_quartier": doc.company_address,  # check on this
-        "tp_trade_number": frappe.defaults.get_user_default("phone_no"),
-        "tp_email": frappe.defaults.get_user_default("email"),  # check on this
-        "tp_bank_account": "123456789",  # check on this
-        "vat_taxpayer": "1",  # check on this
-        "ct_taxpayer": "0",  # check on this
-        "tl_taxpayer": "0",  # check on this
-        "tp_fiscal_year": frappe.defaults.get_user_default("fiscal_year"),  # check on this
-        "tp_fiscal_center": "DMC",  # check on this
-        "tp_activity_sector": auth_details["tp_activity_sector"],  # Have a field to enter this
-        "tp_legal_form": auth_details["tp_legal_form"],  # Keeps on changing, discuss with Loui.  Have a field to enter this. Automatically on
-        "payment_type": "1",  # check on this
-        "invoice_currency": frappe.defaults.get_user_default("currency"),  # check on this
-
-        "customer_name": doc.customer_name,
-        "customer_TIN": "23124324",  # Have sales invoice to fetch customer tin
-        "customer_address": doc.customer_address,
-        "vat_customer_payer": "1",
-        "invoice_signature": invoice_signature,  # check on this
-        "invoice_signature_date": "2021-12-06 07:30:22",  # check on this
-        "invoice_items": get_invoice_items(doc)
-    }
-
-    if is_credit_note:
-        # Include additional fields for credit note
-        reason_for_cancel=doc.custom_reason_for_cancel
-        if not reason_for_cancel:
-            frappe.throw("Reason for creating note is mendatory.\n Kindly fill it.")
-        invoice_data.update({
-            "cn_motif": reason_for_cancel,  # Specify the reason for the credit note (Error, Return of goods, etc.)
-            "invoice_ref": credit_note_reference,  # Reference to the invoice being credited
-        })
-
-    # Check if the invoice is an amendment (cancellation and replacement)
-    if doc.amended_from:
-        invoice_data["cancelled_invoice_ref"] = doc.amended_from
-        
-
-    return invoice_data
-
-
-import time as time
-def get_invoice_items(doc):
-    items = []
-    for item in doc.items:
-        items.append({
-            "item_code": item.item_code,
-            "item_designation": item.description,
-            "item_quantity": item.qty,
-            "item_price": item.rate,
-            "item_total_amount": item.amount,
-            "vat": item.item_tax_rate,
-            "item_ct": "0",#Check on this for taxable and non-taxable persons, 
-            "item_tl": "0",#Subject to flat-rate withholding tax Value: “0” for a non-taxable person or “1” for a taxable person
-            "item_price_nvat": item.item_tax_rate, #Check on this
-            "item_price_wvat": item.item_tax_rate, #Check on this
-        })
-    return items
-
 from datetime import datetime
-import frappe  # Assuming frappe is used to fetch data from the database
+import frappe
 from ..utils.system_tax_id import get_system_tax_id
-from datetime import datetime
+from ..utils.format_date_and_time import date_time_format
+from ..utils.invoice_signature import create_invoice_signature
+from ..api_classes.base import OBRAPIBase
+import time as time
 
+class InvoiceDataProcessor:
+    obr_base = OBRAPIBase()
+    auth_details = obr_base.get_auth_details()
 
+    def __init__(self, doc):
+        self.doc = doc
 
-from datetime import datetime, date
+    def prepare_invoice_data(self):
+        company = frappe.get_doc("Company", self.doc.company)
+        tp_phone_no = company.phone_no
+        tp_email = company.email
 
+        formatted_date_data = date_time_format(self.doc)
+        invoice_signature = create_invoice_signature(self.doc)
 
-def get_sales_return_items(doc, method=None):
-
-    '''
-    Get items from the sales invoice which will update the stock
-    '''
-    
-    posting_date_object = datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
-    try:
-        posting_datetime = datetime.combine(posting_date_object, datetime.strptime(doc.posting_time, "%H:%M:%S").time())
-    except ValueError:
-        posting_datetime = datetime.combine(posting_date_object, datetime.strptime(doc.posting_time, "%H:%M:%S.%f").time())
-
-    # Format the datetime as a string
-    formatted_date = posting_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
-    # Prepare stock movement data
-    sale_return_items = []
-    sales_return_items=doc.items
-    for item in sales_return_items:
-        data = {
-            "system_or_device_id": get_system_tax_id(),
-            "item_code": item.item_code,
-            "item_designation": item.item_name,
-            "item_quantity": item.qty,
-            "item_measurement_unit": item.uom,
-            "item_purchase_or_sale_price": item.rate,
-            "item_purchase_or_sale_currency": doc.currency,
-            "item_movement_type": "ER",
-            "item_movement_invoice_ref": doc.name,
-            "item_movement_description": item.description,
-            "item_movement_date": formatted_date
+        invoice_data = {
+            "invoice_number": self.doc.name,
+            "invoice_date": formatted_date_data[0],
+            "invoice_type": "FN",
+            "tp_type": "2",
+            "tp_name": self.doc.company,
+            "tp_TIN": self.doc.company_tax_id,
+            "tp_address": self.doc.company_address,
+            "tp_phone_number": tp_phone_no,
+            "tp_address_commune": self.doc.company_address_display,
+            "tp_address_quartier": self.doc.company_address,
+            "tp_trade_number": "88999",
+            "tp_email": tp_email,
+            "vat_taxpayer": "1",
+            "ct_taxpayer": "0",
+            "tl_taxpayer": "0",
+            "tp_fiscal_year": frappe.defaults.get_user_default("fiscal_year"),
+            "tp_fiscal_center": "DMC",
+            "tp_activity_sector": self.auth_details["tp_activity_sector"],
+            "tp_legal_form": self.auth_details["tp_legal_form"],
+            "payment_type": "1",
+            "invoice_currency": frappe.defaults.get_user_default("currency"),
+            "customer_name": self.doc.customer_name,
+            "customer_TIN": "4001040247",
+            "customer_address": self.doc.customer_address,
+            "vat_customer_payer": "1",
+            "invoice_ref":'',
+            "cn_motif":'',
+            "invoice_identifier": invoice_signature,
+            "invoice_items": self.get_invoice_items()
         }
 
-        sale_return_items.append(data)
-    return sale_return_items
+        return invoice_data
 
+    def prepare_credit_note_data(self, invoice_data):
+        reason_for_cancel = self.doc.custom_reason_for_cancel
+        if not reason_for_cancel:
+            frappe.throw("Reason for creating note is mandatory. Kindly fill it.")
 
+        invoice_data.update({
+            "invoice_type": "FA",
+            "cn_motif": reason_for_cancel,
+            "invoice_ref": self.doc.return_against,
+        })
+
+        return invoice_data
+
+    def prepare_reimbursement_deposit_data(self, invoice_data):
+        invoice_data.update({
+            "invoice_type": "RC",
+        })
+
+        return invoice_data
+
+    def calculate_item_vat(self, item):
+        total_tax_amount = 0.0
+        if self.doc.taxes_and_charges:
+            for taxes in self.doc.taxes:
+                tax_percentage = taxes.rate
+                total_tax_amount += tax_percentage / 100 * item.qty * item.rate
+
+        return total_tax_amount
+
+    def get_invoice_items(self):
+        items = []
+
+        for item in self.doc.items:
+            total_vat = self.calculate_item_vat(item)
+
+            items.append({
+                "item_designation": item.item_code,
+                "item_quantity": abs(item.qty),
+                "item_price": item.rate,
+                "item_total_amount": item.amount,
+                "vat": abs(total_vat),
+                "item_ct": "0",
+                "item_tl": "0",
+                "item_price_nvat": abs(item.amount),
+                "item_price_wvat": abs(item.amount + total_vat)
+            })
+
+        return items
+
+    def get_sales_return_items(self, method=None):
+        formatted_date_data = date_time_format(self.doc)
+        formatted_date = formatted_date_data[0]
+
+        sale_return_items = []
+        sales_return_items = self.doc.items
+        for item in sales_return_items:
+            data = {
+                "system_or_device_id": get_system_tax_id(),
+                "item_code": item.item_code,
+                "item_designation": item.item_name,
+                "item_quantity": item.qty,
+                "item_measurement_unit": item.uom,
+                "item_purchase_or_sale_price": item.rate,
+                "item_purchase_or_sale_currency": self.doc.currency,
+                "item_movement_type": "ER",
+                "item_movement_invoice_ref": self.doc.name,
+                "item_movement_description": item.description,
+                "item_movement_date": formatted_date
+            }
+
+            sale_return_items.append(data)
+
+        return sale_return_items
+
+# Example usage:
+# invoice_processor = InvoiceProcessor(your_document_object)
+# invoice_data = invoice_processor.prepare_invoice_data()
+# result = invoice_processor.process_invoice(invoice_data)

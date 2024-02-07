@@ -7,11 +7,11 @@ import frappe
 
 obr_details=OBRAPIBase()
 
-#auth_token=obr_details.authenticate()
+auth_token=obr_details.authenticate()
 
 def on_submit(doc, method=None):
-    #token = auth_token
-    token="djab8778asdbjabddjankjbJBAFSY787GDSHJBVJDSVRDTRDhbsbdajb*&"
+    token = auth_token
+    #token="djab8778asdbjabddjankjbJBAFSY787GDSHJBVJDSVRDTRDhbsbdajb*&"
     receive_goods = TrackStockMovement(token)
     items_data = purchase_receipt_data(doc)
     if items_data:
