@@ -21,7 +21,8 @@ def get_invoice_data(doc):
         return None
 
     data = {
-        "invoice_signature": invoice_signature,
+       # "invoice_signature": invoice_signature,
+       "invoice_signature":f'4001040247/ws400104024700648/20211206073022/{doc.name}',
         "cn_motif": ct_motif
     }
 

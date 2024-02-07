@@ -43,7 +43,6 @@ def get_stock_entry_items(doc):
             "item_movement_type": movement_type,
   "item_movement_description": item.description if item.description else '',
             "item_movement_date": str(doc.posting_date),
-            # You may want to add additional fields specific to each movement type
         }
 
         stock_entry_items.append(data)
