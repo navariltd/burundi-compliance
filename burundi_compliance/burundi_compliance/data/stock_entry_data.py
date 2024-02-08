@@ -28,8 +28,7 @@ def get_stock_entry_items(doc):
         frappe.msgprint(f"Unknown stock entry type: {stock_entry_type}")
         return []
 
-    # Prepare stock movement data
-    stock_entry_items = []
+    
     stock_entry_data = doc.items
     for item in stock_entry_data:
         data = {
@@ -45,6 +44,4 @@ def get_stock_entry_items(doc):
             "item_movement_date": str(doc.posting_date),
         }
 
-        stock_entry_items.append(data)
-
-    return stock_entry_items
+    return data

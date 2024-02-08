@@ -10,12 +10,11 @@ obr_details=OBRAPIBase()
 auth_token=obr_details.authenticate()
 
 def on_submit(doc, method=None):
-    token = auth_token
-    #token="djab8778asdbjabddjankjbJBAFSY787GDSHJBVJDSVRDTRDhbsbdajb*&"
-    receive_goods = TrackStockMovement(token)
-    items_data = purchase_receipt_data(doc)
-    if items_data:
-        frappe.msgprint(f"Data available is: {items_data}")
-    results=receive_goods.post_stock_movement(items_data)
-    frappe.msgprint("Items added to stock successfully")
-    
+	token = auth_token
+	receive_goods = TrackStockMovement(token)
+	items_data = purchase_receipt_data(doc)
+	#frappe.throw(f"Data available is: {items_data}")
+ 
+	results=receive_goods.post_stock_movement(items_data)
+	frappe.msgprint("Items Tracked by OBR Successfully")
+	

@@ -16,8 +16,7 @@ class OBRAPIBase:
         auth_details = self.get_auth_details()
         login_url = f"{self.BASE_LOGIN_URL}"  # Use self.BASE_LOGIN_URL
         headers = {"Content-Type": "application/json"}
-        data = {"username": auth_details["username"], "password": ""}
-         #data = {"username": auth_details["username"], "password": auth_details["password"]}
+        data = {"username": auth_details["username"], "password": "|7:%AnXy"}
 
         try:
             response = requests.post(login_url, json=data, headers=headers)

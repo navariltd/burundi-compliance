@@ -6,6 +6,12 @@ from datetime import datetime
 
 from datetime import datetime, date
 
+from datetime import datetime, date
+from ..utils.system_tax_id import get_system_tax_id
+from ..utils.format_date_and_time import date_time_format
+
+
+   
 
 def get_delivery_note_items(doc):
 
@@ -13,21 +19,14 @@ def get_delivery_note_items(doc):
     Get items from the delivery note which will update the stock
     '''
     
-    # posting_date_object = datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
-    # try:
-    #     posting_datetime = datetime.combine(posting_date_object, datetime.strptime(doc.posting_time, "%H:%M:%S").time())
-    # except ValueError:
-    #     posting_datetime = datetime.combine(posting_date_object, datetime.strptime(doc.posting_time, "%H:%M:%S.%f").time())
 
-    # # Format the datetime as a string
-    # formatted_date = posting_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
+    date_time=date_time_format(doc)
+    formatted_date=date_time[0]
     if doc.is_return:
         movement_type="ER"
     else:
         movement_type="SN"
     # Prepare stock movement data
-    delivery_note_items = []
     delivery_note_data=doc.items
     for item in delivery_note_data:
         data = {
@@ -41,11 +40,9 @@ def get_delivery_note_items(doc):
             "item_movement_type":movement_type,
             "item_movement_invoice_ref": doc.name,
             "item_movement_description": item.description,
-            "item_movement_date": str(doc.posting_date)
+            "item_movement_date": formatted_date
         }
 
-        delivery_note_items.append(data)
-        
-    return delivery_note_items
+    return data
 
 

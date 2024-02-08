@@ -10,7 +10,7 @@ class TrackStockMovement:
     MAX_RETRIES = 2
     RETRY_DELAY_SECONDS = 2
 
-    def __init__(self, token, max_retries=5, retry_delay_seconds=2):
+    def __init__(self, token, max_retries=2, retry_delay_seconds=2):
         obr_base = OBRAPIBase()
         self.BASE_TRACK_STOCK_MOVEMENT_API_URL = obr_base.get_api_from_ebims_settings("add_stock_movement")
         self.token = token
@@ -24,13 +24,15 @@ class TrackStockMovement:
 
             # Validate the response structure
             if not response.json().get("success"):
+                frappe.log_error(f"Unexpected API response format: {response.text}")
                 raise StockMovementError(f"Unexpected API response format: {response.text}")
 
             return response.json()
         except requests.exceptions.RequestException as e:
             error_message = f"Error during API request: {str(e)}"
             frappe.log_error(error_message, "Add Stock Movement Request Error")
-
+            frappe.log_error(f"Response content: {response.text}")
+            
             # Resend the items to OBR
             if retries > 0:
                 frappe.logger().warning(f"Retrying in {self.RETRY_DELAY_SECONDS} seconds... ({self.MAX_RETRIES - retries + 1}/{self.MAX_RETRIES})")
