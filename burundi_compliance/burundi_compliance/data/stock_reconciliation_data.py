@@ -1,22 +1,16 @@
 from datetime import datetime
 import frappe
 from ..utils.system_tax_id import get_system_tax_id
+from ..utils.format_date_and_time import date_time_format
 
 def get_stock_reconciliation_items(doc):
     '''
     Get items from the stock reconciliation for updating stock
     '''
-    posting_date_object = datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
-    try:
-        posting_datetime = datetime.combine(posting_date_object, datetime.strptime(doc.posting_time, "%H:%M:%S").time())
-    except ValueError:
-        posting_datetime = datetime.combine(posting_date_object, datetime.strptime(doc.posting_time, "%H:%M:%S.%f").time())
-
-    # Format the datetime as a string
-    formatted_date = posting_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
+   
+    date_time = date_time_format(doc)
+    formatted_date = date_time[0]
     # Prepare stock movement data for Stock Reconciliation
-    stock_movement_data = []
     reconciliation_items = doc.items
 
     for item in reconciliation_items:
@@ -36,6 +30,4 @@ def get_stock_reconciliation_items(doc):
             "item_movement_date": formatted_date
         }
 
-        stock_movement_data.append(data)
-
-    return stock_movement_data
+    return data

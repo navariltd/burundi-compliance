@@ -56,7 +56,7 @@ class InvoiceDataProcessor:
         return invoice_data
 
     def prepare_credit_note_data(self, invoice_data):
-        reason_for_cancel = self.doc.custom_reason_for_cancel
+        reason_for_cancel = self.doc.custom_reason_for_creditcancel
         if not reason_for_cancel:
             frappe.throw("Reason for creating note is mandatory. Kindly fill it.")
 

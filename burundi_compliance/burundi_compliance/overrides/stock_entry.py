@@ -1,27 +1,18 @@
 
 from ..api_classes.add_stock_movement import TrackStockMovement
 from ..data.stock_entry_data import get_stock_entry_items
+from ..api_classes.base import OBRAPIBase
 import frappe
 
-# Import necessary modules
 from datetime import datetime
-from ..utils.system_tax_id import get_system_tax_id
+
+auth_base = OBRAPIBase()
 
 def on_submit(doc, method=None):
-    # Assuming you have the authentication token
-    token = "djab8778asdbjabddjankjbJBAFSY787GDSHJBVJDSVRDTRDhbsbdajb*&"
+    token = auth_base.authenticate()
     
-    # Create an instance of TrackStockMovement class
     track_stock_movement = TrackStockMovement(token)
-
-    # Get stock entry items data
     items_data = get_stock_entry_items(doc)
-
-    if items_data:
-        frappe.msgprint(f"Data available is: {items_data}")
-
-    # Post stock movement to OBR
+    frappe.throw(f"items_data: {items_data}")
     results = track_stock_movement.post_stock_movement(items_data)
-
-    # Display success message
     frappe.msgprint("Stock Entry items added to stock successfully")

@@ -10,7 +10,7 @@ from ..utils.invoice_signature import create_invoice_signature
 def get_invoice_data(doc):
     name = doc.name
 
-    ct_motif = doc.get("custom_reason_for_cancel")
+    ct_motif = doc.get("custom_reason_for_creditcancel")
     if not ct_motif:
         frappe.throw(f"Unable to cancel invoice.\n Kindly set the Reason For Cancelling the Invoice for {name} invoice")
 
