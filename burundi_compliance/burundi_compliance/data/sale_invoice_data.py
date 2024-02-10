@@ -104,32 +104,60 @@ class InvoiceDataProcessor:
 
         return items
 
-    def get_sales_return_items(self, method=None):
+    # def get_sales_data_for_stock_update(self, method=None):
+    #     formatted_date_data = date_time_format(self.doc)
+    #     formatted_date = formatted_date_data[0]
+
+    #     sale_return_items_list = []
+    #     sales_return_items = self.doc.items
+    #     for item in sales_return_items:
+    #         data = {
+    #             "system_or_device_id": get_system_tax_id(),
+    #             "item_code": item.item_code,
+    #             "item_designation": item.item_name,
+    #             "item_quantity": str(item.qty),  # Convert to string if necessary
+    #             "item_measurement_unit": item.uom,
+    #             "item_purchase_or_sale_price": str(item.rate),  # Convert to string if necessary
+    #             "item_purchase_or_sale_currency": self.doc.currency,
+    #             "item_cost_price": str(item.cost_price),  # Add the cost price field
+    #             "item_cost_price_currency": "BIF",  # Replace with the actual currency field if available
+    #             "item_movement_type": "EN",
+    #             "item_movement_invoice_ref": "",  # Add the actual invoice reference if available
+    #             "item_movement_description": "",
+    #             "item_movement_date": formatted_date
+    #         }
+
+    #         sale_return_items_list.append(data)
+
+    #     return sale_return_items_list
+
+
+    def get_sales_data_for_stock_update(self, method=None):
         formatted_date_data = date_time_format(self.doc)
         formatted_date = formatted_date_data[0]
 
-        sale_return_items = []
+        sale_return_items_list = []
         sales_return_items = self.doc.items
         for item in sales_return_items:
+            # Fetch the uom from the Item doctype
+            item_doc = frappe.get_doc("Item", item.item_code)
+            item_uom = item_doc.stock_uom if item_doc else None
+
             data = {
                 "system_or_device_id": get_system_tax_id(),
                 "item_code": item.item_code,
                 "item_designation": item.item_name,
                 "item_quantity": item.qty,
-                "item_measurement_unit": item.uom,
-                "item_purchase_or_sale_price": item.rate,
+                "item_measurement_unit": item_uom,
+                "item_purchase_or_sale_price": item.rate,  # Assuming rate is the sale price
                 "item_purchase_or_sale_currency": self.doc.currency,
                 "item_movement_type": "ER",
                 "item_movement_invoice_ref": self.doc.name,
-                "item_movement_description": item.description,
+                "item_movement_description": '',
                 "item_movement_date": formatted_date
             }
+            
+            sale_return_items_list.append(data)
 
-            sale_return_items.append(data)
-
-        return sale_return_items
-
-# Example usage:
-# invoice_processor = InvoiceProcessor(your_document_object)
-# invoice_data = invoice_processor.prepare_invoice_data()
-# result = invoice_processor.process_invoice(invoice_data)
+        return sale_return_items_list
+    

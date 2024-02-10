@@ -145,6 +145,10 @@ doc_events = {
     },
     "Stock Reconciliation":{
         "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_reconciliation.on_submit"
+    },
+    
+    "Purchase Invoice":{
+        "on_submit": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_submit_update_stock",
     }
 }
 
