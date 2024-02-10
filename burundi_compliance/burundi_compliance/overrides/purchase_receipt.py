@@ -7,14 +7,21 @@ import frappe
 
 obr_details=OBRAPIBase()
 
-auth_token=obr_details.authenticate()
+token=obr_details.authenticate()
+def get_items(doc):
+    items_data = purchase_receipt_data(doc)
+    
+    for item in items_data:
+            try:
+                track_stock_movement = TrackStockMovement(token)
+                result = track_stock_movement.post_stock_movement(item)
+            except Exception as e:
+                frappe.msgprint(f"Error sending item {item}: {str(e)}")
+        
 
 def on_submit(doc, method=None):
-	token = auth_token
-	receive_goods = TrackStockMovement(token)
-	items_data = purchase_receipt_data(doc)
-	#frappe.throw(f"Data available is: {items_data}")
- 
-	results=receive_goods.post_stock_movement(items_data)
-	frappe.msgprint("Items Tracked by OBR Successfully")
-	
+	try:
+		get_items(doc)
+		frappe.msgprint("The transaction was added successfully!")
+	except Exception as e:
+		frappe.msgprint(f"Error during submission: {str(e)}")
