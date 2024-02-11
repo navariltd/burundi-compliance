@@ -27,6 +27,7 @@ def get_delivery_note_items(doc):
     else:
         movement_type="SN"
     # Prepare stock movement data
+    all_d_note_items=[]
     delivery_note_data=doc.items
     for item in delivery_note_data:
         data = {
@@ -42,7 +43,6 @@ def get_delivery_note_items(doc):
             "item_movement_description": item.description,
             "item_movement_date": formatted_date
         }
-
-    return data
-
-
+        all_d_note_items.append(data)
+        
+    return all_d_note_items

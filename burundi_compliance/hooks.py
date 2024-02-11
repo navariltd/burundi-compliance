@@ -32,7 +32,12 @@ fixtures=[
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+
+doctype_js = {
+    "Sales Invoice":"burundi_compliance/client_scripts/get_invoice.js",
+    "doctype" : "public/js/doctype.js"}
+
+
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -138,7 +143,7 @@ doc_events = {
         "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
     },
     "Delivery Note":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit"
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_update_stock"
     },
     "Stock Entry":{
         "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
