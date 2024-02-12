@@ -6,7 +6,7 @@ class TinVerifier:
     def __init__(self, api_key):
         obr_base = OBRAPIBase()
         self.api_key = api_key
-        self.BASE_API_FOR_CHECK_TIN = obr_base.get_api_from_ebims_settings("check_TIN")
+        self.BASE_API_FOR_CHECK_TIN ="https://ebms.obr.gov.bi:9443/ebms_api/checkTIN/" #obr_base.get_api_from_ebims_settings("check_TIN")
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
@@ -43,3 +43,18 @@ class TinVerifier:
             if response:
                 frappe.log_error(f"Response content: {response.text}")
             return {"success": False, "msg": f"Request error: {str(e)}"}
+
+
+obr_base_auth=OBRAPIBase()
+token=obr_base_auth.authenticate()
+
+@frappe.whitelist(allow_guest=True)
+def confirm_tin():
+    company_tin=frappe.form_dict.get("company_tin")
+    tin_verifier=TinVerifier(token)
+
+    data={"tp_TIN": f"{company_tin}"}
+    results=tin_verifier.check_tin(data)
+    frappe.response["message"] = results
+    
+    

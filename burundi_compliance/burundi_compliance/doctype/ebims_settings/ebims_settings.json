@@ -183,14 +183,14 @@
   },
   {
    "default": "0",
-   "description": "If ticked, any stock reconciliation or Opening Stock done will be tracked by OBR",
+   "description": "If ticked, any stock reconciliation or Opening Stock done will be tracked by OBR.",
    "fieldname": "allow_obr_to_track_all_stock_reconciliation",
    "fieldtype": "Check",
    "label": "Allow OBR to track All Stock Reconciliation"
   },
   {
    "default": "0",
-   "description": "If ticked, all items in the stock entries will be tracked y OBR",
+   "description": "If ticked, all items in the stock entries will be tracked y OBR.",
    "fieldname": "allow_obr_to_track_all_stock_entries",
    "fieldtype": "Check",
    "label": "Allow OBR to track All Stock Entries"
@@ -199,7 +199,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-10 14:28:00.631749",
+ "modified": "2024-02-12 12:52:23.825177",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "EBIMS Settings",

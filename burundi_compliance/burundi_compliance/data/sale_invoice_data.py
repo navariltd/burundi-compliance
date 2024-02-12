@@ -20,7 +20,8 @@ class InvoiceDataProcessor:
 
         formatted_date_data = date_time_format(self.doc)
         invoice_signature = create_invoice_signature(self.doc)
-
+        self.doc.custom_invoice_identifier=invoice_signature
+        self.doc.save()
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
@@ -104,32 +105,6 @@ class InvoiceDataProcessor:
 
         return items
 
-    # def get_sales_data_for_stock_update(self, method=None):
-    #     formatted_date_data = date_time_format(self.doc)
-    #     formatted_date = formatted_date_data[0]
-
-    #     sale_return_items_list = []
-    #     sales_return_items = self.doc.items
-    #     for item in sales_return_items:
-    #         data = {
-    #             "system_or_device_id": get_system_tax_id(),
-    #             "item_code": item.item_code,
-    #             "item_designation": item.item_name,
-    #             "item_quantity": str(item.qty),  # Convert to string if necessary
-    #             "item_measurement_unit": item.uom,
-    #             "item_purchase_or_sale_price": str(item.rate),  # Convert to string if necessary
-    #             "item_purchase_or_sale_currency": self.doc.currency,
-    #             "item_cost_price": str(item.cost_price),  # Add the cost price field
-    #             "item_cost_price_currency": "BIF",  # Replace with the actual currency field if available
-    #             "item_movement_type": "EN",
-    #             "item_movement_invoice_ref": "",  # Add the actual invoice reference if available
-    #             "item_movement_description": "",
-    #             "item_movement_date": formatted_date
-    #         }
-
-    #         sale_return_items_list.append(data)
-
-    #     return sale_return_items_list
 
 
     def get_sales_data_for_stock_update(self, method=None):
