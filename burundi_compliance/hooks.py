@@ -35,6 +35,7 @@ fixtures=[
 
 doctype_js = {
     "Sales Invoice":"burundi_compliance/client_scripts/get_invoice.js",
+    "Company":"burundi_compliance/client_scripts/confirm_tin.js",
     "doctype" : "public/js/doctype.js"}
 
 

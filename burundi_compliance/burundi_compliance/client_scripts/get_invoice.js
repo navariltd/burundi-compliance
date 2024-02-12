@@ -16,7 +16,7 @@ frappe.ui.form.on('Sales Invoice', {
                        
                         if (response.message) {
                             // Handle the response from the backend here
-                            
+                            frappe.msgprint("Mania")
                             showInvoiceDetailsDialog(response.message.result);
                         } else {
                             frappe.msgprint("Failed to get invoice details");
