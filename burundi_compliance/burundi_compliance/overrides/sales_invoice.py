@@ -20,12 +20,12 @@ def on_submit(doc, method=None):
     if doc.is_return==1:
         
         invoice_data =sales_invoice_data_processor.prepare_credit_note_data(invoice_data)
-       
+        #frappe.throw(str(invoice_data))
         if doc.custom_creating_payment_entry == 1:
             invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
     result = obr_invoice_poster.post_invoice(invoice_data)
     on_submit_update_stock(doc)
-    frappe.msgprint(f"Invoice data sent to OBR. Result: {result}")
+    frappe.msgprint(f"Invoice data sent to OBR")
 
 
 def get_items(doc):

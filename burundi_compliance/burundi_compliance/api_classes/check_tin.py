@@ -6,7 +6,7 @@ class TinVerifier:
     def __init__(self, api_key):
         obr_base = OBRAPIBase()
         self.api_key = api_key
-        self.BASE_API_FOR_CHECK_TIN ="https://ebms.obr.gov.bi:9443/ebms_api/checkTIN/" #obr_base.get_api_from_ebims_settings("check_TIN")
+        self.BASE_API_FOR_CHECK_TIN =obr_base.get_api_from_ebims_settings("check_TIN")
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
