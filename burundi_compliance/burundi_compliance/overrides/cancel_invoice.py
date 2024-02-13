@@ -10,7 +10,8 @@ def cancel_invoice(doc, method=None):
     invoice_data = get_invoice_data(doc)
     
     if invoice_data:
-        frappe.msgprint(f"Cancelling invoice {invoice_data}")
+        pass
+        #frappe.msgprint(f"Cancelling invoice {invoice_data}")
     invoice_canceller = InvoiceCanceller(token)
     response = invoice_canceller.cancel_invoice(invoice_data)
     frappe.msgprint(response)

@@ -56,8 +56,6 @@ def confirm_invoice():
 
     invoice_verifier = InvoiceVerifier(token)
     results = invoice_verifier.get_invoice(data)
-    frappe.msgprint(str(results))
     frappe.response["message"] = results
-    
     
     

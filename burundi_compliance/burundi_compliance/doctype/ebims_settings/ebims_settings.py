@@ -4,10 +4,10 @@
 from frappe.model.document import Document
 import re
 import frappe
-from ..custom_exceptions import AuthenticationError, InvoiceAdditionError
+# from ..custom_exceptions import AuthenticationError, InvoiceAdditionError
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
-from burundi_compliance.burundi_compliance.api_classes.add_invoices import SalesInvoicePoster
-from burundi_compliance.burundi_compliance.api_classes.check_tin import TinVerifier
+# from burundi_compliance.burundi_compliance.api_classes.add_invoices import SalesInvoicePoster
+# from burundi_compliance.burundi_compliance.api_classes.check_tin import TinVerifier
 
 class EBIMSSettings(Document):
 	

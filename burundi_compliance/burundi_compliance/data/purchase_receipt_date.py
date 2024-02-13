@@ -17,9 +17,10 @@ def purchase_receipt_data(doc, method=None):
 
     # Prepare stock movement data
     purchase_invoice_items = doc.items
+    stock_movement_data=[]
     if purchase_invoice_items:
         item = purchase_invoice_items[0]
-        stock_movement_data = {
+        data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": item.item_code,
             "item_designation": item.item_name,
@@ -32,8 +33,9 @@ def purchase_receipt_data(doc, method=None):
             "item_movement_description": item.description,
             "item_movement_date": formatted_date
         }
-        return stock_movement_data
-    else:
-        return {}
+        stock_movement_data.append(data)
+        
+    return stock_movement_data
+   
 
 

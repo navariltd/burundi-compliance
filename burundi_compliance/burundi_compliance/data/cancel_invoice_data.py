@@ -15,14 +15,14 @@ def get_invoice_data(doc):
         frappe.throw(f"Unable to cancel invoice.\n Kindly set the Reason For Cancelling the Invoice for {name} invoice")
 
     # Fetch signature created
-    invoice_signature = create_invoice_signature(doc)
+    invoice_identifier= doc.custom_invoice_identifier#create_invoice_signature(doc)
 
-    if not invoice_signature:
+    if not invoice_identifier:
         return None
 
     data = {
        # "invoice_signature": invoice_signature,
-       "invoice_signature":f'4001040247/ws400104024700648/20211206073022/{doc.name}',
+       "invoice_signature":f'{invoice_identifier}',
         "cn_motif": ct_motif
     }
 

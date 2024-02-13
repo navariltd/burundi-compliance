@@ -10,11 +10,11 @@ class InvoiceCanceller:
 
 
     MAX_RETRIES = 1
-    RETRY_DELAY_SECONDS = 2
+    RETRY_DELAY_SECONDS = 1
     
     def __init__(self, token):
         obr_base = OBRAPIBase()
-        #self.BASE_CANCEL_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("cancel_invoice")
+#self.BASE_CANCEL_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("cancel_invoice")
         self.BASE_CANCEL_INVOICE_API_URL = "https://ebms.obr.gov.bi:9443/ebms_api/cancelInvoice/"
         self.token = token
 
@@ -31,6 +31,7 @@ class InvoiceCanceller:
         except requests.exceptions.RequestException as e:
             error_message = f"Error during API request: {str(e)}"
             frappe.log_error(error_message, "InvoiceCanceller Request Error")
+            frappe.log_error(f"Response content: {response.text}")
 
             '''Resend the cancel invoice request to OBR'''
             if retries > 0:
