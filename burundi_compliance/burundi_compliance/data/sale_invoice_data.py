@@ -17,7 +17,7 @@ class InvoiceDataProcessor:
         company = frappe.get_doc("Company", self.doc.company)
         tp_phone_no = company.phone_no
         tp_email = company.email
-
+        
         formatted_date_data = date_time_format(self.doc)
         invoice_signature = create_invoice_signature(self.doc)
         self.doc.custom_invoice_identifier=invoice_signature
@@ -45,7 +45,7 @@ class InvoiceDataProcessor:
             "payment_type": "1",
             "invoice_currency": frappe.defaults.get_user_default("currency"),
             "customer_name": self.doc.customer_name,
-            "customer_TIN": "4001040247",
+            "customer_TIN": self.doc.tax_id,
             "customer_address": self.doc.customer_address,
             "vat_customer_payer": "1",
             "invoice_ref":'',

@@ -69,10 +69,11 @@ doctype_js = {
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "burundi_compliance.utils.jinja_methods",
-# 	"filters": "burundi_compliance.utils.jinja_filters"
-# }
+jinja = {
+    
+	"methods": "burundi_compliance.burundi_compliance.utils.qr_code_generator.get_qr_code",
+	#"filters": "burundi_compliance.utils.jinja_filters"
+}
 
 # Installation
 # ------------
