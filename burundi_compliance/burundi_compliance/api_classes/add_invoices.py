@@ -6,7 +6,9 @@ from .base import OBRAPIBase
 from requests.exceptions import RequestException
 
 from PIL import Image
-# import qrcode
+import qrcode
+import io
+import sys
 class SalesInvoicePoster:
 
     MAX_RETRIES = 1
@@ -68,22 +70,80 @@ class SalesInvoicePoster:
 
  
 
+    # def update_sales_invoice(self, response):
+    #     try:
+    #         invoice_number = response.get("result", {}).get("invoice_number")
+    #         electronic_signature = response.get("electronic_signature")
+    #         invoice_registered_no=response.get("result", {}).get("invoice_registered_number")
+    #         invoice_registered_date=response.get("result", {}).get("invoice_registered_date")
+    #         sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
+
+    #         # Update Sales Invoice fields
+    #         sales_invoice.custom_einvoice_signatures = electronic_signature
+    #         sales_invoice.custom_invoice_registered_no = invoice_registered_no
+    #         sales_invoice.custom_invoice_registered_date = invoice_registered_date
+            
+    #         sales_invoice.save()
+    #         print("Python Path")
+    #         print(sys.path)
+
+    #         #frappe.msgprint(f"Sales Invoice {invoice_number} updated successfully.{sales_invoice.custom_einvoice_signatures}")
+    #     except Exception as e:
+    #         frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
+
+
+
     def update_sales_invoice(self, response):
         try:
             invoice_number = response.get("result", {}).get("invoice_number")
             electronic_signature = response.get("electronic_signature")
-            invoice_registered_no=response.get("result", {}).get("invoice_registered_number")
-            invoice_registered_date=response.get("result", {}).get("invoice_registered_date")
+            invoice_registered_no = response.get("result", {}).get("invoice_registered_number")
+            invoice_registered_date = response.get("result", {}).get("invoice_registered_date")
             sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
 
             # Update Sales Invoice fields
             sales_invoice.custom_einvoice_signatures = electronic_signature
             sales_invoice.custom_invoice_registered_no = invoice_registered_no
             sales_invoice.custom_invoice_registered_date = invoice_registered_date
-            
+
+            # Save the Sales Invoice
             sales_invoice.save()
 
-            #frappe.msgprint(f"Sales Invoice {invoice_number} updated successfully.{sales_invoice.custom_einvoice_signatures}")
+            # Create and save QR code image
+            # qr = qrcode.QRCode(
+            #     version=1,
+            #     error_correction=qrcode.constants.ERROR_CORRECT_L,
+            #     box_size=10,
+            #     border=4,
+            # )
+            # qr.add_data(invoice_number)
+            # qr.make(fit=True)
+
+            # img = qr.make_image(fill_color="black", back_color="white")
+            # img.save(f"invoice_qr_{invoice_number}.png")
+            qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+            qr.add_data(invoice_number)
+            qr.make(fit=True)
+
+            img = qr.make_image(fill_color="black", back_color="white")
+
+            # Save QR code image to a BytesIO object
+            img_buffer = io.BytesIO()
+            img.save(img_buffer, format="PNG")
+
+            # Attach QR code image to Sales Invoice
+            frappe.attach_file({
+                "file_content": img_buffer.getvalue(),
+                "file_name": f"invoice_qr_{invoice_number}.png",
+                "attached_to_doctype": sales_invoice.doctype,
+                "attached_to_name": sales_invoice.custom_qr_code,
+            })
+            frappe.msgprint(f"Sales Invoice {invoice_number} updated successfully.")
         except Exception as e:
             frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
 
