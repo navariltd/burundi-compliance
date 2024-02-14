@@ -81,54 +81,6 @@ function showInvoiceDetailsDialog(result) {
                 default: invoice.customer_TIN,
                 read_only: true
             },
-            // {
-            //     label:_('Tp Activity Sector'),
-            //     fieldname:'tp_activity_sector',
-            //     fieldtype:'Data',
-            //     default:invoice.tp_activity_sector,
-            //     read_only:true
-            // },
-            
-            // {
-            //     label:_('Tp Trade Number'),
-            //     fieldname:'tp_trade_number',
-            //     fieldtype:'Data',
-            //     default:invoice.tp_trade_number,
-            //     read_only:true
-            // }
-            // ,
-            // {
-            //     label:_('Tp Address Quartier'),
-            //     fieldname:'tp_address_quartier',
-            //     fieldtype:'Data',
-            //     default:invoice.tp_address_quartier,
-            //     read_only:true
-            // }
-            // ,
-            // {
-            //     label:_('Tp Legal Form'),
-            //     fieldname:'tp_legal_form',
-            //     fieldtype:'Data',
-            //     default:invoice.tp_legal_form,
-            //     read_only:true
-            // }
-            // ,
-            // {
-            //     label:_('Tp Fiscal Center'),
-            //     fieldname:'tp_fiscal_center',
-            //     fieldtype:'Data',
-            //     default:invoice.tp_fiscal_center,
-            //     read_only:true
-            // }
-            // ,
-            // {
-            //     label:_('Vat Taxpayer'),
-            //     fieldname:'vat_taxpayer',
-            //     fieldtype:'Data',
-            //     default:invoice.vat_taxpayer,
-            //     read_only:true
-            // }
-            // ,
            
         ]
     });

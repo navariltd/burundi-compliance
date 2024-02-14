@@ -25,3 +25,4 @@ def on_submit(doc, method=None):
 		frappe.msgprint("The transaction was added successfully!")
 	except Exception as e:
 		frappe.msgprint(f"Error during submission: {str(e)}")
+
