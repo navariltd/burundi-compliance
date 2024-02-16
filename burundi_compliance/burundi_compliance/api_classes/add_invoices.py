@@ -69,30 +69,9 @@ class SalesInvoicePoster:
         return self._handle_response(response)
 
  
-
-    # def update_sales_invoice(self, response):
-    #     try:
-    #         invoice_number = response.get("result", {}).get("invoice_number")
-    #         electronic_signature = response.get("electronic_signature")
-    #         invoice_registered_no=response.get("result", {}).get("invoice_registered_number")
-    #         invoice_registered_date=response.get("result", {}).get("invoice_registered_date")
-    #         sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
-
-    #         # Update Sales Invoice fields
-    #         sales_invoice.custom_einvoice_signatures = electronic_signature
-    #         sales_invoice.custom_invoice_registered_no = invoice_registered_no
-    #         sales_invoice.custom_invoice_registered_date = invoice_registered_date
-            
-    #         sales_invoice.save()
-    #         print("Python Path")
-    #         print(sys.path)
-
-    #         #frappe.msgprint(f"Sales Invoice {invoice_number} updated successfully.{sales_invoice.custom_einvoice_signatures}")
-    #     except Exception as e:
-    #         frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
-
-
-
+    '''Update Sales Invoice with the electronic signature 
+        and the registered number and date of the invoice.'''
+        
     def update_sales_invoice(self, response):
         try:
             invoice_number = response.get("result", {}).get("invoice_number")
@@ -108,82 +87,8 @@ class SalesInvoicePoster:
 
             # Save the Sales Invoice
             sales_invoice.save()
-
-            # Create and save QR code image
-            # qr = qrcode.QRCode(
-            #     version=1,
-            #     error_correction=qrcode.constants.ERROR_CORRECT_L,
-            #     box_size=10,
-            #     border=4,
-            # )
-            # qr.add_data(invoice_number)
-            # qr.make(fit=True)
-
-            # img = qr.make_image(fill_color="black", back_color="white")
-            # img.save(f"invoice_qr_{invoice_number}.png")
-            qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
-        )
-            qr.add_data(invoice_number)
-            qr.make(fit=True)
-
-            img = qr.make_image(fill_color="black", back_color="white")
-
-            # Save QR code image to a BytesIO object
-            img_buffer = io.BytesIO()
-            img.save(img_buffer, format="PNG")
-
-            # Attach QR code image to Sales Invoice
-            frappe.attach_file({
-                "file_content": img_buffer.getvalue(),
-                "file_name": f"invoice_qr_{invoice_number}.png",
-                "attached_to_doctype": sales_invoice.doctype,
-                "attached_to_name": sales_invoice.custom_qr_code,
-            })
-            frappe.msgprint(f"Sales Invoice {invoice_number} updated successfully.")
+            frappe.db.commit()
         except Exception as e:
+            frappe.db.rollback()
             frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
 
-
-    # def generate_qr_code(data, file_path):
-    #     qr = qrcode.QRCode(
-    #         version=1,
-    #         error_correction=qrcode.constants.ERROR_CORRECT_L,
-    #         box_size=10,
-    #         border=4,
-    #     )
-    #     qr.add_data(data)
-    #     qr.make(fit=True)
-
-    #     img = qr.make_image(fill_color="black", back_color="white")
-    #     img.save(file_path)
-
-    # def update_sales_invoice(self, response):
-    #     try:
-    #         invoice_number = response.get("result", {}).get("invoice_number")
-    #         electronic_signature = response.get("electronic_signature")
-    #         invoice_registered_no = response.get("result", {}).get("invoice_registered_number")
-    #         invoice_registered_date = response.get("result", {}).get("invoice_registered_date")
-    #         sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
-
-    #         # Update Sales Invoice fields
-    #         sales_invoice.custom_einvoice_signatures = electronic_signature
-    #         sales_invoice.custom_invoice_registered_no = invoice_registered_no
-    #         sales_invoice.custom_invoice_registered_date = invoice_registered_date
-
-    #         # Generate QR code and save it to a file
-    #         qr_code_data = f"Invoice Number: {invoice_number}\nSignature: {electronic_signature}"
-    #         file_path = f"/path/to/store/qr_codes/{invoice_number}_qr.png"
-    #         self.generate_qr_code(qr_code_data, file_path)
-
-    #         # Upload the QR code image to the 'custom_qr_code' field
-    #         sales_invoice.custom_qr_code = frappe.attach_file(file_path)
-
-    #         sales_invoice.save()
-
-    #         frappe.msgprint(f"Sales Invoice {invoice_number} updated successfully with QR code.")
-    #     except Exception as e:
-    #         frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
