@@ -11,9 +11,10 @@ from ..data.purchase_invoice_data import get_purchase_data_for_stock_update
 
 obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
-token = obr_integration_base.authenticate()
+
 
 def get_items(doc):
+    token = obr_integration_base.authenticate()
     items_data = get_purchase_data_for_stock_update(doc)
     
     for item in items_data:

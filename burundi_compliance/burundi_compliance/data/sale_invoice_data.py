@@ -46,12 +46,12 @@ class InvoiceDataProcessor:
             "tp_fiscal_center": "DMC",
             "tp_activity_sector": self.auth_details["tp_activity_sector"],
             "tp_legal_form": self.auth_details["tp_legal_form"],
-            "payment_type": "1",#self.doc.custom_invoice_payment_type
+            "payment_type": self.doc.custom_invoice_payment_type,
             "invoice_currency": frappe.defaults.get_user_default("currency"),
             "customer_name": self.doc.customer_name,
             "customer_TIN": self.doc.tax_id,
             "customer_address": self.doc.customer_address,
-            "vat_customer_payer": "1", #self.doc.exempt_from_sales_tax
+            "vat_customer_payer": "1", #self.doc.exempt_from_sales_tax,
             "invoice_ref":'',
             "cn_motif":'',
             "invoice_identifier": invoice_signature,

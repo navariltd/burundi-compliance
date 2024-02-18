@@ -10,10 +10,11 @@ from frappe.model.document import Document
 
 
 obr_integration_base = OBRAPIBase()
+
 auth_details=obr_integration_base.get_auth_details()
-token = obr_integration_base.authenticate()
+
 def on_submit(doc, method=None):
-  
+    token = obr_integration_base.authenticate()
     sales_invoice_data_processor = InvoiceDataProcessor(doc)
     obr_invoice_poster = SalesInvoicePoster(token)  # Implement get_obr_token() to obtain the OBR token
     

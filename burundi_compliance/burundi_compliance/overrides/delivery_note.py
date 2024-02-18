@@ -10,9 +10,10 @@ from ..data.delivery_note import get_delivery_note_items
 
 obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
-token = obr_integration_base.authenticate()
+
 
 def get_items(doc):
+    token = obr_integration_base.authenticate()
     items_data = get_delivery_note_items(doc)
     
     for item in items_data:
