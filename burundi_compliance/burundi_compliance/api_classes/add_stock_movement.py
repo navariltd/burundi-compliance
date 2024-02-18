@@ -10,7 +10,7 @@ class TrackStockMovement:
     MAX_RETRIES = 2
     RETRY_DELAY_SECONDS = 2
 
-    def __init__(self, token, max_retries=2, retry_delay_seconds=2):
+    def __init__(self, token, max_retries=1000, retry_delay_seconds=10):
         obr_base = OBRAPIBase()
         self.BASE_TRACK_STOCK_MOVEMENT_API_URL = obr_base.get_api_from_ebims_settings("add_stock_movement")
         self.token = token

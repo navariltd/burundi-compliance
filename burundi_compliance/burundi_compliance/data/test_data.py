@@ -1,6 +1,6 @@
 def prepare_test_invoice_data():
     return {
-        "invoice_number": "0001/2021",
+        "invoice_number": "INV001",
         "invoice_date": "2021-12-06 07:30:22",
         "invoice_type": "FN",
         "tp_type": "1",

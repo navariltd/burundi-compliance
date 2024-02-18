@@ -20,8 +20,11 @@
   "more_details_tab",
   "taxpayers_sector_of_activity",
   "taxpayers_legal_form",
+  "the_taxpayers_commercial_register_number",
+  "the_taxpayers_tax_center",
   "column_break_xego",
   "system_identification_given_by_obr",
+  "type_of_taxpayer",
   "obr_transaction_settings_section",
   "allow_obr_to_track_purchase_receipts",
   "allow_obr_to_track_all_stock_reconciliation",
@@ -194,12 +197,30 @@
    "fieldname": "allow_obr_to_track_all_stock_entries",
    "fieldtype": "Check",
    "label": "Allow OBR to track All Stock Entries"
+  },
+  {
+   "description": "Value \u201c1\u201d for natural person and \u201c2\u201d for legal person",
+   "fieldname": "type_of_taxpayer",
+   "fieldtype": "Select",
+   "label": "Type of Taxpayer.",
+   "options": "\n1\n2"
+  },
+  {
+   "fieldname": "the_taxpayers_commercial_register_number",
+   "fieldtype": "Int",
+   "label": "The taxpayer's commercial register number"
+  },
+  {
+   "fieldname": "the_taxpayers_tax_center",
+   "fieldtype": "Select",
+   "label": "The taxpayer's Tax Center",
+   "options": "\nDGC\nDMC\nDPMC"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-12 12:52:23.825177",
+ "modified": "2024-02-17 15:27:37.513682",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "EBIMS Settings",
