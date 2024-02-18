@@ -8,19 +8,21 @@ from ..data.sale_invoice_data import InvoiceDataProcessor
 from frappe import _
 from frappe.model.document import Document
 
+
 obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
 token = obr_integration_base.authenticate()
 def on_submit(doc, method=None):
-    
+  
     sales_invoice_data_processor = InvoiceDataProcessor(doc)
     obr_invoice_poster = SalesInvoicePoster(token)  # Implement get_obr_token() to obtain the OBR token
     
     invoice_data=sales_invoice_data_processor.prepare_invoice_data()
-    if doc.is_return==1:
-        
+    
+    if doc.is_return:
+       
         invoice_data =sales_invoice_data_processor.prepare_credit_note_data(invoice_data)
-        #frappe.throw(str(invoice_data))
+        
         if doc.custom_creating_payment_entry == 1:
             invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
     result = obr_invoice_poster.post_invoice(invoice_data)

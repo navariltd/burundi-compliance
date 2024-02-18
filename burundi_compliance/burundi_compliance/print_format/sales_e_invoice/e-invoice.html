@@ -136,7 +136,7 @@
             <!-- QR Code Image -->
             <div class="head-col">
                 <div class="qrcode">
-                    {%- set electronic_signature = doc.custom_einvoice_signatures %}
+                    {%- set electronic_signature = doc.custom_invoice_identifier %}
                     {%- if electronic_signature %}
                         {%- set qr_code_string = get_qr_code(electronic_signature) %}
                         <img src="{{ qr_code_string }}" class="qrcode-image">

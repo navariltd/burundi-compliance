@@ -6,6 +6,7 @@ from ..utils.invoice_signature import create_invoice_signature
 from ..api_classes.base import OBRAPIBase
 import time as time
 
+
 class InvoiceDataProcessor:
     obr_base = OBRAPIBase()
     auth_details = obr_base.get_auth_details()
@@ -17,11 +18,14 @@ class InvoiceDataProcessor:
         company = frappe.get_doc("Company", self.doc.company)
         tp_phone_no = company.phone_no
         tp_email = company.email
-        
         formatted_date_data = date_time_format(self.doc)
         invoice_signature = create_invoice_signature(self.doc)
         self.doc.custom_invoice_identifier=invoice_signature
-        self.doc.save()
+        if self.doc.is_return==0:
+            self.doc.save()
+        else:
+            self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
+
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
@@ -42,12 +46,12 @@ class InvoiceDataProcessor:
             "tp_fiscal_center": "DMC",
             "tp_activity_sector": self.auth_details["tp_activity_sector"],
             "tp_legal_form": self.auth_details["tp_legal_form"],
-            "payment_type": "1",
+            "payment_type": "1",#self.doc.custom_invoice_payment_type
             "invoice_currency": frappe.defaults.get_user_default("currency"),
             "customer_name": self.doc.customer_name,
             "customer_TIN": self.doc.tax_id,
             "customer_address": self.doc.customer_address,
-            "vat_customer_payer": "1",
+            "vat_customer_payer": "1", #self.doc.exempt_from_sales_tax
             "invoice_ref":'',
             "cn_motif":'',
             "invoice_identifier": invoice_signature,

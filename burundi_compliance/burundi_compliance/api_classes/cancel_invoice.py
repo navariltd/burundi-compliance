@@ -9,13 +9,12 @@ import time as time
 class InvoiceCanceller:
 
 
-    MAX_RETRIES = 1
-    RETRY_DELAY_SECONDS = 1
+    MAX_RETRIES = 1000
+    RETRY_DELAY_SECONDS = 10
     
     def __init__(self, token):
         obr_base = OBRAPIBase()
-#self.BASE_CANCEL_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("cancel_invoice")
-        self.BASE_CANCEL_INVOICE_API_URL = "https://ebms.obr.gov.bi:9443/ebms_api/cancelInvoice/"
+        self.BASE_CANCEL_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("cancel_invoice")
         self.token = token
 
     def _retry_request(self, data, retries):
