@@ -11,9 +11,11 @@ auth_base = OBRAPIBase()
 
 stock_update=get_stock_update_permissions()
 stock_permission=stock_update["allow_obr_to_track_all_stock_entries"]
+
 def get_items(doc):
-    data = get_stock_entry_items(doc)
     token = auth_base.authenticate()
+    data = get_stock_entry_items(doc)
+    
 
     for item in data:
             try:
@@ -25,9 +27,6 @@ def get_items(doc):
 
 def on_submit(doc, method=None):
     if stock_permission==1 or doc.custom_allow_obr_to_track_stock_movement or doc.stock_entry_type=="Manufacture":
-        try:
-            get_items(doc)
-            frappe.msgprint("The transaction was added successfully!")
-        except Exception as e:
-            frappe.msgprint(f"Error during submission: {str(e)}")
-
+        get_items(doc)
+        frappe.msgprint("The transaction was added successfully!")
+        

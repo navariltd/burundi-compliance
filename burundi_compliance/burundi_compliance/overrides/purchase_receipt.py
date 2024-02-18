@@ -7,8 +7,9 @@ import frappe
 
 obr_details=OBRAPIBase()
 
-token=obr_details.authenticate()
+
 def get_items(doc):
+    token=obr_details.authenticate()
     items_data = purchase_receipt_data(doc)
     
     for item in items_data:
