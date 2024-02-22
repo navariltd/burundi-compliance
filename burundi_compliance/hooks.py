@@ -36,6 +36,7 @@ fixtures=[
 doctype_js = {
     "Sales Invoice":"burundi_compliance/client_scripts/get_invoice.js",
     "Company":"burundi_compliance/client_scripts/confirm_tin.js",
+    #"Customer":"burundi_compliance/client_scripts/customer_tin.js",
     "doctype" : "public/js/doctype.js"}
 
 
@@ -138,14 +139,15 @@ doc_events = {
         
        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
         "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
-        
+        "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
         
     },
     "Purchase Receipt":{
         "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
     },
     "Delivery Note":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_update_stock"
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_or_cancel_update_stock",
+        "before_cancel":"burundi_compliance.burundi_compliance.overrides.delivery_note.before_cancel_update_stock",
     },
     "Stock Entry":{
         "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
@@ -156,7 +158,15 @@ doc_events = {
     
     "Purchase Invoice":{
         "on_submit": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_submit_update_stock",
-    }
+    },
+    "Customer":{
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.before_save"
+    },
+    "Supplier":{
+        #use similar function like checking tin
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.before_save"
+    },
+    
 }
 
 # Scheduled Tasks
