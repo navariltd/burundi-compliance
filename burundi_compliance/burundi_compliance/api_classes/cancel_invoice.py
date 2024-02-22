@@ -8,7 +8,6 @@ import time as time
 
 class InvoiceCanceller:
 
-
     MAX_RETRIES = 1000
     RETRY_DELAY_SECONDS = 10
     

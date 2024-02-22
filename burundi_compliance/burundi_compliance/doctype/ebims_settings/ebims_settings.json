@@ -25,6 +25,8 @@
   "column_break_xego",
   "system_identification_given_by_obr",
   "type_of_taxpayer",
+  "subject_to_consumption_tax",
+  "subject_to_flatrate_withholding_tax",
   "obr_transaction_settings_section",
   "allow_obr_to_track_purchase_receipts",
   "allow_obr_to_track_all_stock_reconciliation",
@@ -108,7 +110,7 @@
   {
    "fieldname": "more_details_tab",
    "fieldtype": "Tab Break",
-   "label": "More Details"
+   "label": "Tax Details"
   },
   {
    "fieldname": "taxpayers_sector_of_activity",
@@ -215,12 +217,28 @@
    "fieldtype": "Select",
    "label": "The taxpayer's Tax Center",
    "options": "\nDGC\nDMC\nDPMC"
+  },
+  {
+   "default": "0",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_consumption_tax",
+   "fieldtype": "Select",
+   "label": "Subject to Consumption Tax",
+   "options": "\n0\n1"
+  },
+  {
+   "default": "0",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_flatrate_withholding_tax",
+   "fieldtype": "Select",
+   "label": "Subject to FlatRate Withholding Tax",
+   "options": "\n0\n1"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-17 15:27:37.513682",
+ "modified": "2024-02-22 20:29:03.872690",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "EBIMS Settings",

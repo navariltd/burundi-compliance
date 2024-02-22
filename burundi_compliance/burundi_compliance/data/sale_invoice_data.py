@@ -10,7 +10,7 @@ import time as time
 class InvoiceDataProcessor:
     obr_base = OBRAPIBase()
     auth_details = obr_base.get_auth_details()
-
+    
     def __init__(self, doc):
         self.doc = doc
 
@@ -22,28 +22,29 @@ class InvoiceDataProcessor:
         invoice_signature = create_invoice_signature(self.doc)
         self.doc.custom_invoice_identifier=invoice_signature
         if self.doc.is_return==0:
-            self.doc.save()
+            self.doc.save(ignore_permissions=True)
+            #self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
         else:
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
-
+        
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
             "invoice_type": "FN",
-            "tp_type": "2",
+            "tp_type": self.auth_details["type_of_taxpayer"],
             "tp_name": self.doc.company,
             "tp_TIN": self.doc.company_tax_id,
             "tp_address": self.doc.company_address,
             "tp_phone_number": tp_phone_no,
             "tp_address_commune": self.doc.company_address_display,
             "tp_address_quartier": self.doc.company_address,
-            "tp_trade_number": "88999",
+            "tp_trade_number": self.auth_details["the_taxpayers_commercial_register_number"],
             "tp_email": tp_email,
             "vat_taxpayer": "1",
-            "ct_taxpayer": "0",
-            "tl_taxpayer": "0",
+            "ct_taxpayer": self.auth_details["subject_to_consumption_tax"],
+            "tl_taxpayer": self.auth_details["subject_to_flatrate_withholding_tax"],
             "tp_fiscal_year": frappe.defaults.get_user_default("fiscal_year"),
-            "tp_fiscal_center": "DMC",
+            "tp_fiscal_center": self.auth_details["the_taxpayers_tax_center"],
             "tp_activity_sector": self.auth_details["tp_activity_sector"],
             "tp_legal_form": self.auth_details["tp_legal_form"],
             "payment_type": self.doc.custom_invoice_payment_type,
@@ -51,7 +52,7 @@ class InvoiceDataProcessor:
             "customer_name": self.doc.customer_name,
             "customer_TIN": self.doc.tax_id,
             "customer_address": self.doc.customer_address,
-            "vat_customer_payer": "1", #self.doc.exempt_from_sales_tax,
+            "vat_customer_payer": self.doc.exempt_from_sales_tax,
             "invoice_ref":'',
             "cn_motif":'',
             "invoice_identifier": invoice_signature,
@@ -109,8 +110,6 @@ class InvoiceDataProcessor:
 
         return items
 
-
-
     def get_sales_data_for_stock_update(self, method=None):
         formatted_date_data = date_time_format(self.doc)
         formatted_date = formatted_date_data[0]
@@ -130,7 +129,7 @@ class InvoiceDataProcessor:
                 "item_measurement_unit": item_uom,
                 "item_purchase_or_sale_price": item.rate,  # Assuming rate is the sale price
                 "item_purchase_or_sale_currency": self.doc.currency,
-                "item_movement_type": "ER",
+                "item_movement_type": "SN",
                 "item_movement_invoice_ref": self.doc.name,
                 "item_movement_description": '',
                 "item_movement_date": formatted_date

@@ -31,7 +31,7 @@ class OBRAPIBase:
                     retries += 1
             else:
                 frappe.log_error("No internet connection. Retrying...", "Connection Error")
-                self.wait_for_internet(delay=5)  # Introduce a delay of 10 seconds
+                self.wait_for_internet(delay=2)  # Introduce a delay of 10 seconds
                 retries += 1
 
         raise AuthenticationError("Maximum retries reached. Network issues.")
@@ -69,6 +69,8 @@ class OBRAPIBase:
             "the_taxpayers_commercial_register_number": ebims_settings.the_taxpayers_commercial_register_number,
             "the_taxpayers_tax_center": ebims_settings.the_taxpayers_tax_center,
             "type_of_taxpayer": ebims_settings.type_of_taxpayer,
+            "subject_to_consumption_tax": ebims_settings.subject_to_consumption_tax,
+            "subject_to_flatrate_withholding_tax": ebims_settings.subject_to_flatrate_withholding_tax,
         }
         return auth_details
 

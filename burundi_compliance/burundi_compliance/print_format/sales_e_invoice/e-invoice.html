@@ -52,6 +52,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-start;
+            min-height: 300px;
         }
 
         .head-col {
@@ -70,11 +71,15 @@
             height: auto;
             max-height: auto; /* Adjust the maximum height as needed */
             max-width: 300px; /* Set the width of the QR code */
+            padding-top: 100px;
         }
         .qrcode-image {
             height: auto;
-            max-height: 180px; /* Adjust the maximum height as needed */
-            max-width: 180x; /* Set the width of the QR code */
+            word-wrap: break-word;
+
+            
+            padding-right: 20px;
+                      
         }
 
 
@@ -136,18 +141,22 @@
             <!-- QR Code Image -->
             <div class="head-col">
                 <div class="qrcode">
-                    {%- set electronic_signature = doc.custom_invoice_identifier %}
+                    <!--============================================== QR Code Image ============================================================================-->
+                    <!-- {%- set electronic_signature = doc.custom_invoice_identifier %}
                     {%- if electronic_signature %}
                         {%- set qr_code_string = get_qr_code(electronic_signature) %}
                         <img src="{{ qr_code_string }}" class="qrcode-image">
                     {%- else %}
                         <p>No electronic signature available.</p>
-                    {%- endif %}
-                    <div class="mt-2" style="margin-top: 200px;">
+                    {%- endif %} -->
+                    <!--===============================================End of QR code =============================================================================-->
+                    <div class="mt-2" style="margin-top: 0px;">
                         <h3>FACTURE</h3>
                         <h4>{{ doc.name }}</h4>
                     </div>
-                    <p class="mb-5">Facture OBR n°: {{ doc.custom_invoice_registered_no }}</p>
+                    <!-- <p class="mb-1">Facture OBR n°: {{ doc.custom_invoice_registered_no }}</p> -->
+                    <div class="qrcode-image overflow-auto"><p>{{doc.custom_invoice_identifier}}</p></div>
+                   
                 </div>
                
                 
@@ -157,7 +166,7 @@
    <hr class="mt-2">
 
       <!-- Customer Details -->
-<div class="row mt-5" style="display:flex">
+<div class="row" style="display:flex">
     <div class="col-md-6">
         <h4>  Le client</h4>
         <p>Nom et prénom ou Raison sociale: {{ doc.customer_name }}</p>
@@ -169,7 +178,7 @@
             {% else %}
             Oui
             {% endif %}
-          </p>        <!-- Add more customer details as needed -->
+          </p>        
     </div>
     <div class="col-md-6" style="margin-left: 150px;">
         <p><b>Posting Date:</b> {{ doc.posting_date }}</p>
@@ -178,7 +187,7 @@
 </div>
 
         <!-- Items Table -->
-        <div class="row mt-5">
+        <div class="row ">
             <div class="col mr-5 ml-5">
                 
                 <table class="table table-bordered">
@@ -198,7 +207,7 @@
                                 <td>{{ item.qty }}</td>
                                 <td>{{ item.rate }}</td>
                                 <td>{{ item.amount }}</td>
-                                <!-- Add more item details as needed -->
+                                
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -207,11 +216,6 @@
         </div>
 
     <!-- Totals -->
-
-
-
-
-
 <div class="container-fluid p-3 align-items-end">
     <div class="row">
         <div class="row justify-content-end ml-auto w-50" style="align-items: right; width:400px;">
