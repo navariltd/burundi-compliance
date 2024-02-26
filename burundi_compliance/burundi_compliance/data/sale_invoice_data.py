@@ -26,7 +26,6 @@ class InvoiceDataProcessor:
             #self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
         else:
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
-        
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
@@ -34,10 +33,10 @@ class InvoiceDataProcessor:
             "tp_type": self.auth_details["type_of_taxpayer"],
             "tp_name": self.doc.company,
             "tp_TIN": self.doc.company_tax_id,
-            "tp_address": self.doc.company_address,
+            "tp_address_province":self.doc.company_address[:50],
             "tp_phone_number": tp_phone_no,
             "tp_address_commune": self.doc.company_address_display,
-            "tp_address_quartier": self.doc.company_address,
+            "tp_address_quartier": self.doc.company_address[:50],
             "tp_trade_number": self.auth_details["the_taxpayers_commercial_register_number"],
             "tp_email": tp_email,
             "vat_taxpayer": "1",
@@ -47,10 +46,10 @@ class InvoiceDataProcessor:
             "tp_fiscal_center": self.auth_details["the_taxpayers_tax_center"],
             "tp_activity_sector": self.auth_details["tp_activity_sector"],
             "tp_legal_form": self.auth_details["tp_legal_form"],
-            "payment_type": self.doc.custom_invoice_payment_type,
+            "payment_type": self.get_payment_method(self.doc),
             "invoice_currency": frappe.defaults.get_user_default("currency"),
             "customer_name": self.doc.customer_name,
-            "customer_TIN": self.doc.tax_id,
+            "customer_TIN": '' if self.doc.tax_id is None else self.doc.tax_id,
             "customer_address": self.doc.customer_address,
             "vat_customer_payer": self.doc.exempt_from_sales_tax,
             "invoice_ref":'',
@@ -94,6 +93,7 @@ class InvoiceDataProcessor:
         items = []
 
         for item in self.doc.items:
+            
             total_vat = self.calculate_item_vat(item)
 
             items.append({
@@ -120,7 +120,9 @@ class InvoiceDataProcessor:
             # Fetch the uom from the Item doctype
             item_doc = frappe.get_doc("Item", item.item_code)
             item_uom = item_doc.stock_uom if item_doc else None
-
+            check_br_permission=item_doc.custom_allow_obr_to_track_stock_movement
+            if not check_br_permission:
+                continue
             data = {
                 "system_or_device_id": get_system_tax_id(),
                 "item_code": item.item_code,
@@ -139,3 +141,15 @@ class InvoiceDataProcessor:
 
         return sale_return_items_list
     
+
+    def get_payment_method(self, doc):
+        payment_method = doc.custom_payment_type
+        payment_method=payment_method.lower()
+        if any(word in payment_method for word in ['cash', 'caisse']):
+            return '1'
+        elif any(word in payment_method for word in ['cheque', 'bancobu', 'bank']):
+            return '2'
+        elif 'credit' in payment_method:
+            return '3'
+        else:
+            return '4'

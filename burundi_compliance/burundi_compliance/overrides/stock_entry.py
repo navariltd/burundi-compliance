@@ -15,18 +15,17 @@ stock_permission=stock_update["allow_obr_to_track_all_stock_entries"]
 def get_items(doc):
     token = auth_base.authenticate()
     data = get_stock_entry_items(doc)
-    
-
-    for item in data:
-            try:
-                track_stock_movement = TrackStockMovement(token)
-                result = track_stock_movement.post_stock_movement(item)
-            except Exception as e:
-                frappe.msgprint(f"Error sending item {item}: {str(e)}")
-        
+    if data:
+        for item in data:
+                try:
+                    track_stock_movement = TrackStockMovement(token)
+                    result = track_stock_movement.post_stock_movement(item)
+                    frappe.msgprint(f"The transaction for {item.get('item_code')} was added successfully!")
+                except Exception as e:
+                    frappe.msgprint(f"Error sending item {item}: {str(e)}")
+            
 
 def on_submit(doc, method=None):
-    if stock_permission==1 or doc.custom_allow_obr_to_track_stock_movement or doc.stock_entry_type=="Manufacture":
-        get_items(doc)
-        frappe.msgprint("The transaction was added successfully!")
+   # if stock_permission==1 or doc.custom_allow_obr_to_track_stock_movement or doc.stock_entry_type=="Manufacture":
+    get_items(doc)
         

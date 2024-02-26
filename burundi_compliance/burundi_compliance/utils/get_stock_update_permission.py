@@ -2,7 +2,7 @@
 import frappe
 
 def get_stock_update_permissions():
-    doc=frappe.get_doc("EBIMS Settings")
+    doc=frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
     permissions={
     "allow_obr_to_track_purchase_receipts":doc.allow_obr_to_track_purchase_receipts,
     "allow_obr_to_track_all_stock_reconciliation":doc.allow_obr_to_track_all_stock_reconciliation,

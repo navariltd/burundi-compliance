@@ -33,14 +33,13 @@ def get_items_on_cancel(doc):
                
                 track_stock_movement = TrackStockMovement(token)
                 result = track_stock_movement.post_stock_movement(item)
+                frappe.msgprint(f"The transaction for {item.get('item_code')} was added successfully!")
             except Exception as e:
                 frappe.msgprint(f"Error sending item {item}: {str(e)}")
     
 def on_submit_or_cancel_update_stock(doc, method=None):
     try:
         get_items(doc)
-        
-        frappe.msgprint("The transaction was added successfully!")
     except Exception as e:
         frappe.msgprint(f"Error during submission: {str(e)}")
         
@@ -48,7 +47,6 @@ def before_cancel_update_stock(doc, method=None):
     try:
         get_items_on_cancel(doc)
         
-        frappe.msgprint("The transaction was added successfully!")
     except Exception as e:
         frappe.msgprint(f"Error during submission: {str(e)}")
         

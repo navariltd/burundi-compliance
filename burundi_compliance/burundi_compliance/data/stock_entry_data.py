@@ -47,6 +47,10 @@ def get_stock_entry_items(doc):
     for item in stock_entry_data:
         if doc.stock_entry_type == "Manufacture" and not item.is_finished_item:
             continue  # Skip items that do not have has_finished flag for Manufacture type
+        item_doc = frappe.get_doc("Item", item.item_code)
+        check_br_permission=item_doc.custom_allow_obr_to_track_stock_movement
+        if not check_br_permission:
+            continue
           
         data = {
             "system_or_device_id": get_system_tax_id(),

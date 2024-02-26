@@ -18,24 +18,28 @@ def purchase_receipt_data(doc, method=None):
     # Prepare stock movement data
     purchase_invoice_items = doc.items
     stock_movement_data=[]
-    if purchase_invoice_items:
-        item = purchase_invoice_items[0]
+    for item in purchase_invoice_items:
+        item_doc = frappe.get_doc("Item", item.item_code)
+        check_br_permission=item_doc.custom_allow_obr_to_track_purchase
+        if not check_br_permission:
+            continue
+        
         data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": item.item_code,
             "item_designation": item.item_name,
             "item_quantity": item.qty,
             "item_measurement_unit": item.uom,
-            "item_purchase_or_sale_price": item.rate,
-            "item_purchase_or_sale_currency": doc.currency,
+            "item_purchase_or_sale_price": item.valuation_rate,
+            "item_purchase_or_sale_currency": doc.company_currency,
             "item_movement_type": "EN",
-            "item_movement_invoice_ref": '',
-            "item_movement_description": item.description,
-            "item_movement_date": formatted_date
+            "item_movement_description":'Purchased goods',
+            "item_movement_date": formatted_date,
         }
+
         stock_movement_data.append(data)
-        
+
     return stock_movement_data
-   
+
 
 

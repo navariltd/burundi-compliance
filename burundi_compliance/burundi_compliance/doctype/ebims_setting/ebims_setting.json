@@ -1,22 +1,23 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-01-23 01:12:58.156431",
+ "autoname": "field:company",
+ "creation": "2024-02-24 09:28:35.402496",
+ "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "username_and_password_are_provided_by_obr_section",
   "column_break_xbtx",
+  "company",
+  "sandbox",
+  "column_break_kuje",
   "username",
   "password",
-  "column_break_kuje",
-  "environment",
   "section_break_qbab",
   "column_break_riwa",
   "testing_apis",
   "production",
-  "tab_2_tab",
-  "accounts",
   "more_details_tab",
   "taxpayers_sector_of_activity",
   "taxpayers_legal_form",
@@ -42,8 +43,32 @@
  "fields": [
   {
    "fieldname": "username_and_password_are_provided_by_obr_section",
-   "fieldtype": "Section Break",
-   "label": "Username and Password provided by OBR"
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_xbtx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sandbox",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Sandbox",
+   "options": "\n",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kuje",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "username",
@@ -52,6 +77,7 @@
    "reqd": 1
   },
   {
+   "description": "Username and Password provided by OBR",
    "fieldname": "password",
    "fieldtype": "Password",
    "label": "Password",
@@ -63,49 +89,24 @@
    "label": "APIs"
   },
   {
-   "fieldname": "production",
-   "fieldtype": "Table",
-   "ignore_user_permissions": 1,
-   "label": "Production APIs",
-   "options": "EBIMS APIs"
-  },
-  {
-   "fieldname": "testing_apis",
-   "fieldtype": "Table",
-   "ignore_user_permissions": 1,
-   "label": "Testing APIs",
-   "options": "EBIMS APIs"
-  },
-  {
    "fieldname": "column_break_riwa",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "tab_2_tab",
-   "fieldtype": "Tab Break",
-   "label": "Accounts"
-  },
-  {
-   "fieldname": "accounts",
+   "depends_on": "eval:doc.sandbox==1",
+   "fieldname": "testing_apis",
    "fieldtype": "Table",
-   "label": "Accounts",
-   "options": "EBIMS Account"
+   "ignore_user_permissions": 1,
+   "label": "Sandbox APIs",
+   "options": "eBIMS APIs"
   },
   {
-   "fieldname": "column_break_xbtx",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_kuje",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "environment",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Environment",
-   "options": "\nTesting\nProduction",
-   "reqd": 1
+   "depends_on": "eval:doc.sandbox==0",
+   "fieldname": "production",
+   "fieldtype": "Table",
+   "ignore_user_permissions": 1,
+   "label": "Production APIs",
+   "options": "eBIMS APIs"
   },
   {
    "fieldname": "more_details_tab",
@@ -123,13 +124,47 @@
    "label": "Taxpayer's Legal Form"
   },
   {
+   "fieldname": "the_taxpayers_commercial_register_number",
+   "fieldtype": "Int",
+   "label": "The taxpayer's commercial register number"
+  },
+  {
+   "fieldname": "the_taxpayers_tax_center",
+   "fieldtype": "Select",
+   "label": "The taxpayer's Tax Center",
+   "options": "\nDGC\nDMC\nDPMC"
+  },
+  {
+   "fieldname": "column_break_xego",
+   "fieldtype": "Column Break"
+  },
+  {
    "fieldname": "system_identification_given_by_obr",
    "fieldtype": "Data",
    "label": "System Identification(given by OBR)"
   },
   {
-   "fieldname": "column_break_xego",
-   "fieldtype": "Column Break"
+   "description": "Value \u201c1\u201d for natural person and \u201c2\u201d for legal person",
+   "fieldname": "type_of_taxpayer",
+   "fieldtype": "Select",
+   "label": "Type of Taxpayer.",
+   "options": "\n1\n2"
+  },
+  {
+   "default": "0",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_consumption_tax",
+   "fieldtype": "Select",
+   "label": "Subject to Consumption Tax",
+   "options": "\n0\n1"
+  },
+  {
+   "default": "0",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_flatrate_withholding_tax",
+   "fieldtype": "Select",
+   "label": "Subject to FlatRate Withholding Tax",
+   "options": "\n0\n1"
   },
   {
    "fieldname": "obr_transaction_settings_section",
@@ -142,6 +177,20 @@
    "fieldname": "allow_obr_to_track_purchase_receipts",
    "fieldtype": "Check",
    "label": "Allow OBR to track Purchase Receipts"
+  },
+  {
+   "default": "0",
+   "description": "If ticked, any stock reconciliation or Opening Stock done will be tracked by OBR.",
+   "fieldname": "allow_obr_to_track_all_stock_reconciliation",
+   "fieldtype": "Check",
+   "label": "Allow OBR to track All Stock Reconciliation"
+  },
+  {
+   "default": "0",
+   "description": "If ticked, all items in the stock entries will be tracked y OBR.",
+   "fieldname": "allow_obr_to_track_all_stock_entries",
+   "fieldtype": "Check",
+   "label": "Allow OBR to track All Stock Entries"
   },
   {
    "description": "If any is ticked, any stock entry with the specified type will be tracked by OBR",
@@ -185,63 +234,15 @@
    "fieldname": "material_consumption_for_manufacture",
    "fieldtype": "Check",
    "label": "Material Consumption For Manufacture"
-  },
-  {
-   "default": "0",
-   "description": "If ticked, any stock reconciliation or Opening Stock done will be tracked by OBR.",
-   "fieldname": "allow_obr_to_track_all_stock_reconciliation",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track All Stock Reconciliation"
-  },
-  {
-   "default": "0",
-   "description": "If ticked, all items in the stock entries will be tracked y OBR.",
-   "fieldname": "allow_obr_to_track_all_stock_entries",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track All Stock Entries"
-  },
-  {
-   "description": "Value \u201c1\u201d for natural person and \u201c2\u201d for legal person",
-   "fieldname": "type_of_taxpayer",
-   "fieldtype": "Select",
-   "label": "Type of Taxpayer.",
-   "options": "\n1\n2"
-  },
-  {
-   "fieldname": "the_taxpayers_commercial_register_number",
-   "fieldtype": "Int",
-   "label": "The taxpayer's commercial register number"
-  },
-  {
-   "fieldname": "the_taxpayers_tax_center",
-   "fieldtype": "Select",
-   "label": "The taxpayer's Tax Center",
-   "options": "\nDGC\nDMC\nDPMC"
-  },
-  {
-   "default": "0",
-   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
-   "fieldname": "subject_to_consumption_tax",
-   "fieldtype": "Select",
-   "label": "Subject to Consumption Tax",
-   "options": "\n0\n1"
-  },
-  {
-   "default": "0",
-   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
-   "fieldname": "subject_to_flatrate_withholding_tax",
-   "fieldtype": "Select",
-   "label": "Subject to FlatRate Withholding Tax",
-   "options": "\n0\n1"
   }
  ],
  "index_web_pages_for_search": 1,
- "issingle": 1,
  "links": [],
- "modified": "2024-02-22 20:29:03.872690",
+ "modified": "2024-02-24 10:23:30.816613",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
- "name": "EBIMS Settings",
+ "name": "eBIMS Setting",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

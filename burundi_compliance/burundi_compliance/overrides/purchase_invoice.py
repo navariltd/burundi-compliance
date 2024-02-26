@@ -13,22 +13,29 @@ obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
 
 
-def get_items(doc):
+def get_items(doc, movement_type="EN"):
     token = obr_integration_base.authenticate()
-    items_data = get_purchase_data_for_stock_update(doc)
-    
-    for item in items_data:
-            try:
-                track_stock_movement = TrackStockMovement(token)
-                result = track_stock_movement.post_stock_movement(item)
-            except Exception as e:
-                frappe.msgprint(f"Error sending item {item}: {str(e)}")
-        
+    items_data = get_purchase_data_for_stock_update(doc, movement_type=movement_type)
+    if items_data:
+        frappe.throw(str(items_data))
+        for item in items_data:
+                try:
+                    track_stock_movement = TrackStockMovement(token)
+                    result = track_stock_movement.post_stock_movement(item)
+                    frappe.msgprint(f"The transaction for {item.get('item_code')} was added successfully!")
+                except Exception as e:
+                    frappe.msgprint(f"Error sending item {item}: {str(e)}")
 
 def on_submit_update_stock(doc, method=None):
     if doc.update_stock==1:
         try:
             get_items(doc)
-            frappe.msgprint("The transaction was added successfully!")
         except Exception as e:
             frappe.msgprint(f"Error during submission: {str(e)}")
+            
+def on_cancel_update_stock(doc, method=None):
+    if doc.update_stock==1:
+        try:
+            get_items(doc, movement_type="SAU")
+        except Exception as e:
+            frappe.msgprint(f"Error during cancellation: {str(e)}")
