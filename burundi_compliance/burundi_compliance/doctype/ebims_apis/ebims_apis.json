@@ -13,9 +13,10 @@
   {
    "columns": 3,
    "fieldname": "method_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Method Name",
+   "options": "eBIMS API Methods",
    "reqd": 1
   },
   {
@@ -23,16 +24,16 @@
    "fieldname": "api",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "API"
+   "label": "EndPoint Url"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-31 00:30:13.754679",
+ "modified": "2024-02-24 10:49:42.653500",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
- "name": "EBIMS APIs",
+ "name": "eBIMS APIs",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

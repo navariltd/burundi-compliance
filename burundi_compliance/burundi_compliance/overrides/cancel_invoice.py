@@ -20,11 +20,9 @@ def cancel_invoice(doc, method=None):
     response = invoice_canceller.cancel_invoice(invoice_data)
     on_cancel_update_stock(doc)
     frappe.msgprint(response)
-    
-    
-
+        
+        
 def get_items(doc):
-    
     token = obr_integration_base.authenticate()
     sales_invoice_data_processor = InvoiceDataProcessor(doc)
     items_data = sales_invoice_data_processor.get_sales_data_for_stock_update()

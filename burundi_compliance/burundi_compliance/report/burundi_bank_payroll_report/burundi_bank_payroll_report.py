@@ -1,12 +1,6 @@
 # Copyright (c) 2024, Navari Limited and contributors
 # For license information, please see license.txt
 
-# import frappe
-
-
-# Copyright (c) 2022, Navari Limited and contributors
-# For license information, please see license.txt
-
 from __future__ import unicode_literals
 import frappe, erpnext
 from frappe import _
@@ -91,9 +85,9 @@ def get_conditions(query, filters, company_currency, salary_slip_doc):
     
     for filter_key, filter_value in filters.items():
         if filter_key == "from_date":
-            query = query.where(salary_slip_doc.start_date == filter_value)
+            query = query.where(salary_slip_doc.start_date >= filter_value)
         elif filter_key == "to_date":
-            query = query.where(salary_slip_doc.end_date == filter_value)
+            query = query.where(salary_slip_doc.end_date <= filter_value)
         elif filter_key == "company":
             query = query.where(salary_slip_doc.company == filter_value)
         elif filter_key =="bank_name":

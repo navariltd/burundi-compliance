@@ -4,7 +4,7 @@ from ..doctype.custom_exceptions import AuthenticationError, StockMovementError
 import frappe
 from .base import OBRAPIBase
 from requests.exceptions import RequestException
-
+from ..utils.base_api import full_api_url
 class TrackStockMovement:
 
     MAX_RETRIES = 2
@@ -12,7 +12,7 @@ class TrackStockMovement:
 
     def __init__(self, token, max_retries=5, retry_delay_seconds=2):
         obr_base = OBRAPIBase()
-        self.BASE_TRACK_STOCK_MOVEMENT_API_URL = obr_base.get_api_from_ebims_settings("add_stock_movement")
+        self.BASE_TRACK_STOCK_MOVEMENT_API_URL = full_api_url(obr_base.get_api_from_ebims_settings("add_stock_movement"))
         self.token = token
         self.MAX_RETRIES = max_retries
         self.RETRY_DELAY_SECONDS = retry_delay_seconds

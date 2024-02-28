@@ -4,5 +4,5 @@ from frappe.model.document import Document
 import re
 import frappe
 
-class EBIMSAPIs(Document):
+class eBIMSAPIs(Document):
 	pass

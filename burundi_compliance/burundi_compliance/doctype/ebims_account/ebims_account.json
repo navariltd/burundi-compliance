@@ -7,10 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "company",
-  "account_type",
-  "cgst_account",
-  "sgst_account",
-  "igst_account"
+  "account_type"
  ],
  "fields": [
   {
@@ -28,39 +25,12 @@
    "label": "Account Type",
    "options": "Input\nOutput\nReverse Charge",
    "reqd": 1
-  },
-  {
-   "columns": 2,
-   "fieldname": "cgst_account",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "CGST Account",
-   "options": "Account",
-   "reqd": 1
-  },
-  {
-   "columns": 2,
-   "fieldname": "sgst_account",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "SGST / UTGST Account",
-   "options": "Account",
-   "reqd": 1
-  },
-  {
-   "columns": 2,
-   "fieldname": "igst_account",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "IGST Account",
-   "options": "Account",
-   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-23 01:31:14.519346",
+ "modified": "2024-02-23 15:02:16.549571",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "EBIMS Account",

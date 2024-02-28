@@ -7,7 +7,7 @@ app_license = "mit"
 # required_apps = []
 
 fixtures=[
-    "EBIMS APIs",
+   "eBIMS API Methods",
 ]
 
 # Includes in <head>
@@ -139,7 +139,7 @@ doc_events = {
         
        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
         "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
-        "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+        #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
         
     },
     "Purchase Receipt":{
@@ -158,13 +158,14 @@ doc_events = {
     
     "Purchase Invoice":{
         "on_submit": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_submit_update_stock",
+        "on_cancel": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_cancel_update_stock",
     },
     "Customer":{
-        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.before_save"
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_before_save"
     },
     "Supplier":{
-        #use similar function like checking tin
-        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.before_save"
+        #use similar function with customer_check_tin
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.supplier_before_save"
     },
     
 }
