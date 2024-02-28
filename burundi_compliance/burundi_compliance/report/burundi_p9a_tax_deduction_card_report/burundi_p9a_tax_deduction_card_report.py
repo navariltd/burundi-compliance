@@ -282,10 +282,10 @@ def get_p9a_tax_deduction_card_amt(filters, employee, month_start_date, month_en
                         salary_slip_doc.currency,salary_slip_doc.start_date,
                         salary_slip_doc.end_date,salary_slip_doc.company,
                         (salary_detail_doc.amount.as_("amt") if salary_detail_doc.amount else 0).as_("amt"),salary_slip_doc.exchange_rate,
-                        salary_component_doc.p9a_tax_deduction_card_type)\
+                        salary_component_doc.custom_p9a_tax_deduction_card_type)\
                     .where(
                         (salary_slip_doc.docstatus==1) &
-                        (salary_component_doc.p9a_tax_deduction_card_type==p9a_tax_deduction_card_type) &
+                        (salary_component_doc.custom_p9a_tax_deduction_card_type==p9a_tax_deduction_card_type) &
                         (salary_slip_doc.employee==employee) &
                         (salary_slip_doc.company==filters.get("company")) &
                         (salary_slip_doc.start_date==month_start_date) &
@@ -348,7 +348,7 @@ def get_p9a_tax_deduction_card_fixed_component_amt(p9a_tax_deduction_card_type):
     salary_component_query=frappe.qb.from_(salary_component_doc)\
         .select((salary_component_doc.amount.as_("amt") if salary_component_doc.amount else 0).as_('amt'))\
         .where(
-            (salary_component_doc.p9a_tax_deduction_card_type==p9a_tax_deduction_card_type)
+            (salary_component_doc.custom_p9a_tax_deduction_card_type==p9a_tax_deduction_card_type)
         )
     p9a_tax_deduction_card_fixed_component=salary_component_query.run(as_dict=True)
 

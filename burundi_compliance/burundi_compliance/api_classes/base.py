@@ -4,7 +4,7 @@ from frappe import _
 import frappe
 from ..doctype.custom_exceptions import AuthenticationError
 from ..utils.base_api import full_api_url
-
+import time as time
 class OBRAPIBase:
 
     def __init__(self):
@@ -20,22 +20,29 @@ class OBRAPIBase:
         except requests.ConnectionError:
             return False
 
-    def authenticate(self, max_retries=1):
-        retries = 0
-        while retries < max_retries:
-            if self.check_internet_connection():
-                try:
+    # def authenticate(self, max_retries=1):
+    #     retries = 0
+    #     while retries < max_retries:
+    #         if self.check_internet_connection():
+    #             try:
                     
-                    return self.authenticate_with_retry()
-                except AuthenticationError as auth_error:
-                    frappe.log_error(str(auth_error), "Authentication Error")
-                    retries += 1
-            else:
-                frappe.log_error("No internet connection. Retrying...", "Connection Error")
-                self.wait_for_internet(delay=2)  # Introduce a delay of 10 seconds
-                retries += 1
+    #                 return self.authenticate_with_retry()
+    #             except AuthenticationError as auth_error:
+    #                 frappe.log_error(str(auth_error), "Authentication Error")
+    #                 retries += 1
+    #         else:
+    #             frappe.log_error("No internet connection. Retrying...", "Connection Error")
+    #             self.wait_for_internet(delay=2)  # Introduce a delay of 10 seconds
+    #             retries += 1
 
-        raise AuthenticationError("Maximum retries reached. Network issues.")
+    #     raise AuthenticationError("Maximum retries reached. Network issues.")
+    def authenticate(self, max_retries=1):
+            try:
+                return self.authenticate_with_retry()
+            except AuthenticationError as auth_error:
+                time.sleep(10)
+                frappe.msgprint("Authentication Problem with OBR server, Job queued")
+                self.enqueue_retry_task()
 
     def authenticate_with_retry(self):
         auth_details = self.get_auth_details()
@@ -86,3 +93,14 @@ class OBRAPIBase:
 
     def wait_for_internet(self, delay=5):
         time.sleep(delay)  # Sleep for 10 seconds
+        
+    def enqueue_retry_task(self):
+        job_id = frappe.enqueue(
+            "burundi_compliance.burundi_compliance.utils.background_jobs.retry_authentication",
+            queue="long",
+            timeout=600,
+            is_async=True,
+        at_front=False,
+        )
+        return job_id
+            

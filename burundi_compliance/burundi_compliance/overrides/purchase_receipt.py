@@ -3,7 +3,7 @@ from ..data.purchase_receipt_date import purchase_receipt_data
 from ..api_classes.add_stock_movement import TrackStockMovement
 from ..doctype.custom_exceptions import StockMovementError, AuthenticationError
 import frappe
-
+from ..utils.background_jobs import enqueue_stock_movement
 
 obr_details=OBRAPIBase()
 
@@ -13,9 +13,8 @@ def get_items(doc):
     items_data = purchase_receipt_data(doc)
     for item in items_data:
             try:
-                track_stock_movement = TrackStockMovement(token)
-                result = track_stock_movement.post_stock_movement(item)
-                frappe.msgprint(f"The transaction for {item.get('item_code')} was added successfully!")
+                enqueue_stock_movement(item)
+                frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully")
             except Exception as e:
                 frappe.msgprint(f"Error sending item {item}: {str(e)}")
                 raise StockMovementError(f"Error sending item {item}: {str(e)}")        

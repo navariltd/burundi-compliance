@@ -139,7 +139,7 @@ doc_events = {
         
        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
         "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
-        "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+        #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
         
     },
     "Purchase Receipt":{

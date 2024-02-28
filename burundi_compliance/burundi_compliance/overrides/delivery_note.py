@@ -7,10 +7,9 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from ..data.delivery_note import get_delivery_note_items, get_delivery_note_items_on_cancel
-
+from ..utils.background_jobs import enqueue_stock_movement
 obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
-
 
 def get_items(doc):
     token = obr_integration_base.authenticate()
@@ -30,10 +29,8 @@ def get_items_on_cancel(doc):
     
     for item in items_data:
             try:
-               
-                track_stock_movement = TrackStockMovement(token)
-                result = track_stock_movement.post_stock_movement(item)
-                frappe.msgprint(f"The transaction for {item.get('item_code')} was added successfully!")
+                enqueue_stock_movement(item)
+                frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully")
             except Exception as e:
                 frappe.msgprint(f"Error sending item {item}: {str(e)}")
     
