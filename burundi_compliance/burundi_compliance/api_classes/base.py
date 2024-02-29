@@ -20,22 +20,6 @@ class OBRAPIBase:
         except requests.ConnectionError:
             return False
 
-    # def authenticate(self, max_retries=1):
-    #     retries = 0
-    #     while retries < max_retries:
-    #         if self.check_internet_connection():
-    #             try:
-                    
-    #                 return self.authenticate_with_retry()
-    #             except AuthenticationError as auth_error:
-    #                 frappe.log_error(str(auth_error), "Authentication Error")
-    #                 retries += 1
-    #         else:
-    #             frappe.log_error("No internet connection. Retrying...", "Connection Error")
-    #             self.wait_for_internet(delay=2)  # Introduce a delay of 10 seconds
-    #             retries += 1
-
-    #     raise AuthenticationError("Maximum retries reached. Network issues.")
     def authenticate(self, max_retries=1):
             try:
                 return self.authenticate_with_retry()
@@ -63,6 +47,7 @@ class OBRAPIBase:
         except requests.exceptions.RequestException as e:
             error_message = f"Error during authentication: {str(e)}"
             frappe.log_error(error_message, "OBRAPIBase Authentication Error")
+            frappe.msgprint("Authentication Problem with OBR server, Job queued")
             raise AuthenticationError(error_message)
 
     def get_auth_details(self):        

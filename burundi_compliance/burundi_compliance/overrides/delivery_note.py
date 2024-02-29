@@ -43,7 +43,6 @@ def on_submit_or_cancel_update_stock(doc, method=None):
 def before_cancel_update_stock(doc, method=None):
     try:
         get_items_on_cancel(doc)
-        
     except Exception as e:
         frappe.msgprint(f"Error during submission: {str(e)}")
         
