@@ -10,13 +10,12 @@ auth_base=OBRAPIBase()
 token=auth_base.authenticate()
 
 def get_items(doc):
-    
     items_data = get_stock_reconciliation_items(doc)
     if items_data:
         for item in items_data:
                 try:
                     enqueue_stock_movement(item)
-                    frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully")
+                    frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully", alert=True)
                 except Exception as e:
                     frappe.msgprint(f"Error sending item {item}: {str(e)}")
         

@@ -12,7 +12,6 @@ from ..utils.background_jobs import enqueue_stock_movement
 obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
 
-
 def get_items(doc, movement_type="EN"):
     token = obr_integration_base.authenticate()
     items_data = get_purchase_data_for_stock_update(doc, movement_type=movement_type)
@@ -22,7 +21,7 @@ def get_items(doc, movement_type="EN"):
                 try:
                 
                     enqueue_stock_movement(item)
-                    frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully")
+                    frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully", alert=True)
                 except Exception as e:
                     frappe.msgprint(f"Error sending item {item}: {str(e)}")
 

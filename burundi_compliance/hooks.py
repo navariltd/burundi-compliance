@@ -34,9 +34,13 @@ fixtures=[
 # include js in doctype views
 
 doctype_js = {
-    "Sales Invoice":"burundi_compliance/client_scripts/get_invoice.js",
+    "Sales Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
     "Company":"burundi_compliance/client_scripts/confirm_tin.js",
     #"Customer":"burundi_compliance/client_scripts/customer_tin.js",
+    "Purchase Invoice":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "Purchase Receipt":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "Delivery Note":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "Stock Entry":"burundi_compliance/client_scripts/add_stock_movement.js",
     "doctype" : "public/js/doctype.js"}
 
 
