@@ -1,3 +1,5 @@
+from burundi_compliance.burundi_compliance.controllers.taxes_and_totals import calculate_item_values_override
+
 app_name = "burundi_compliance"
 app_title = "Burundi Compliance"
 app_publisher = "Navari Limited"
@@ -15,7 +17,9 @@ fixtures=[
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/burundi_compliance/css/burundi_compliance.css"
-# app_include_js = "/assets/burundi_compliance/js/burundi_compliance.js"
+app_include_js = [
+    "burundi_compliance/public/js/taxes_and_totals.js"
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/burundi_compliance/css/burundi_compliance.css"
@@ -36,7 +40,8 @@ fixtures=[
 doctype_js = {
     "Sales Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
     "Company":"burundi_compliance/client_scripts/confirm_tin.js",
-    #"Customer":"burundi_compliance/client_scripts/customer_tin.js",
+    "Customer":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+    "Supplier":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Purchase Invoice":"burundi_compliance/client_scripts/add_stock_movement.js",
     "Purchase Receipt":"burundi_compliance/client_scripts/add_stock_movement.js",
     "Delivery Note":"burundi_compliance/client_scripts/add_stock_movement.js",
@@ -165,11 +170,11 @@ doc_events = {
         "on_cancel": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_cancel_update_stock",
     },
     "Customer":{
-        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_before_save"
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
     },
     "Supplier":{
         #use similar function with customer_check_tin
-        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.supplier_before_save"
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
     },
     
 }
@@ -271,3 +276,4 @@ doc_events = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+calculate_item_values_override()

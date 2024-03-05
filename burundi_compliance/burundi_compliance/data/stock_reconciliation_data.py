@@ -19,9 +19,9 @@ def get_stock_reconciliation_items(doc):
     all_items=[]
     for item in reconciliation_items:
         
-        if doc.purpose=="Stock Reconciliation" and item.quantity_difference < 0.0:
+        if doc.purpose=="Stock Reconciliation" and float(item.quantity_difference) < 0.0:
             movement_type = "SAJ"
-        elif doc.purpose=="Stock Reconciliation" and item.quantity_difference > 0.0:
+        elif doc.purpose=="Stock Reconciliation" and float(item.quantity_difference) > 0.0:
             movement_type="EAJ"
         # Fetch the uom from the Item doctype
         item_doc = frappe.get_doc("Item", item.item_code)
@@ -31,9 +31,9 @@ def get_stock_reconciliation_items(doc):
                 "system_or_device_id": get_system_tax_id(),
                 "item_code": item.item_code,
                 "item_designation": item.item_name,
-                "item_quantity": abs(item.quantity_difference),
+                "item_quantity": abs(int(item.quantity_difference)),
                 "item_measurement_unit": item_uom,
-                "item_purchase_or_sale_price": item.valuation_rate,  # Assuming valuation rate is the purchase price
+                "item_purchase_or_sale_price": item.valuation_rate,  
                 "item_purchase_or_sale_currency": 'BIF',
                 "item_movement_type": movement_type,  # Adjustment Entries for Stock Reconciliation
                 "item_movement_date": formatted_date

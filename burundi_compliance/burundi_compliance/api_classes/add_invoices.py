@@ -1,5 +1,4 @@
 import requests
-import time
 from ..doctype.custom_exceptions import AuthenticationError, InvoiceAdditionError
 import frappe
 from .base import OBRAPIBase

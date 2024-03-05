@@ -3,6 +3,7 @@ function addRetrySendingButton(frm, doc_type) {
     if (frm.doc.docstatus == 1) {
         if(frm.doc.custom_etracker===0){
             frm.add_custom_button(__('Re-Submit'), function() {
+                frappe.msgprint("Re-submitting data to E-Tracking. Please wait...", __("E-Tracking"));
                 frappe.call({
                       method: 'burundi_compliance.burundi_compliance.utils.background_jobs.retry_stock_movement_after_failure',
                       args: {
@@ -31,6 +32,7 @@ frappe.ui.form.on('Stock Entry', {
 
 frappe.ui.form.on('Stock Reconciliation', {
     refresh: function(frm) {
+       
         addRetrySendingButton(frm, "Stock Reconciliation");
     }
 });

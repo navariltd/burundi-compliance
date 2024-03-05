@@ -14,12 +14,12 @@ auth_details=obr_integration_base.get_auth_details()
 def get_items(doc):
     token = obr_integration_base.authenticate()
     items_data = get_delivery_note_items(doc)
-    
+
     for item in items_data:
             try:
-            
-                track_stock_movement = TrackStockMovement(token)
-                result = track_stock_movement.post_stock_movement(item)
+
+                enqueue_stock_movement(item, doc)
+                frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully", alert=True)
             except Exception as e:
                 frappe.msgprint(f"Error sending item {item}: {str(e)}")
         
@@ -29,7 +29,7 @@ def get_items_on_cancel(doc):
     
     for item in items_data:
             try:
-                enqueue_stock_movement(item)
+                enqueue_stock_movement(item, doc)
                 frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully")
             except Exception as e:
                 frappe.msgprint(f"Error sending item {item}: {str(e)}")

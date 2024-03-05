@@ -110,7 +110,7 @@ class KenyaSalesTaxReport(object):
 			sales_invoice_query = sales_invoice_query.where(sale_invoice_doc.posting_date >= from_date)
 		if to_date:
 			sales_invoice_query = sales_invoice_query.where(sale_invoice_doc.posting_date <= to_date)
-
+		sales_invoice_query=sales_invoice_query.where(sale_invoice_doc.docstatus == 1)
 		sales_invoices = sales_invoice_query.run(as_dict=True)
 		return sales_invoices
 
