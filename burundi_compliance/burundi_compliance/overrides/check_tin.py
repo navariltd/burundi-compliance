@@ -20,7 +20,7 @@ def check_and_verify_tin(doc):
             frappe.msgprint(f"NIF du contribuable connu.\n{results['result']}")
             
 @frappe.whitelist(allow_guest=True)
-def customer_before_save(doc, method=None):
+def customer_or_supplier_before_save(doc, method=None):
     
     '''Check and verify the customer's TIN if applicable.'''
     

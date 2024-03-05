@@ -1,9 +1,7 @@
 
 frappe.ui.form.on('Company', {
     refresh: function(frm) {
-        // Add a custom button to the form
-        
-            
+    
             frm.add_custom_button(__('Confirm TIN'), function() {
                 // Call the backend function when the button is clicked
                 frappe.call({
@@ -38,9 +36,7 @@ function showInvoiceDetailsDialog(result) {
                 default: details.tp_name,
                 read_only: true
             }
-           
-          
-           
+            
         ]
     });
 

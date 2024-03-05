@@ -38,7 +38,10 @@
   "material_transfer",
   "repack",
   "material_transfer_for_manufacture",
-  "material_consumption_for_manufacture"
+  "material_consumption_for_manufacture",
+  "more_info_tab",
+  "maximum_attempts",
+  "retry_delay_seconds"
  ],
  "fields": [
   {
@@ -98,14 +101,6 @@
    "fieldtype": "Table",
    "ignore_user_permissions": 1,
    "label": "Sandbox APIs",
-   "options": "eBIMS APIs"
-  },
-  {
-   "depends_on": "eval:doc.sandbox==0",
-   "fieldname": "production",
-   "fieldtype": "Table",
-   "ignore_user_permissions": 1,
-   "label": "Production APIs",
    "options": "eBIMS APIs"
   },
   {
@@ -234,11 +229,37 @@
    "fieldname": "material_consumption_for_manufacture",
    "fieldtype": "Check",
    "label": "Material Consumption For Manufacture"
+  },
+  {
+   "fieldname": "more_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Info"
+  },
+  {
+   "default": "200",
+   "description": "Maximum attempts the system will send data when server is down",
+   "fieldname": "maximum_attempts",
+   "fieldtype": "Data",
+   "label": "Maximum Attempts"
+  },
+  {
+   "description": "Sleeping time before the next retry.",
+   "fieldname": "retry_delay_seconds",
+   "fieldtype": "Data",
+   "label": "Retry Delay (Seconds)"
+  },
+  {
+   "depends_on": "eval:doc.sandbox==0",
+   "fieldname": "production",
+   "fieldtype": "Table",
+   "ignore_user_permissions": 1,
+   "label": "Production APIs",
+   "options": "eBIMS APIs"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-24 10:23:30.816613",
+ "modified": "2024-03-04 07:24:46.762309",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBIMS Setting",

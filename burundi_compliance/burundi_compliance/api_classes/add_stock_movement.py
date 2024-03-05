@@ -21,7 +21,7 @@ class TrackStockMovement:
         try:
             response = requests.post(self.BASE_TRACK_STOCK_MOVEMENT_API_URL, json=data, headers=self._get_headers())
             response.raise_for_status()
-
+            
             # Validate the response structure
             if not response.json().get("success"):
                 frappe.log_error(f"Unexpected API response format: {response.text}")
@@ -33,25 +33,23 @@ class TrackStockMovement:
             frappe.log_error(error_message, "Add Stock Movement Request Error")
             frappe.log_error(f"Response content: {response.text}")
             
-            # Resend the items to OBR
-            if retries > 0:
-                frappe.logger().warning(f"Retrying in {self.RETRY_DELAY_SECONDS} seconds... ({self.MAX_RETRIES - retries + 1}/{self.MAX_RETRIES})")
-                time.sleep(self.RETRY_DELAY_SECONDS)
-                return self._retry_request(data, retries - 1)
-            else:
-                raise AuthenticationError(f"Max retries reached. {error_message}")
+            # # Resend the items to OBR
+            # if retries > 0:
+            #     frappe.logger().warning(f"Retrying in {self.RETRY_DELAY_SECONDS} seconds... ({self.MAX_RETRIES - retries + 1}/{self.MAX_RETRIES})")
+            #     time.sleep(self.RETRY_DELAY_SECONDS)
+            #     return self._retry_request(data, retries - 1)
+            # else:
+            #     raise AuthenticationError(f"Max retries reached. {error_message}")
 
     def _send_request(self, data):
-        try:
-            return self._retry_request(data, self.MAX_RETRIES)
-        except RequestException as e:
-            frappe.log_error(f"Error during API request: {str(e)}", title="Add Stock Movement Request Error")
-            raise AuthenticationError(f"Error during API request: {str(e)}")
+        return self._retry_request(data, self.MAX_RETRIES)
+        
 
     def _handle_response(self, response):
+        # frappe.throw(str(response))
         if response.get("success"):
             # Handle successful stock movement response, if needed
-            return response["result"]
+            return response.get('msg')
         else:
             raise StockMovementError(response["msg"])
 

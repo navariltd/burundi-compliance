@@ -35,7 +35,7 @@ class InvoiceDataProcessor:
             "tp_TIN": self.doc.company_tax_id,
             "tp_address_province":self.doc.company_address[:50],
             "tp_phone_number": tp_phone_no,
-            "tp_address_commune": self.doc.company_address_display,
+            "tp_address_commune": self.doc.company_address_display[:50],
             "tp_address_quartier": self.doc.company_address[:50],
             "tp_trade_number": self.auth_details["the_taxpayers_commercial_register_number"],
             "tp_email": tp_email,

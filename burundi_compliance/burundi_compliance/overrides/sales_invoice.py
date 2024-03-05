@@ -12,6 +12,7 @@ auth_details=obr_integration_base.get_auth_details()
 				
 def on_submit(doc, method=None):
 	sales_invoice_data_processor = InvoiceDataProcessor(doc)
+	token=obr_integration_base.authenticate()
 	
 	invoice_data = sales_invoice_data_processor.prepare_invoice_data()
 
@@ -22,7 +23,7 @@ def on_submit(doc, method=None):
 			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
 
 	# Enqueue background job to send invoice data to OBR
-	job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc.name)
+	job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
 	if job_id:
 		frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
 	else:
@@ -39,7 +40,7 @@ def get_items(doc):
 	
 	for item in items_data:
 			try:
-				enqueue_stock_movement(item)
+				enqueue_stock_movement(item, doc)
 				frappe.msgprint(f"The transaction for {item.get('item_designation')} was queued successfully!", alert=True)
 			except Exception as e:
 				frappe.msgprint(f"Error sending item {item}: {str(e)}")

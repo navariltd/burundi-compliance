@@ -19,7 +19,6 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             }, __('E-Invoicing'));
 
-            // Move the 'if' condition outside the 'add_custom_button' block
             if (frm.doc.custom_einvoice_signatures == null) {
                 frm.add_custom_button(__('Re-Submit'), function() {
                     // Call the backend function when the button is clicked
@@ -103,11 +102,9 @@ function showInvoiceDetailsDialog(result) {
     });
 
 
-    // Add a 'Close' button
     dialog.set_primary_action(__('Close'), function() {
         dialog.hide();
     });
 
-    // Show the dialog
     dialog.show();
 }
