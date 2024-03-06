@@ -21,6 +21,7 @@ def on_submit(doc, method=None):
 
 		if doc.custom_creating_payment_entry == 1:
 			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
+	#frappe.throw(str(invoice_data))
 
 	# Enqueue background job to send invoice data to OBR
 	job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)

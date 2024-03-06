@@ -14,7 +14,7 @@ auth_details=obr_integration_base.get_auth_details()
 def get_items(doc):
     token = obr_integration_base.authenticate()
     items_data = get_delivery_note_items(doc)
-
+    
     for item in items_data:
             try:
 
