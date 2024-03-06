@@ -31,3 +31,4 @@ def get_qr_code_bytes(data, format: str) -> bytes:
 def bytes_to_base64_string(data: bytes) -> str:
 	"""Convert bytes to a base64 encoded string."""
 	return b64encode(data).decode("utf-8")
+

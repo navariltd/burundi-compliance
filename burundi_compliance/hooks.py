@@ -1,4 +1,3 @@
-from burundi_compliance.burundi_compliance.controllers.taxes_and_totals import calculate_item_values_override
 
 app_name = "burundi_compliance"
 app_title = "Burundi Compliance"
@@ -276,4 +275,3 @@ doc_events = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-calculate_item_values_override()

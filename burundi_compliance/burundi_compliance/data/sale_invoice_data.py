@@ -22,8 +22,8 @@ class InvoiceDataProcessor:
         invoice_signature = create_invoice_signature(self.doc)
         self.doc.custom_invoice_identifier=invoice_signature
         if self.doc.is_return==0:
-            self.doc.save(ignore_permissions=True)
-            #self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
+            #self.doc.save(ignore_permissions=True)
+            self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
         else:
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
         invoice_data = {
@@ -57,7 +57,6 @@ class InvoiceDataProcessor:
             "invoice_identifier": invoice_signature,
             "invoice_items": self.get_invoice_items()
         }
-
         return invoice_data
 
     def prepare_credit_note_data(self, invoice_data):
@@ -143,13 +142,15 @@ class InvoiceDataProcessor:
     
 
     def get_payment_method(self, doc):
-        payment_method = doc.custom_payment_type
-        payment_method=payment_method.lower()
-        if any(word in payment_method for word in ['cash', 'caisse']):
-            return '1'
-        elif any(word in payment_method for word in ['cheque', 'bancobu', 'bank']):
-            return '2'
-        elif 'credit' in payment_method:
-            return '3'
+        payment_type = self.doc.custom_payment_types
+        # payment_method=["Bank", "Cash", "Credit","Others"]
+        # for payment_type in payment_method:
+        if payment_type=="Bank":
+            return "2"
+        elif payment_type=="Cash":
+            return "1"
+        elif payment_type=="Credit":
+            return "3"
         else:
-            return '4'
+            return "4"
+           

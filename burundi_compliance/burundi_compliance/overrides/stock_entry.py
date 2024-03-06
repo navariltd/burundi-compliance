@@ -15,8 +15,6 @@ def get_items(doc):
     if data:
         for item in data:
             try:
-                # auth_base.authenticate()
-                # send_data.post_stock_movement(item)
                 
                 enqueue_stock_movement(item, doc)
                 frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully", alert=True)
@@ -27,6 +25,5 @@ def get_items(doc):
             
 
 def on_submit(doc, method=None):
-   # if stock_permission==1 or doc.custom_allow_obr_to_track_stock_movement or doc.stock_entry_type=="Manufacture":
     get_items(doc)
         
