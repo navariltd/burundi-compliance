@@ -1,0 +1,134 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS Setting\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS API Methods\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
+ "creation": "2024-03-06 21:09:27.172909",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "idx": 0,
+ "indicator_color": "yellow",
+ "is_hidden": 0,
+ "label": "Burundi Compliance",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Accounting Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi Purchase Tax Report",
+   "link_count": 0,
+   "link_to": "Burundi Purchase Tax Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi Sales Tax Report",
+   "link_count": 0,
+   "link_to": "Burundi Sales Tax Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payroll Reports",
+   "link_count": 5,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi Bank Payroll Report",
+   "link_count": 0,
+   "link_to": "Burundi Bank Payroll Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi INSS Report",
+   "link_count": 0,
+   "link_to": "Burundi INSS Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi P10 Tax Report",
+   "link_count": 0,
+   "link_to": "Burundi P10 Tax Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi P9A Tax Deduction Card Report",
+   "link_count": 0,
+   "link_to": "Burundi P9A Tax Deduction Card Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Burundi Misante Report",
+   "link_count": 0,
+   "link_to": "MISANTE Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-03-06 21:24:24.408922",
+ "modified_by": "Administrator",
+ "module": "Burundi Compliance",
+ "name": "Burundi Compliance",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 9.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "eBIMS Setting",
+   "link_to": "eBIMS Setting",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "eBIMS API Methods",
+   "link_to": "eBIMS API Methods",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Burundi Compliance"
+}
