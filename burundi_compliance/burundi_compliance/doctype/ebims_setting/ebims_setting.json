@@ -9,11 +9,11 @@
  "field_order": [
   "username_and_password_are_provided_by_obr_section",
   "column_break_xbtx",
-  "company",
-  "sandbox",
-  "column_break_kuje",
   "username",
   "password",
+  "column_break_kuje",
+  "company",
+  "sandbox",
   "section_break_qbab",
   "column_break_riwa",
   "testing_apis",
@@ -28,17 +28,6 @@
   "type_of_taxpayer",
   "subject_to_consumption_tax",
   "subject_to_flatrate_withholding_tax",
-  "obr_transaction_settings_section",
-  "allow_obr_to_track_purchase_receipts",
-  "allow_obr_to_track_all_stock_reconciliation",
-  "allow_obr_to_track_all_stock_entries",
-  "stock_entry_tracking_column",
-  "manufacture",
-  "material_issue",
-  "material_transfer",
-  "repack",
-  "material_transfer_for_manufacture",
-  "material_consumption_for_manufacture",
   "more_info_tab",
   "maximum_attempts",
   "retry_delay_seconds"
@@ -162,87 +151,19 @@
    "options": "\n0\n1"
   },
   {
-   "fieldname": "obr_transaction_settings_section",
-   "fieldtype": "Section Break",
-   "label": "OBR Transaction Settings"
-  },
-  {
-   "default": "0",
-   "description": "If ticked, then any item you buy will be tracked by OBR. This is used in scenario where company buy and sell same goods.",
-   "fieldname": "allow_obr_to_track_purchase_receipts",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track Purchase Receipts"
-  },
-  {
-   "default": "0",
-   "description": "If ticked, any stock reconciliation or Opening Stock done will be tracked by OBR.",
-   "fieldname": "allow_obr_to_track_all_stock_reconciliation",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track All Stock Reconciliation"
-  },
-  {
-   "default": "0",
-   "description": "If ticked, all items in the stock entries will be tracked y OBR.",
-   "fieldname": "allow_obr_to_track_all_stock_entries",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track All Stock Entries"
-  },
-  {
-   "description": "If any is ticked, any stock entry with the specified type will be tracked by OBR",
-   "fieldname": "stock_entry_tracking_column",
-   "fieldtype": "Column Break",
-   "label": "Stock Entry Tracking"
-  },
-  {
-   "default": "1",
-   "fetch_if_empty": 1,
-   "fieldname": "manufacture",
-   "fieldtype": "Check",
-   "label": "Manufacture"
-  },
-  {
-   "default": "0",
-   "fieldname": "material_issue",
-   "fieldtype": "Check",
-   "label": "Material Issue"
-  },
-  {
-   "default": "0",
-   "fieldname": "material_transfer",
-   "fieldtype": "Check",
-   "label": "Material Transfer"
-  },
-  {
-   "default": "0",
-   "fieldname": "repack",
-   "fieldtype": "Check",
-   "label": "Repack"
-  },
-  {
-   "default": "0",
-   "fieldname": "material_transfer_for_manufacture",
-   "fieldtype": "Check",
-   "label": "Material Transfer for Manufacture"
-  },
-  {
-   "default": "0",
-   "fieldname": "material_consumption_for_manufacture",
-   "fieldtype": "Check",
-   "label": "Material Consumption For Manufacture"
-  },
-  {
    "fieldname": "more_info_tab",
    "fieldtype": "Tab Break",
    "label": "More Info"
   },
   {
-   "default": "200",
+   "default": "1440",
    "description": "Maximum attempts the system will send data when server is down",
    "fieldname": "maximum_attempts",
    "fieldtype": "Data",
    "label": "Maximum Attempts"
   },
   {
+   "default": "60",
    "description": "Sleeping time before the next retry.",
    "fieldname": "retry_delay_seconds",
    "fieldtype": "Data",
@@ -259,7 +180,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-04 07:24:46.762309",
+ "modified": "2024-03-06 21:41:43.265914",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBIMS Setting",
