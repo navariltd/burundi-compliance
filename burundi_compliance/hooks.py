@@ -1,3 +1,4 @@
+
 app_name = "burundi_compliance"
 app_title = "Burundi Compliance"
 app_publisher = "Navari Limited"
@@ -6,12 +7,18 @@ app_email = "mania@navari.co.ke"
 app_license = "mit"
 # required_apps = []
 
+fixtures=[
+   "eBIMS API Methods",
+]
+
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/burundi_compliance/css/burundi_compliance.css"
-# app_include_js = "/assets/burundi_compliance/js/burundi_compliance.js"
+app_include_js = [
+    "burundi_compliance/public/js/taxes_and_totals.js"
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/burundi_compliance/css/burundi_compliance.css"
@@ -28,7 +35,19 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+
+doctype_js = {
+    "Sales Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
+    "Company":"burundi_compliance/client_scripts/confirm_tin.js",
+    "Customer":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+    "Supplier":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+    "Purchase Invoice":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "Purchase Receipt":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "Delivery Note":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "Stock Entry":"burundi_compliance/client_scripts/add_stock_movement.js",
+    "doctype" : "public/js/doctype.js"}
+
+
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -59,10 +78,11 @@ app_license = "mit"
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "burundi_compliance.utils.jinja_methods",
-# 	"filters": "burundi_compliance.utils.jinja_filters"
-# }
+jinja = {
+    
+	"methods": "burundi_compliance.burundi_compliance.utils.qr_code_generator.get_qr_code",
+	#"filters": "burundi_compliance.utils.jinja_filters"
+}
 
 # Installation
 # ------------
@@ -122,13 +142,41 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Sales Invoice":{
+        
+       "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
+        "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
+        #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+        
+    },
+    "Purchase Receipt":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
+    },
+    "Delivery Note":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_or_cancel_update_stock",
+        "before_cancel":"burundi_compliance.burundi_compliance.overrides.delivery_note.before_cancel_update_stock",
+    },
+    "Stock Entry":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
+    },
+    "Stock Reconciliation":{
+        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_reconciliation.on_submit"
+    },
+    
+    "Purchase Invoice":{
+        "on_submit": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_submit_update_stock",
+        "on_cancel": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_cancel_update_stock",
+    },
+    "Customer":{
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
+    },
+    "Supplier":{
+        #use similar function with customer_check_tin
+        "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
+    },
+    
+}
 
 # Scheduled Tasks
 # ---------------

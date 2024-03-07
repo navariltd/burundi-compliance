@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class EBIMSSettings(Document):
+class eBIMSAPIMethods(Document):
 	pass

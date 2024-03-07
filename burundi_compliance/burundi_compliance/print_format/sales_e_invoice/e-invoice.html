@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-rQ8YmFoi3aDl3FUaE9ZRqeOjFjR6JqA/Fh1Pf0InVfbZi5MMJ1thPSiUGT5YUxR" crossorigin="anonymous">
+
+    <style>
+        /* US Letter PORTRAIT page size BEGINS */
+@media all {
+    .print-format {
+        max-width: 21.6cm;
+        width: 21.6cm;
+        min-height: 27.9cm;
+        height: 27.9cm;
+        padding: 0.0cm;
+        margin: 0.0cm 0.0cm 0.0cm 0.0cm;
+        float: left;
+        background-color: rgba(255,2555,255,1.0);
+        box-shadow: 0px 0px 9px rgba(0,0,0,0.5);
+    }
+    .print-format.landscape {
+        max-width: 27.9cm;
+        width: 27.9cm;
+    }
+    .print-format.portrait {
+        max-width: 21.6cm;
+        width: 21.6cm;
+    }
+}
+@page {
+    size: 21.6cm 27.9cm portrait;
+}
+/* US Letter PORTRAIT page size ENDS */
+       
+        body {
+            font-family: Arial, sans-serif;
+            
+        }
+
+        .invoice-container {
+            max-width: 900px;
+            padding: 2px;
+            padding-left: 15px;
+        }
+
+        .head-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 300px;
+        }
+
+        .head-col {
+            max-width: 400px; 
+            margin-bottom: 15px;
+            
+        }
+
+        .letterhead {
+            height: auto;
+            max-height: 150px; 
+            max-width: 500px; 
+        }
+
+        .qrcode {
+            height: auto;
+            max-height: auto;
+            max-width: 300px; 
+            padding-top: 100px;
+        }
+        .qrcode-image {
+            height: auto;
+            word-wrap: break-word;
+
+            
+            padding-right: 20px;
+                      
+        }
+
+
+        h1, h4 {
+            margin: 10px 0;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+        .t-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        .t-table td {
+            
+            text-align: left;
+            font-size: 12px;
+        }
+        .td-line {
+            border-bottom: #0f0f0f solid 1px;
+            text-align: left;
+            font-size: 12px;
+            
+        }
+        .t-table hr {
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .thead-dark{
+            background-color: #C0C0C0;
+
+            font-size: medium;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        .thead-dark th{
+            color: black;
+        }
+    
+    </style>
+    <title>Sales Invoice</title>
+</head>
+<body>
+    <div class="container invoice-container">
+        <!-- Letter Head and QR Code Row -->
+        <div class="head-row">
+            <!-- Letter Head -->
+            <div class="head-col">
+                {%- set letter_head = frappe.get_doc("Letter Head", "Default") %}
+                {%- if letter_head and letter_head.content %}
+                    <div class="letterhead">
+                        {{ letter_head.content | safe }}
+                    </div>
+                {%- endif %}
+            </div>
+
+            <!-- QR Code Image -->
+            <div class="head-col">
+                <div class="qrcode">
+                    <!--============================================== QR Code Image ============================================================================-->
+                    <!-- {%- set electronic_signature = doc.custom_invoice_identifier %}
+                    {%- if electronic_signature %}
+                        {%- set qr_code_string = get_qr_code(electronic_signature) %}
+                        <img src="{{ qr_code_string }}" class="qrcode-image">
+                    {%- else %}
+                        <p>No electronic signature available.</p>
+                    {%- endif %} -->
+                    <!--===============================================End of QR code =============================================================================-->
+                    <div class="mt-2" style="margin-top: 0px;">
+                        <h3>FACTURE</h3>
+                        <h4>{{ doc.name }}</h4>
+                    </div>
+                    <!-- <p class="mb-1">Facture OBR n°: {{ doc.custom_invoice_registered_no }}</p> -->
+                    <div class="qrcode-image overflow-auto"><p>{{doc.custom_invoice_identifier}}</p></div>
+                   
+                </div>
+               
+                
+            </div>
+        </div>
+
+   <hr class="mt-2">
+
+      <!-- Customer Details -->
+<div class="row" style="display:flex">
+    <div class="col-md-6">
+        <h4>  Le client</h4>
+        <p>Nom et prénom ou Raison sociale: {{ doc.customer_name }}</p>
+        <p>NIF : {{ doc.tax_id }}</p>
+        <p>Résident à  : {{ doc.customer_address }}</p>
+        <p>Assujetti à la TVA:
+            {% if doc.exempt_from_sales_tax == 1 %}
+            Non
+            {% else %}
+            Oui
+            {% endif %}
+          </p>        
+    </div>
+    <div class="col-md-6" style="margin-left: 150px;">
+        <p><b>Posting Date:</b> {{ doc.posting_date }}</p>
+        <p><b>Payment Due Date:</b> {{ doc.due_date }}</p>
+    </div>
+</div>
+
+        <!-- Items Table -->
+        <div class="row ">
+            <div class="col mr-5 ml-5">
+                
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Nature de l’article ou
+                                service</th>
+                            <th>Qté</th>
+                            <th>PU</th>
+                            <th>PVHTVA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in doc.items %}
+                            <tr>
+                                <td>{{ item.item_name }}</td>
+                                <td>{{ item.qty }}</td>
+                                <td>{{ item.rate }}</td>
+                                <td>{{ item.amount }}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <!-- Totals -->
+<div class="container-fluid p-3 align-items-end">
+    <div class="row">
+        <div class="row justify-content-end ml-auto w-50" style="align-items: right; width:400px;">
+        <div class="col-md-6"> 
+            <table class="t-table text-align-center">
+                <!-- Total Row -->
+                <tr>
+                    <td>PVT HTVA:</td>
+                    <td class="text-center">Fr. <b>{{ '{:,.0f}'.format(doc.base_total | round) }}</b></td>
+                </tr>
+                <!-- HR -->
+                {% if doc.exempt_from_sales_tax==0 %}
+                <tr><td colspan="2"></td></tr>
+                <!-- VAT Row -->
+                <tr>
+                    <td>TVA</td>
+                    <td class="td-line text-center">Fr. <strong>{{ '{:,.0f}'.format(doc.base_total_taxes_and_charges | round) }}</strong></td>
+                </tr>
+               
+                <!-- HR -->
+                <tr><td colspan="2"></td></tr>
+                <!-- Net Total Row -->
+                <tr>
+                    <td>Total TVAC </td>
+                    <td class="text-center">Fr. <strong>{{ '{:,.0f}'.format(doc.base_grand_total | round) }}</strong></td>
+                </tr>
+                <!-- HR -->
+                {% endif %}
+                <tr><td colspan="2"></td></tr>
+                <!-- In Words Row -->
+                <tr>
+                    <td>In Words</td>
+                    <td>{{ doc.base_in_words }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+</div>
+</body>
+</html>
+

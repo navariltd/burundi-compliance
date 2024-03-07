@@ -1,0 +1,204 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:company",
+ "creation": "2024-02-24 09:28:35.402496",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "username_and_password_are_provided_by_obr_section",
+  "column_break_xbtx",
+  "username",
+  "password",
+  "column_break_kuje",
+  "company",
+  "sandbox",
+  "section_break_qbab",
+  "column_break_riwa",
+  "testing_apis",
+  "production",
+  "more_details_tab",
+  "taxpayers_sector_of_activity",
+  "taxpayers_legal_form",
+  "the_taxpayers_commercial_register_number",
+  "the_taxpayers_tax_center",
+  "column_break_xego",
+  "system_identification_given_by_obr",
+  "type_of_taxpayer",
+  "subject_to_consumption_tax",
+  "subject_to_flatrate_withholding_tax",
+  "more_info_tab",
+  "maximum_attempts",
+  "retry_delay_seconds"
+ ],
+ "fields": [
+  {
+   "fieldname": "username_and_password_are_provided_by_obr_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_xbtx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sandbox",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Sandbox",
+   "options": "\n",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kuje",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username",
+   "reqd": 1
+  },
+  {
+   "description": "Username and Password provided by OBR",
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_qbab",
+   "fieldtype": "Section Break",
+   "label": "APIs"
+  },
+  {
+   "fieldname": "column_break_riwa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.sandbox==1",
+   "fieldname": "testing_apis",
+   "fieldtype": "Table",
+   "ignore_user_permissions": 1,
+   "label": "Sandbox APIs",
+   "options": "eBIMS APIs"
+  },
+  {
+   "fieldname": "more_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tax Details"
+  },
+  {
+   "fieldname": "taxpayers_sector_of_activity",
+   "fieldtype": "Data",
+   "label": "Taxpayer's Sector of Activity"
+  },
+  {
+   "fieldname": "taxpayers_legal_form",
+   "fieldtype": "Data",
+   "label": "Taxpayer's Legal Form"
+  },
+  {
+   "fieldname": "the_taxpayers_commercial_register_number",
+   "fieldtype": "Int",
+   "label": "The taxpayer's commercial register number"
+  },
+  {
+   "fieldname": "the_taxpayers_tax_center",
+   "fieldtype": "Select",
+   "label": "The taxpayer's Tax Center",
+   "options": "\nDGC\nDMC\nDPMC"
+  },
+  {
+   "fieldname": "column_break_xego",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "system_identification_given_by_obr",
+   "fieldtype": "Data",
+   "label": "System Identification(given by OBR)"
+  },
+  {
+   "description": "Value \u201c1\u201d for natural person and \u201c2\u201d for legal person",
+   "fieldname": "type_of_taxpayer",
+   "fieldtype": "Select",
+   "label": "Type of Taxpayer.",
+   "options": "\n1\n2"
+  },
+  {
+   "default": "0",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_consumption_tax",
+   "fieldtype": "Select",
+   "label": "Subject to Consumption Tax",
+   "options": "\n0\n1"
+  },
+  {
+   "default": "0",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_flatrate_withholding_tax",
+   "fieldtype": "Select",
+   "label": "Subject to FlatRate Withholding Tax",
+   "options": "\n0\n1"
+  },
+  {
+   "fieldname": "more_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Info"
+  },
+  {
+   "default": "1440",
+   "description": "Maximum attempts the system will send data when server is down",
+   "fieldname": "maximum_attempts",
+   "fieldtype": "Data",
+   "label": "Maximum Attempts"
+  },
+  {
+   "default": "60",
+   "description": "Sleeping time before the next retry.",
+   "fieldname": "retry_delay_seconds",
+   "fieldtype": "Data",
+   "label": "Retry Delay (Seconds)"
+  },
+  {
+   "depends_on": "eval:doc.sandbox==0",
+   "fieldname": "production",
+   "fieldtype": "Table",
+   "ignore_user_permissions": 1,
+   "label": "Production APIs",
+   "options": "eBIMS APIs"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-06 21:41:43.265914",
+ "modified_by": "Administrator",
+ "module": "Burundi Compliance",
+ "name": "eBIMS Setting",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
