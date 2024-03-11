@@ -23,6 +23,7 @@
   "taxpayers_legal_form",
   "the_taxpayers_commercial_register_number",
   "the_taxpayers_tax_center",
+  "subject_to_vat",
   "column_break_xego",
   "system_identification_given_by_obr",
   "type_of_taxpayer",
@@ -65,6 +66,7 @@
   {
    "fieldname": "username",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Username",
    "reqd": 1
   },
@@ -100,6 +102,7 @@
   {
    "fieldname": "taxpayers_sector_of_activity",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Taxpayer's Sector of Activity"
   },
   {
@@ -176,11 +179,19 @@
    "ignore_user_permissions": 1,
    "label": "Production APIs",
    "options": "eBIMS APIs"
+  },
+  {
+   "default": "1",
+   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "fieldname": "subject_to_vat",
+   "fieldtype": "Select",
+   "label": "Subject to VAT",
+   "options": "\n0\n1"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-06 21:41:43.265914",
+ "modified": "2024-03-11 06:42:10.036227",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBIMS Setting",

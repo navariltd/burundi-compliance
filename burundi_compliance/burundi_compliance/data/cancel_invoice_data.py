@@ -1,10 +1,8 @@
 
 from ..api_classes.base import OBRAPIBase
-import requests
 
 base_data=OBRAPIBase().get_auth_details()
 import frappe
-from ..utils.invoice_signature import create_invoice_signature
 
 
 def get_invoice_data(doc):
@@ -21,7 +19,6 @@ def get_invoice_data(doc):
         return None
 
     data = {
-       # "invoice_signature": invoice_signature,
        "invoice_signature":f'{invoice_identifier}',
         "cn_motif": ct_motif
     }

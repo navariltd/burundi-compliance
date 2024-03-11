@@ -1,5 +1,5 @@
 import requests
-import time  # Import the time module
+import time
 from frappe import _
 import frappe
 from ..doctype.custom_exceptions import AuthenticationError
@@ -54,6 +54,7 @@ class OBRAPIBase:
             "type_of_taxpayer": ebims_settings.type_of_taxpayer,
             "subject_to_consumption_tax": ebims_settings.subject_to_consumption_tax,
             "subject_to_flatrate_withholding_tax": ebims_settings.subject_to_flatrate_withholding_tax,
+            "subject_to_vat":ebims_settings.subject_to_vat
         }
         return auth_details
     

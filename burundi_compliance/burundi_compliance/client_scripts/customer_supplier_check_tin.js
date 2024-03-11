@@ -57,3 +57,9 @@ frappe.ui.form.on('Supplier', {
         refresh: function(frm){
             get_tin(frm)
         }})
+
+frappe.ui.form.on('Company', {
+
+    refresh: function(frm){
+        get_tin(frm)
+    }})

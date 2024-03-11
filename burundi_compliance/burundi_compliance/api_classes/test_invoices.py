@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import patch
-import requests  # Import requests module
+import requests 
 
 import frappe
 from frappe.test_runner import make_test_objects
@@ -28,7 +28,7 @@ class TestAddInvoice(FrappeTestCase):
                     "item_code": "Gloves Leather Dinqi 91006",
                     "qty": 1,
                     "rate": 10000,
-                    "cost_center": "Masaka - S",  # Corrected field name
+                    "cost_center": "Masaka - S",  
                 }
             ],
         })
@@ -60,7 +60,7 @@ class TestAddInvoice(FrappeTestCase):
         with patch.object(requests, 'post') as mock_post:
             mock_post.side_effect = requests.exceptions.RequestException("API error")
             with self.assertRaises(AuthenticationError):
-                poster.post_invoice(test_invoice_data)  # Corrected method call
+                poster.post_invoice(test_invoice_data) 
 
 
 
@@ -68,7 +68,6 @@ class TestAddInvoice(FrappeTestCase):
     def test_update_sales_invoice_success(self):
         poster = SalesInvoicePoster(token="hvHjhvFGjhdtrdYTfytFGJfytFyuHJfUiYGFYghUFklUYF")
 
-        # Prepare the test data for an update success scenario
         response = {
             "success": True,
             "result": {
@@ -88,7 +87,6 @@ class TestAddInvoice(FrappeTestCase):
 class TestCancelInvoice(FrappeTestCase):
     def setUp(self):
         super().setUp()
-        # Create a temporary Sales Invoice for testing
         sales_invoice = frappe.get_doc({
             "doctype": "Sales Invoice",
             "customer": "Test Customer",
@@ -99,7 +97,7 @@ class TestCancelInvoice(FrappeTestCase):
                     "item_code": "Gloves Leather Dinqi 91006",
                     "qty": 1,
                     "rate": 10000,
-                    "cost_center": "Masaka - S",  # Corrected field name
+                    "cost_center": "Masaka - S",  
                 }
             ],
         })
@@ -131,4 +129,4 @@ class TestCancelInvoice(FrappeTestCase):
         with patch.object(requests, 'post') as mock_post:
             mock_post.side_effect = requests.exceptions.RequestException("API error")
             with self.assertRaises(AuthenticationError):
-                canceller.cancel_invoice(test_invoice_data)  # Corrected method call
+                canceller.cancel_invoice(test_invoice_data) 

@@ -22,10 +22,11 @@ class InvoiceDataProcessor:
         invoice_signature = create_invoice_signature(self.doc)
         self.doc.custom_invoice_identifier=invoice_signature
         if self.doc.is_return==0:
-            #self.doc.save(ignore_permissions=True)
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
         else:
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
+            
+        self.confirm_tin_verified(self.doc)
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
@@ -39,10 +40,9 @@ class InvoiceDataProcessor:
             "tp_address_quartier": self.doc.company_address[:50],
             "tp_trade_number": self.auth_details["the_taxpayers_commercial_register_number"],
             "tp_email": tp_email,
-            "vat_taxpayer": "1",
+            "vat_taxpayer": self.auth_details["subject_to_vat"],
             "ct_taxpayer": self.auth_details["subject_to_consumption_tax"],
             "tl_taxpayer": self.auth_details["subject_to_flatrate_withholding_tax"],
-            "tp_fiscal_year": frappe.defaults.get_user_default("fiscal_year"),
             "tp_fiscal_center": self.auth_details["the_taxpayers_tax_center"],
             "tp_activity_sector": self.auth_details["tp_activity_sector"],
             "tp_legal_form": self.auth_details["tp_legal_form"],
@@ -116,35 +116,36 @@ class InvoiceDataProcessor:
         sale_return_items_list = []
         sales_return_items = self.doc.items
         for item in sales_return_items:
-            # Fetch the uom from the Item doctype
+
             item_doc = frappe.get_doc("Item", item.item_code)
             item_uom = item_doc.stock_uom if item_doc else None
             check_br_permission=item_doc.custom_allow_obr_to_track_stock_movement
             if not check_br_permission:
                 continue
+            item_movement_type = "SN"
+            if self.doc.is_return==1:
+            # Set item movement type to "ER" for credit notes
+                item_movement_type = "ER"
             data = {
                 "system_or_device_id": get_system_tax_id(),
                 "item_code": item.item_code,
                 "item_designation": item.item_name,
                 "item_quantity": item.qty,
                 "item_measurement_unit": item_uom,
-                "item_purchase_or_sale_price": item.rate,  # Assuming rate is the sale price
+                "item_purchase_or_sale_price": item.rate, 
                 "item_purchase_or_sale_currency": self.doc.currency,
-                "item_movement_type": "SN",
+                "item_movement_type": item_movement_type,
                 "item_movement_invoice_ref": self.doc.name,
                 "item_movement_description": '',
                 "item_movement_date": formatted_date
             }
             
             sale_return_items_list.append(data)
-
         return sale_return_items_list
     
 
     def get_payment_method(self, doc):
         payment_type = self.doc.custom_payment_types
-        # payment_method=["Bank", "Cash", "Credit","Others"]
-        # for payment_type in payment_method:
         if payment_type=="Bank":
             return "2"
         elif payment_type=="Cash":
@@ -153,4 +154,10 @@ class InvoiceDataProcessor:
             return "3"
         else:
             return "4"
-           
+        
+    def confirm_tin_verified(self, doc):
+        customer = frappe.get_doc("Customer", doc.customer)
+
+        if customer.custom_gst_category=="Registered":
+            if not customer.custom_tin_verified:
+                frappe.throw(f"Kindly go and verify the Tin number of this customer on <b>customer</b> doctype")

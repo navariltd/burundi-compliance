@@ -2,10 +2,8 @@ import requests
 from ..doctype.custom_exceptions import AuthenticationError, InvoiceAdditionError
 import frappe
 from .base import OBRAPIBase
-from requests.exceptions import RequestException
 from ..utils.base_api import full_api_url
 
-import time
 import requests
 class SalesInvoicePoster:
 

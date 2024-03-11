@@ -1,4 +1,3 @@
-from datetime import datetime
 import frappe
 from ..utils.system_tax_id import get_system_tax_id
 from ..utils.format_date_and_time import date_time_format
@@ -15,7 +14,7 @@ def get_purchase_data_for_stock_update(doc, method=None, movement_type="EN"):
     sale_return_items_list = []
     sales_return_items = doc.items
     for item in sales_return_items:
-        # Fetch the uom from the Item doctype
+
         item_doc = frappe.get_doc("Item", item.item_code)
         item_uom = item_doc.stock_uom if item_doc else None
         check_br_permission=item_doc.custom_allow_obr_to_track_purchase
@@ -28,7 +27,7 @@ def get_purchase_data_for_stock_update(doc, method=None, movement_type="EN"):
             "item_designation": item.item_name,
             "item_quantity": item.qty,
             "item_measurement_unit": item_uom,
-            "item_purchase_or_sale_price": item.rate,  # Assuming rate is the sale price
+            "item_purchase_or_sale_price": item.rate, 
             "item_purchase_or_sale_currency": doc.currency,
             "item_movement_type": movement_type,
             "item_movement_invoice_ref": doc.name,

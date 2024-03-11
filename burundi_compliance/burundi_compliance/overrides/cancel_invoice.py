@@ -11,7 +11,7 @@ base=OBRAPIBase()
 def cancel_invoice(doc, method=None):
     invoice_data = get_invoice_data(doc)  
     base.authenticate()
-    enqueue_cancel_invoice(invoice_data)
+    enqueue_cancel_invoice(invoice_data, doc)
     frappe.msgprint("Invoice cancellation job queued successfully!", alert=True)
     on_cancel_update_stock(doc)
         

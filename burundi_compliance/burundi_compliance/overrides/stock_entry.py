@@ -25,5 +25,6 @@ def get_items(doc):
             
 
 def on_submit(doc, method=None):
-    get_items(doc)
+    if doc.stock_entry_type != "Material Transfer":
+        get_items(doc)
         
