@@ -23,13 +23,12 @@ class InvoiceVerifier:
         Returns:
             dict: A dictionary containing the verification result.
         """
-        # Declare the response variable outside the try block
         response = None
 
         try:
             # Make a POST request to the API
             response = requests.post(self.BASE_API_FOR_CHECK_TIN, json=invoice_verifier, headers=self.headers)
-            response.raise_for_status()  # Raise an error for bad responses (4xx or 5xx)
+            response.raise_for_status() 
 
             # Parse the JSON response
             result = response.json()

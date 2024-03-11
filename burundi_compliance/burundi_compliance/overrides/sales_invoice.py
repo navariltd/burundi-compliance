@@ -1,4 +1,4 @@
-from ..api_classes.add_invoices import SalesInvoicePoster
+
 from ..api_classes.base import OBRAPIBase
 from ..utils.background_jobs import enqueue_retry_posting_sales_invoice
 import frappe
@@ -21,7 +21,6 @@ def on_submit(doc, method=None):
 
 		if doc.custom_creating_payment_entry == 1:
 			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
-	#frappe.throw(str(invoice_data))
 
 	# Enqueue background job to send invoice data to OBR
 	job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
@@ -48,7 +47,7 @@ def get_items(doc):
 		
 
 def on_submit_update_stock(doc, method=None):
-	if doc.update_stock==1:
+	if doc.update_stock==1 or doc.is_return==1:
 		try:
 			get_items(doc)
 		except Exception as e:

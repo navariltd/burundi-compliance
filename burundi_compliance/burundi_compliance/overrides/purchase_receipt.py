@@ -1,7 +1,6 @@
 from ..api_classes.base import OBRAPIBase
 from ..data.purchase_receipt_date import purchase_receipt_data
-from ..api_classes.add_stock_movement import TrackStockMovement
-from ..doctype.custom_exceptions import StockMovementError, AuthenticationError
+from ..doctype.custom_exceptions import StockMovementError
 import frappe
 from ..utils.background_jobs import enqueue_stock_movement
 

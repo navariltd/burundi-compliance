@@ -30,10 +30,9 @@ frappe.ui.form.on('Stock Entry', {
     }
 });
 
-frappe.ui.form.on('Stock Reconciliation', {
+frappe.ui.form.on('Purchase Receipt', {
     refresh: function(frm) {
-       
-        addRetrySendingButton(frm, "Stock Reconciliation");
+        addRetrySendingButton(frm, "Purchase Receipt");
     }
 });
 
@@ -43,14 +42,15 @@ frappe.ui.form.on('Purchase Invoice', {
     }
 });
 
-frappe.ui.form.on('Purchase Receipt', {
-    refresh: function(frm) {
-        addRetrySendingButton(frm, "Purchase Receipt");
-    }
-});
-
 frappe.ui.form.on('Delivery Note', {
     refresh: function(frm) {
         addRetrySendingButton(frm, "Delivery Note");
     }
 });
+
+frappe.ui.form.on('Stock Reconciliation', {
+    refresh: function(frm) {  
+        addRetrySendingButton(frm, "Stock Reconciliation");
+    }
+});
+

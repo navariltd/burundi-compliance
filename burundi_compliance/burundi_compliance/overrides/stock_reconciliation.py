@@ -7,7 +7,6 @@ from datetime import datetime
 from ..utils.system_tax_id import get_system_tax_id
 
 auth_base=OBRAPIBase()
-# token=auth_base.authenticate()
 
 def get_items(doc):
     items_data = get_stock_reconciliation_items(doc)

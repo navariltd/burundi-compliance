@@ -4,7 +4,7 @@ app_title = "Burundi Compliance"
 app_publisher = "Navari Limited"
 app_description = "Burundi OBR Tax Inegration"
 app_email = "mania@navari.co.ke"
-app_license = "mit"
+app_license = "GNU General Public License (v3)"
 # required_apps = []
 
 fixtures=[
@@ -38,7 +38,7 @@ app_include_js = [
 
 doctype_js = {
     "Sales Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
-    "Company":"burundi_compliance/client_scripts/confirm_tin.js",
+    "Company":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Customer":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Supplier":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Purchase Invoice":"burundi_compliance/client_scripts/add_stock_movement.js",

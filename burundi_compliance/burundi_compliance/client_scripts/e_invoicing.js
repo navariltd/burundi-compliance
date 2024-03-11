@@ -17,11 +17,10 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-            }, __('E-Invoicing'));
+            }, __('eBIMS Actions'));
 
             if (frm.doc.custom_einvoice_signatures == null) {
                 frm.add_custom_button(__('Re-Submit'), function() {
-                    // Call the backend function when the button is clicked
                     frappe.call({
                         method: 'burundi_compliance.burundi_compliance.utils.background_jobs.retry_sending_invoice',
                         args: {
@@ -35,7 +34,7 @@ frappe.ui.form.on('Sales Invoice', {
                             }
                         }
                     });
-                }, __('E-Invoicing'));
+                }, __('eBIMS Actions'));
             }
         }
     },

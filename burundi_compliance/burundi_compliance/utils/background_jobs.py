@@ -99,7 +99,7 @@ def enqueue_stock_movement(data, doc):
 ######################################################################################################
 ###########Enqueue the background job to Cancel sales invoice#####################################
 ######################################################################################################
-def retry_cancel_invoice(invoice_data):
+def retry_cancel_invoice(invoice_data, doc):
     from ..api_classes.cancel_invoice import InvoiceCanceller
     retries = 0    
 
@@ -121,12 +121,12 @@ def retry_cancel_invoice(invoice_data):
     try:
         subject = f'Maximum retries reached. Unable to send invoice to OBR. '
         message="I hope this message finds you well.\n We regret to inform you that we have encountered difficulties in Cancelling the sales invoice data to OBR (Office Burundais des Recettes).\nTo address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
-        send_max_retries_email("mania@navari.co.ke", subject, message, as_markdown=False)
+        send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
     except Exception as e:
         frappe.msgprint(f"Error sending emails: {str(e)}")
         
-def enqueue_cancel_invoice(invoice_data):
-    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_cancel_invoice', invoice_data=invoice_data, queue='long', is_async=True)
+def enqueue_cancel_invoice(invoice_data, doc):
+    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_cancel_invoice', invoice_data=invoice_data,doc=doc, queue='long', is_async=True)
     
     
 #######################################################################################################

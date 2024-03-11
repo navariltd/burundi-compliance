@@ -1,17 +1,9 @@
 
-from datetime import datetime
-import frappe  # Assuming frappe is used to fetch data from the database
+import frappe
 from ..utils.system_tax_id import get_system_tax_id
-from datetime import datetime
 
-from datetime import datetime, date
-
-from datetime import datetime, date
 from ..utils.system_tax_id import get_system_tax_id
 from ..utils.format_date_and_time import date_time_format
-
-
-   
 
 def get_delivery_note_items(doc):
 
@@ -19,7 +11,6 @@ def get_delivery_note_items(doc):
     Get items from the delivery note which will update the stock
     '''
     
-
     date_time=date_time_format(doc)
     formatted_date=date_time[0]
     if doc.is_return==0:

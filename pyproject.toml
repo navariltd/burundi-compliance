@@ -3,15 +3,15 @@ name = "burundi_compliance"
 authors = [
     { name = "Navari Limited", email = "mania@navari.co.ke"}
 ]
-description = "Burundi OBR Tax Inegration"
+description = "Burundi OBR Tax Integration"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     #"frappe~=15.0.0", # Installed and managed by bench.
     "qrcode~=7.4.2",
-    "PyQRCode==1.2.1,
-    "pillow==10.2.0,
+    "PyQRCode==1.2.1",
+    "pillow==10.2.0",
     "pypng==0.20220715.0"
 ]
 
