@@ -1,9 +1,7 @@
 import requests
-import time
 from ..doctype.custom_exceptions import AuthenticationError, StockMovementError
 import frappe
 from .base import OBRAPIBase
-from requests.exceptions import RequestException
 from ..utils.base_api import full_api_url
 class TrackStockMovement:
 
