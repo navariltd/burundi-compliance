@@ -7,8 +7,9 @@
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
+ "icon": "milestone",
  "idx": 0,
- "indicator_color": "yellow",
+ "indicator_color": "",
  "is_hidden": 0,
  "label": "Burundi Compliance",
  "links": [
@@ -23,7 +24,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi Purchase Tax Report",
    "link_count": 0,
    "link_to": "Burundi Purchase Tax Report",
@@ -33,7 +34,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi Sales Tax Report",
    "link_count": 0,
    "link_to": "Burundi Sales Tax Report",
@@ -52,7 +53,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi Bank Payroll Report",
    "link_count": 0,
    "link_to": "Burundi Bank Payroll Report",
@@ -62,7 +63,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi INSS Report",
    "link_count": 0,
    "link_to": "Burundi INSS Report",
@@ -70,9 +71,10 @@
    "onboard": 0,
    "type": "Link"
   },
+  
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi P10 Tax Report",
    "link_count": 0,
    "link_to": "Burundi P10 Tax Report",
@@ -82,7 +84,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi P9A Tax Deduction Card Report",
    "link_count": 0,
    "link_to": "Burundi P9A Tax Deduction Card Report",
@@ -92,7 +94,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Burundi Misante Report",
    "link_count": 0,
    "link_to": "MISANTE Report",
@@ -101,7 +103,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-03-06 21:24:24.408922",
+ "modified": "2024-03-11 09:37:59.839173",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "Burundi Compliance",

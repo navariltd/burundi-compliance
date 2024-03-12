@@ -24,7 +24,7 @@ def execute(filters=None):
 	if not salary_slips:
 		return [], []
 
-	earning_types, ded_types = get_earning_and_deduction_types(salary_slips)
+	earning_types, ded_types = get_earning_and_deduction_types()
 	columns = get_columns(earning_types, ded_types)
 		
 	earning_map, deduction_map = filter_salary_slip_details(salary_slips, currency, company_currency)
