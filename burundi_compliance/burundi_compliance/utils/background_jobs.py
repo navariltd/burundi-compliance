@@ -28,7 +28,7 @@ def retry_sales_invoice_post(invoice_data, doc):
             return
         except Exception as e:
             retries += 1
-            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}")
+            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc.name)
             time.sleep(retry_delay_seconds)
             continue  
 
@@ -77,7 +77,7 @@ def retry_stock_movement(data, doc):
             
             return 
         except Exception as e:
-            frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {str(e)}")
+            frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {str(e)}", reference_doctype=doc.doctype, reference_name=doc.name)
             retries += 1
             time.sleep(retry_delay_seconds)
             continue 
@@ -111,7 +111,7 @@ def retry_cancel_invoice(invoice_data, doc):
             return
         except Exception as e:
             retries += 1
-            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}")
+            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc.name)
             time.sleep(retry_delay_seconds)
             continue  
 
@@ -237,3 +237,5 @@ def get_user_email(doc):
     user=frappe.get_doc("User", doc_owner)
     email=user.email
     return email
+
+

@@ -22,6 +22,7 @@ class OBRAPIBase:
         headers = {"Content-Type": "application/json"}
         data = {"username": auth_details["username"], "password": auth_details['password']}
 
+
         try:
             response = requests.post(login_url, json=data, headers=headers)
             response.raise_for_status()
@@ -40,7 +41,7 @@ class OBRAPIBase:
             frappe.msgprint("Authentication Problem with OBR server, Job queued")
 
     def get_auth_details(self):        
-        ebims_settings=frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
+        ebims_settings=frappe.get_doc("eBIMS Settings", frappe.defaults.get_user_default("Company"))
        
         auth_details = {
             "username": ebims_settings.username,
@@ -58,24 +59,27 @@ class OBRAPIBase:
         }
         return auth_details
     
-    
-    # def get_api_from_ebims_settings(self, method_name):
-    #     ebims_settings=frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
-    #     if ebims_settings.sandbox==1:
-    #         for api_row in ebims_settings.get("testing_apis"):
-    #             if api_row.get("method_name") == method_name:
-    #                 return api_row.get("api")
-    #     else:
-    #         for api_row in ebims_settings.get("production_apis"):
-    #             if api_row.get("method_name") == method_name:
-    #                 return api_row.get("api")
-    #     return None
+ 
     def get_api_from_ebims_settings(self, method_name):
-        ebims_settings = frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
-        api_list = ebims_settings.get("testing_apis") if ebims_settings.sandbox == 1 else ebims_settings.get("production_apis")
-
+        ebims_settings = frappe.get_doc("eBIMS Settings", frappe.defaults.get_user_default("Company"))
+        sandbox=ebims_settings.sandbox
+        
+        if sandbox==1:
+            try:
+                api_list_doc = frappe.get_doc("eBIMS Endpoint URLs", "SandBox")
+            except frappe.DoesNotExistError:
+                frappe.throw(_("Kindly create 'SandBox' urls in eBIMS Endpoint URLs"))
+            
+        else:
+            api_list_doc = frappe.get_doc("eBIMS Endpoint URLs", "Production")
+            if api_list_doc is None:
+                frappe.throw(_("Kindly create 'Production' urls in eBIMS Endpoint URLs"))
+            
+        
+        api_list = api_list_doc.get("apis")
         for api_row in api_list:
             if api_row.get("method_name") == method_name:
+                
                 return api_row.get("api")
 
         return None

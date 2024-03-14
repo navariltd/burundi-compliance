@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS Setting\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS API Methods\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
+ "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
  "creation": "2024-03-06 21:09:27.172909",
  "custom_blocks": [],
  "docstatus": 0,
@@ -71,7 +71,6 @@
    "onboard": 0,
    "type": "Link"
   },
-  
   {
    "hidden": 0,
    "is_query_report": 1,
@@ -103,7 +102,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-03-11 09:37:59.839173",
+ "modified": "2024-03-13 07:38:45.373109",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "Burundi Compliance",
@@ -118,8 +117,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "eBIMS Setting",
-   "link_to": "eBIMS Setting",
+   "label": "eBIMS Settings",
+   "link_to": "eBIMS Settings",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "eBIMS Endpoint URLs",
+   "link_to": "eBIMS Endpoint URLs",
    "stats_filter": "[]",
    "type": "DocType"
   },
