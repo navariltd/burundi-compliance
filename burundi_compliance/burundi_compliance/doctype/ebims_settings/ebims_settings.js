@@ -1,7 +1,7 @@
 // Copyright (c) 2024, Navari Limited and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("eBIMS Setting", {
+// frappe.ui.form.on("eBIMS Settings", {
 // 	refresh(frm) {
 
 // 	},

@@ -23,11 +23,12 @@ def on_submit(doc, method=None):
 			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
 
 	# Enqueue background job to send invoice data to OBR
-	job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
-	if job_id:
-		frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
-	else:
-		frappe.msgprint("Job enqueue failed.")
+	if doc.custom_differ_submission_to_obr == 0:
+		job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
+		if job_id:
+			frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
+		else:
+			frappe.msgprint("Job enqueue failed.")
 	
 	doc.submit()
 	doc.reload()
@@ -52,8 +53,4 @@ def on_submit_update_stock(doc, method=None):
 			get_items(doc)
 		except Exception as e:
 			frappe.msgprint(f"Error during submission: {str(e)}")
-
-    
-
-
 

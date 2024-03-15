@@ -9,7 +9,7 @@ from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 from ...utils.base_api import full_api_url
 
 obr_base=OBRAPIBase()
-class eBIMSSetting(Document):
+class eBIMSSettings(Document):
 	pass
 
 	# def onload(self):

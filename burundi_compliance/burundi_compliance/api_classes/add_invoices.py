@@ -21,13 +21,13 @@ class SalesInvoicePoster:
 			response.raise_for_status()
 			
 			if not response.json().get("success"):
-				frappe.log_error(f"Unexpected API response format: {response.text}")
+				frappe.log_error(f"Unexpected API response format: {response.text}", reference_doctype="Sales Invoice", reference_name=data.get("invoice_number"))
 				raise InvoiceAdditionError(f"Unexpected API response format: {response.text}")
 			
 			return response.json()
 		except requests.exceptions.RequestException as e:
 			error_message = f"Error during API request: {str(e)}"
-			frappe.log_error(error_message, "SalesInvoicePoster Request Error")
+			frappe.log_error(error_message, f"SalesInvoicePoster Request Error{str(e)}",reference_doctype="Sales Invoice", reference_name=data.get("invoice_number"))
 			frappe.log_error(f"Response content: {response.text}")
 			return response.json()
   
