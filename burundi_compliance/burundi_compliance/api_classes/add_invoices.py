@@ -67,6 +67,7 @@ class SalesInvoicePoster:
 			sales_invoice.custom_einvoice_signatures = electronic_signature
 			sales_invoice.custom_invoice_registered_no = invoice_registered_no
 			sales_invoice.custom_invoice_registered_date = invoice_registered_date
+			sales_invoice.custom_einvoicing=1
 
 			# Save the Sales Invoice
 			sales_invoice.save()
