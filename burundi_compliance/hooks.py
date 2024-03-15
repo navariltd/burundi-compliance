@@ -48,7 +48,12 @@ doctype_js = {
     "doctype" : "public/js/doctype.js"}
 
 
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+    "Sales Invoice" : "burundi_compliance/client_scripts/sales_invoice_list.js",
+    "Stock Ledger Entry" : "burundi_compliance/client_scripts/stock_list.js",
+                   }
+
+
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
