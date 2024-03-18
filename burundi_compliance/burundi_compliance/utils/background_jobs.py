@@ -64,14 +64,16 @@ def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
 
 @frappe.whitelist(allow_guest=True)
 def retry_stock_movement(data, doc):
+    
     from ..api_classes.add_stock_movement import TrackStockMovement
     retries = 0
     while retries < max_retries:
         try:
             stock_movement = TrackStockMovement(token)
             result = stock_movement.post_stock_movement(data)
-            
+        
             frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
+            frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
             doc.reload()
             frappe.publish_realtime("msgprint", "Stock movement sent to OBR", user=frappe.session.user)
             
@@ -87,7 +89,7 @@ def retry_stock_movement(data, doc):
     try:
         subject = f'Maximum retries reached. Unable to send invoice to OBR. '
         message="I hope this message finds you well.\n We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes).\nTo address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
-        send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
+        send_max_retries_email(get_user_email(frappe.get_doc(doc.voucher_type, doc.voucher_no)), subject, message, as_markdown=False)
     except Exception as e:
         frappe.msgprint(f"Error sending emails: {str(e)}")
 
@@ -237,5 +239,4 @@ def get_user_email(doc):
     user=frappe.get_doc("User", doc_owner)
     email=user.email
     return email
-
 

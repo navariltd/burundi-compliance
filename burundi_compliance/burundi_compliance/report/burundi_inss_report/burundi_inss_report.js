@@ -55,4 +55,3 @@ frappe.query_reports["Burundi INSS Report"] = {
 	]
 };
 
-// Path: burundi_compliance/burundi_compliance/burundi_compliance/report/burundi_inss_report/burundi_inss_report.py

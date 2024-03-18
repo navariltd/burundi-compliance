@@ -4,7 +4,6 @@ from ..api_classes.base import OBRAPIBase
 base_data=OBRAPIBase().get_auth_details()
 import frappe
 
-
 def get_invoice_data(doc):
     name = doc.name
 
