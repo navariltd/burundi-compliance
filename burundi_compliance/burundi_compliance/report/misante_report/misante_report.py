@@ -61,7 +61,7 @@ def execute(filters=None):
 
 
 def get_earning_and_deduction_types():
-	deduction_types =  ["Employer MISANTE", "Employee MISANTE", "MISANTE"]  # Add the desired earning types
+	deduction_types =  ["Assurance Misante Patronal", "Assurance Misante Employé", "MISANTE"]  # Add the desired earning types
 	earning_types = ["Brut Patr Mens"]  # Add the desired deduction types
 	return earning_types, deduction_types
 
@@ -209,7 +209,7 @@ def filter_salary_slip_details(salary_slips, currency, company_currency):
 	filtered_ss_ded_map = {}
 	for ss_name, components in ss_ded_map.items():
 		filtered_components = {
-			key: value for key, value in components.items() if key in ["Employer MISANTE", "Employee MISANTE", "MISANTE"] 
+			key: value for key, value in components.items() if key in ["Assurance Misante Patronal", "Assurance Misante Employé", "MISANTE"] 
 		}
 		if filtered_components:
 			filtered_ss_ded_map[ss_name] = filtered_components

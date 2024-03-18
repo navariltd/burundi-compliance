@@ -155,19 +155,19 @@ doc_events = {
         #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
         
     },
-    "Purchase Receipt":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
-    },
-    "Delivery Note":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_or_cancel_update_stock",
-        "before_cancel":"burundi_compliance.burundi_compliance.overrides.delivery_note.before_cancel_update_stock",
-    },
-    "Stock Entry":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
-    },
-    "Stock Reconciliation":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_reconciliation.on_submit"
-    },
+    # "Purchase Receipt":{
+    #     "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
+    # },
+    # "Delivery Note":{
+    #     "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_or_cancel_update_stock",
+    #     "before_cancel":"burundi_compliance.burundi_compliance.overrides.delivery_note.before_cancel_update_stock",
+    # },
+    # "Stock Entry":{
+    #     "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
+    # },
+    # "Stock Reconciliation":{
+    #     "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_reconciliation.on_submit"
+    # },
     
     "Purchase Invoice":{
         "on_submit": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_submit_update_stock",
@@ -180,6 +180,9 @@ doc_events = {
         #use similar function with customer_check_tin
         "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
     },
+    "Stock Ledger Entry":{
+        "on_update":"burundi_compliance.burundi_compliance.overrides.stock_ledger_entry.on_update"
+    }
     
 }
 

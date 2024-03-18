@@ -19,10 +19,7 @@ def get_items(doc):
                 enqueue_stock_movement(item, doc)
                 frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully", alert=True)
             except Exception as e:
-                frappe.msgprint(f"Error sending item {item}: {str(e)}")
-   
-
-            
+                frappe.msgprint(f"Error sending item {item}: {str(e)}")           
 
 def on_submit(doc, method=None):
     if doc.stock_entry_type != "Material Transfer":

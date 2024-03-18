@@ -88,7 +88,7 @@ def create_total_inss(deduction_map):
         total_inss = 0.0
         for key, value in components.items():
            
-            if key in ["Employee INSS", "Employer INSS", "Risk"]:
+            if key in ["Employeur INSS", "Employé INSS", "Risk"]:
                 
                 total_inss += value
 
@@ -98,7 +98,7 @@ def create_total_inss(deduction_map):
 
 
 def get_earning_and_deduction_types():
-	deduction_types = ["Base INSS", "Employer INSS", "Employee INSS", "Risk Base", "Risk"]  # Add the desired earning types
+	deduction_types = ["Base INSS", "Employeur INSS", "Employé INSS", "Base Risque", "Risk"]  # Add the desired earning types
 	earning_types = ["Brut Patr Mens"]  # Add the desired deduction types
 	return earning_types, deduction_types
 
@@ -280,7 +280,7 @@ def filter_salary_slip_details(salary_slips, currency, company_currency):
 	filtered_ss_ded_map = {}
 	for ss_name, components in ss_ded_map.items():
 		filtered_components = {
-			key: value for key, value in components.items() if key in ["Base INSS", "Employer INSS", "Employee INSS", "Risk Base", "Risk"] 
+			key: value for key, value in components.items() if key in  ["Base INSS", "Employeur INSS", "Employé INSS", "Base Risque", "Risk"]  
 		}
 		if filtered_components:
 			filtered_ss_ded_map[ss_name] = filtered_components
