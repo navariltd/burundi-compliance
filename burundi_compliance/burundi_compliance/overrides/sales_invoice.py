@@ -11,25 +11,7 @@ obr_integration_base = OBRAPIBase()
 auth_details=obr_integration_base.get_auth_details()
 				
 def on_submit(doc, method=None):
-	sales_invoice_data_processor = InvoiceDataProcessor(doc)
-	token=obr_integration_base.authenticate()
-	
-	invoice_data = sales_invoice_data_processor.prepare_invoice_data()
-
-	if doc.is_return:
-		invoice_data = sales_invoice_data_processor.prepare_credit_note_data(invoice_data)
-
-		if doc.custom_creating_payment_entry == 1:
-			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
-
-	# Enqueue background job to send invoice data to OBR
-	if doc.custom_differ_submission_to_obr == 0:
-		job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
-		if job_id:
-			frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
-		else:
-			frappe.msgprint("Job enqueue failed.")
-	
+	submit_invoice_request(doc)
 	doc.submit()
 	doc.reload()
 	on_submit_update_stock(doc)
@@ -54,3 +36,22 @@ def on_submit_update_stock(doc, method=None):
 		except Exception as e:
 			frappe.msgprint(f"Error during submission: {str(e)}")
 
+
+def submit_invoice_request(doc):
+	sales_invoice_data_processor = InvoiceDataProcessor(doc)
+	
+	invoice_data = sales_invoice_data_processor.prepare_invoice_data()
+
+	if doc.is_return:
+		invoice_data = sales_invoice_data_processor.prepare_credit_note_data(invoice_data)
+
+		if doc.custom_creating_payment_entry == 1:
+			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
+
+	# Enqueue background job to send invoice data to OBR
+	if doc.custom_differ_submission_to_obr == 0:
+		job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
+		if job_id:
+			frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
+		else:
+			frappe.msgprint("Job enqueue failed.")

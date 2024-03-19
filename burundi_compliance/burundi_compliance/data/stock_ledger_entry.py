@@ -98,13 +98,17 @@ def get_stock_movement_type(stock_ledger_entry_doc, doc):
     stock_entry_type = doc.stock_entry_type
     stock_movement_type = doc.custom_stock_movement_type
     
-    if stock_ledger_entry_doc.actual_qty>0 and stock_entry_type in ["Material Receipt", "Manufacture"] or stock_ledger_entry_doc.actual_qty<0 and stock_entry_type in  ["Material Issue","Repack", "Material Consumption for Manufacture",
+    if stock_ledger_entry_doc.actual_qty>0 and stock_entry_type in ["Material Receipt", "Manufacture"] or stock_ledger_entry_doc.actual_qty<0 and stock_entry_type in  ["Material Issue", "Material Consumption for Manufacture",
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
         return get_stock_movement_on_submit(stock_entry_type, stock_movement_type)
     
-    elif stock_ledger_entry_doc.actual_qty<0 and stock_entry_type in ["Material Receipt", "Manufacture"] or stock_ledger_entry_doc.actual_qty>0 and stock_entry_type in  ["Material Issue", "Repack", "Material Consumption for Manufacture",
+    elif stock_ledger_entry_doc.actual_qty<0 and stock_entry_type in ["Material Receipt", "Manufacture"] or stock_ledger_entry_doc.actual_qty>0 and stock_entry_type in  ["Material Issue", "Material Consumption for Manufacture",
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
         return get_stock_movement_on_cancel(stock_entry_type)
+    
+    elif stock_entry_type=="Repack":
+        return get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc)
+       
     
     
         
@@ -192,4 +196,17 @@ def get_valuation_rate(voucher_type, doc, item_code):
             else:
                 return item.rate
         
+
+def get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc):
+    '''
+    Get the movement type for repack
+    '''
+    item_code=stock_ledger_entry_doc.item_code
+    for item in doc.items:
+        if item.item_code==item_code:
+            if stock_ledger_entry_doc.actual_qty>0:
+                return "EN"
+            else:
+                return "SAU"
+            
 

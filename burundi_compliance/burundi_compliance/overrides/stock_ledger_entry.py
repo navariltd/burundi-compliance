@@ -4,9 +4,15 @@ from burundi_compliance.burundi_compliance.utils.background_jobs import enqueue_
 
 
 def on_update(doc, method=None):
+   send_data(doc)
+                
+                
+def send_data(doc):
     data = get_stock_ledger_data(doc)
     
     if doc.voucher_type == "Stock Entry":
+        
+        
         stock_movement_doc = frappe.get_doc("Stock Entry", doc.voucher_no)
         movement_type = stock_movement_doc.stock_entry_type
         if movement_type == "Material Transfer":
@@ -26,4 +32,4 @@ def on_update(doc, method=None):
         except Exception as e:
             frappe.msgprint(f"Error sending item {data.get('item_code')}: {str(e)}")
 
-                
+    

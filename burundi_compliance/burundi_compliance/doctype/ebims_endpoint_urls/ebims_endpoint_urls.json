@@ -7,6 +7,9 @@
  "engine": "InnoDB",
  "field_order": [
   "environment",
+  "column_break_fcho",
+  "server_url",
+  "section_break_fols",
   "apis"
  ],
  "fields": [
@@ -24,11 +27,26 @@
    "fieldtype": "Table",
    "label": "APIS",
    "options": "eBIMS APIs"
+  },
+  {
+   "default": "https://ebms.obr.gov.bi:9443/ebms_api/",
+   "fieldname": "server_url",
+   "fieldtype": "Data",
+   "label": "Server Url",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fcho",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_fols",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-13 07:00:01.557660",
+ "modified": "2024-03-19 15:11:57.518275",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBIMS Endpoint URLs",

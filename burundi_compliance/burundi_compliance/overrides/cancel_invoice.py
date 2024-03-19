@@ -23,7 +23,7 @@ def get_items(doc):
     for item in items_data:
             item.update({"item_movement_type":"ER"})
             try:
-                enqueue_stock_movement(item)
+                enqueue_stock_movement(item, doc)
                 frappe.msgprint(f"The transaction for {item.get('item_designation')} was queued successfully!", alert=True)
             except Exception as e:
                 frappe.msgprint(f"Error sending item {item}: {str(e)}")
