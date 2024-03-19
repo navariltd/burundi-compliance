@@ -16,6 +16,7 @@ class InvoiceDataProcessor:
 
     def prepare_invoice_data(self):
         company = frappe.get_doc("Company", self.doc.company)
+        company_tax_id=company.tax_id
         tp_phone_no = company.phone_no
         tp_email = company.email
         formatted_date_data = date_time_format(self.doc)
@@ -27,13 +28,18 @@ class InvoiceDataProcessor:
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
             
         self.confirm_tin_verified(self.doc)
+        
+        if self.doc.doctype=="POS Invoice":
+            exempt_from_sales_tax=0
+        else:
+            exempt_from_sales_tax=self.doc.exempt_from_sales_tax
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
             "invoice_type": "FN",
             "tp_type": self.auth_details["type_of_taxpayer"],
             "tp_name": self.doc.company,
-            "tp_TIN": self.doc.company_tax_id,
+            "tp_TIN": company_tax_id,
             "tp_address_province":self.doc.company_address[:50],
             "tp_phone_number": tp_phone_no,
             "tp_address_commune": self.doc.company_address_display[:50],
@@ -51,7 +57,7 @@ class InvoiceDataProcessor:
             "customer_name": self.doc.customer_name,
             "customer_TIN": '' if self.doc.tax_id is None else self.doc.tax_id,
             "customer_address": self.doc.customer_address,
-            "vat_customer_payer": self.doc.exempt_from_sales_tax,
+            "vat_customer_payer": exempt_from_sales_tax,
             "invoice_ref":'',
             "cn_motif":'',
             "invoice_identifier": invoice_signature,

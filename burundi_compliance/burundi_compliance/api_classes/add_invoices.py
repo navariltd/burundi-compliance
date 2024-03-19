@@ -61,17 +61,24 @@ class SalesInvoicePoster:
 			electronic_signature = response.get("electronic_signature")
 			invoice_registered_no = response.get("result", {}).get("invoice_registered_number")
 			invoice_registered_date = response.get("result", {}).get("invoice_registered_date")
-			sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
-
+			
+   
+			#Bad approach, look for better solution, this wont work if we change the naming series of POS Invoice
+			if "PS" in invoice_number:
+				sales_invoice=frappe.get_doc("POS Invoice", invoice_number)
+			else:
+				sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
+    
 			# Update Sales Invoice fields
 			sales_invoice.custom_einvoice_signatures = electronic_signature
 			sales_invoice.custom_invoice_registered_no = invoice_registered_no
 			sales_invoice.custom_invoice_registered_date = invoice_registered_date
-			sales_invoice.custom_einvoicing=1
+			sales_invoice.custom_submitted_to_obr=1
 
 			# Save the Sales Invoice
 			sales_invoice.save()
 			frappe.db.commit()
+			frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=frappe.session.user)
 		except Exception as e:
 			frappe.db.rollback()
 			frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")

@@ -155,6 +155,13 @@ doc_events = {
         #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
         
     },
+ "POS Invoice":{
+        
+       "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
+        "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
+        #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+        
+    },
     # "Purchase Receipt":{
     #     "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
     # },
@@ -189,10 +196,17 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"burundi_compliance.tasks.all"
-# 	],
+##################################################################################################################
+##############################Remember to change the cron job to the correct time#################################
+##################################################################################################################
+scheduler_events = {
+
+ "cron":{
+     #"*/1 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
+        "*/50 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_unsend_stock_ledger_entry"],
+ }
+}
+
 # 	"daily": [
 # 		"burundi_compliance.tasks.daily"
 # 	],
