@@ -5,7 +5,7 @@ from ..utils.system_tax_id import get_system_tax_id
 from ..utils.system_tax_id import get_system_tax_id
 from ..utils.format_date_and_time import date_time_format
 
-def purchase_receipt_data(doc, method=None):
+def single_stock_data(doc, method=None):
     '''
     Get items from the purchase receipt which will update the stock
     '''

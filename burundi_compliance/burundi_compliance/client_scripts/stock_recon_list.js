@@ -1,8 +1,8 @@
 
 
-frappe.listview_settings["Stock Entry"].onload = function(listview) {
+frappe.listview_settings["Stock Reconciliation"].onload = function(listview) {
     listview.page.add_action_item(__("eBIMS Tracker"), function() {
-    	submit_bulk_stock( listview, "Stock Entry" );
+    	submit_bulk_stock( listview, "Stock Reconciliation" );
 });
 };
 

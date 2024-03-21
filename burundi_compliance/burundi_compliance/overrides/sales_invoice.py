@@ -14,7 +14,8 @@ def on_submit(doc, method=None):
 	submit_invoice_request(doc)
 	doc.submit()
 	doc.reload()
-	on_submit_update_stock(doc)
+	if doc.doctype == "Sales Invoice":
+	 	on_submit_update_stock(doc)
 
 
 def get_items(doc):
