@@ -73,7 +73,8 @@ def retry_stock_movement(data, doc):
             result = stock_movement.post_stock_movement(data)
         
             frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
-            frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
+            if doc.doctype == "Stock Ledger Entry":
+                frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
             doc.reload()
             frappe.publish_realtime("msgprint", "Stock movement sent to OBR", user=frappe.session.user)
             

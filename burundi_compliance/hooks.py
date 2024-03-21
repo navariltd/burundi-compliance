@@ -50,7 +50,10 @@ doctype_js = {
 
 doctype_list_js = {
     "Sales Invoice" : "burundi_compliance/client_scripts/sales_invoice_list.js",
+     "POS Invoice" : "burundi_compliance/client_scripts/pos_invoice_list.js",
     "Stock Ledger Entry" : "burundi_compliance/client_scripts/stock_list.js",
+    "Stock Entry" : "burundi_compliance/client_scripts/stock_list.js",
+    "Stock Reconciliation" : "burundi_compliance/client_scripts/stock_recon_list.js",
                    }
 
 
@@ -202,10 +205,11 @@ doc_events = {
 scheduler_events = {
 
  "cron":{
-     #"*/1 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
-        "*/50 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_unsend_stock_ledger_entry"],
+        "*/2000 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices",
+                       "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"],
  }
 }
+
 
 # 	"daily": [
 # 		"burundi_compliance.tasks.daily"

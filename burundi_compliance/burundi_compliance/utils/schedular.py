@@ -4,7 +4,7 @@ import frappe
 from burundi_compliance.burundi_compliance.overrides.stock_ledger_entry import send_data
 from burundi_compliance.burundi_compliance.overrides.sales_invoice import submit_invoice_request
 
-def check_and_send_unsend_stock_ledger_entry():
+def check_and_send_pending_stock_ledger_entry():
     '''
     Check and send unsend stock ledger entries
     '''
@@ -18,7 +18,6 @@ def check_and_send_unsend_stock_ledger_entry():
             if check_item.custom_allow_obr_to_track_stock_movement == 0:
                 continue
             send_data(stock_ledger_entry_doc)
-            # frappe.realtime.publish_realtime("msgprint", f"Stock Ledger Entry {stock_ledger_entry.name} sent successfully", user=frappe.session.user)
             
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Error in sending stock ledger entry {0}".format(stock_ledger_entry.name))
@@ -28,7 +27,7 @@ def check_and_send_pending_sales_invoices():
     '''
     Check and send pending sales invoices
     '''
-    sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "custom_submitted_to_obr": 0, "is_pos":0}, fields=["name"])
+    sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "custom_submitted_to_obr": 0, "is_consolidated":0}, fields=["name"])
     
     for sales_invoice in sales_invoices:
         try:

@@ -27,7 +27,7 @@ def get_stock_ledger_data(doc):
             "system_or_device_id": get_system_tax_id(),
             "item_code": doc.item_code,
             "item_designation": doc.item_code,
-            "item_quantity": quantity_difference if voucher_type == "Stock Reconciliation" else doc.actual_qty,
+            "item_quantity": abs(quantity_difference) if voucher_type == "Stock Reconciliation" else abs(doc.actual_qty),
             "item_measurement_unit": doc.stock_uom,
             "item_purchase_or_sale_price": valuation_rate,
             "item_purchase_or_sale_currency": frappe.get_value("Company", doc.company, "default_currency"),
@@ -46,50 +46,47 @@ def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, it
     '''
     
     if voucher_type == "Stock Entry":
-        doc = frappe.get_doc("Stock Entry", voucher_no)
+        doc = get_doc_details("Stock Entry", voucher_no)
         movement_type=get_stock_movement_type(stock_ledger_entry_doc, doc)
         movement_description=get_stock_movement_description(doc)
         
         return movement_type,movement_description
     
     elif voucher_type == "Purchase Receipt":
-        doc = frappe.get_doc("Purchase Receipt", voucher_no)
-        movement_type="EI"
-        if doc.is_return:
-            movement_type="SAU"
-        
-        movement_description="Normal Purchase of goods"
+        doc = get_doc_details("Purchase Receipt", voucher_no)
+        movement_type, movement_description=get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
         return movement_type,movement_description
     
     elif voucher_type == "Delivery Note":
-        doc = frappe.get_doc("Delivery Note", voucher_no)
-        movement_type="SN"
-        if doc.is_return:
-            movement_type="ER"
-            
-        movement_description="Normal sale of goods"
+        doc = get_doc_details("Delivery Note", voucher_no)
+        movement_type, movement_description=get_item_movement_on_delivery_note_and_sale_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
         return movement_type,movement_description
     
     elif voucher_type == "Sales Invoice":
-        doc = frappe.get_doc("Sales Invoice", voucher_no)
-        movement_description=get_stock_movement_description(doc)
-        movement_type="SN"
+        doc = get_doc_details("Sales Invoice", voucher_no)
+        movement_type, movement_description=get_item_movement_on_delivery_note_and_sale_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
         return movement_type,movement_description
     
     elif voucher_type == "Purchase Invoice":
-        doc = frappe.get_doc("Purchase Invoice", voucher_no)
-        movement_type="EN"
-        movement_description="Normal Purchase of goods"
+        doc = get_doc_details("Purchase Invoice", voucher_no)
+        movement_type, movement_description=get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
         return movement_type,movement_description
         
     elif voucher_type == "Stock Reconciliation":
-        doc = frappe.get_doc("Stock Reconciliation", voucher_no)
+        doc = get_doc_details("Stock Reconciliation", voucher_no)
         movement_type, quantity_difference=get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code)
         movement_description=get_stock_movement_description(doc)
         return movement_type,quantity_difference, movement_description
     
     else:
         return None
+    
+def get_doc_details(doc, voucher_no):
+    try:
+        doc=frappe.get_doc(doc, voucher_no)
+        return doc
+    except Exception as e:
+        frappe.throw(f"No dicument found with {doc} and {voucher_no}")
     
 def get_stock_movement_type(stock_ledger_entry_doc, doc):
     '''
@@ -110,8 +107,6 @@ def get_stock_movement_type(stock_ledger_entry_doc, doc):
         return get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc)
        
     
-    
-        
 def get_stock_movement_on_submit(stock_entry_type, stock_movement_type):
     if stock_entry_type == "Material Receipt":
             return "EI"
@@ -209,4 +204,40 @@ def get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc)
             else:
                 return "SAU"
             
+            
+def get_item_movement_on_delivery_note_and_sale_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc):
+    '''
+    Get the movement type for delivery note
+    '''
+    movement_description="Normal Sale of Goods"
+    movement_type="SN"
+    item_code=stock_ledger_entry_doc.item_code
+    
+    for item in doc.items:
+        if item.item_code==item_code:
+            if stock_ledger_entry_doc.actual_qty < 0.0:
+                return movement_type,movement_description
+            else:
+                movement_description="Normal Return of goods"
+                movement_type="ER"
+                return movement_type, movement_description
+            
+            
+def get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc):
+    '''
+    Get the movement type for purchase receipt
+    '''
+    movement_type="EI"
+    movement_description="Normal Purchase of goods"
+    item_code=stock_ledger_entry_doc.item_code
 
+    for item in doc.items:
+        if item.item_code==item_code:
+            if stock_ledger_entry_doc.actual_qty>0.0:
+                return movement_type,movement_description
+            else:
+                movement_description="Normal Return of goods"
+                movement_type="SAU"
+                return movement_type, movement_description
+            
+            

@@ -14,10 +14,6 @@
   "column_break_kuje",
   "company",
   "sandbox",
-  "section_break_qbab",
-  "column_break_riwa",
-  "testing_apis",
-  "production",
   "more_details_tab",
   "taxpayers_sector_of_activity",
   "taxpayers_legal_form",
@@ -76,23 +72,6 @@
    "fieldtype": "Password",
    "label": "Password",
    "reqd": 1
-  },
-  {
-   "fieldname": "section_break_qbab",
-   "fieldtype": "Section Break",
-   "label": "APIs"
-  },
-  {
-   "fieldname": "column_break_riwa",
-   "fieldtype": "Column Break"
-  },
-  {
-   "depends_on": "eval:doc.sandbox==1",
-   "fieldname": "testing_apis",
-   "fieldtype": "Table",
-   "ignore_user_permissions": 1,
-   "label": "Sandbox APIs",
-   "options": "eBIMS APIs"
   },
   {
    "fieldname": "more_details_tab",
@@ -173,14 +152,6 @@
    "label": "Retry Delay (Seconds)"
   },
   {
-   "depends_on": "eval:doc.sandbox==0",
-   "fieldname": "production",
-   "fieldtype": "Table",
-   "ignore_user_permissions": 1,
-   "label": "Production APIs",
-   "options": "eBIMS APIs"
-  },
-  {
    "default": "1",
    "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
    "fieldname": "subject_to_vat",
@@ -191,7 +162,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-11 06:42:10.036227",
+ "modified": "2024-03-20 08:59:30.018128",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBIMS Settings",
