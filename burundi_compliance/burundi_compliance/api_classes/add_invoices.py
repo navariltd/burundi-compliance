@@ -1,20 +1,17 @@
 import requests
-from ..doctype.custom_exceptions import AuthenticationError, InvoiceAdditionError
+from ..doctype.custom_exceptions import InvoiceAdditionError
 import frappe
 from .base import OBRAPIBase
-from ..utils.base_api import full_api_url
 
 import requests
 class SalesInvoicePoster:
 
-	def __init__(self, token, max_retries=5, retry_delay_seconds=20):
+	def __init__(self, token:str):
 		obr_base = OBRAPIBase()
-		self.BASE_ADD_INVOICE_API_URL = full_api_url(obr_base.get_api_from_ebims_settings("add_invoice"))
+		self.BASE_ADD_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("add_invoice")
 		self.token = token
-		self.MAX_RETRIES = max_retries
-		self.RETRY_DELAY_SECONDS = retry_delay_seconds
 
-	def _retry_request(self, data, retries):
+	def _retry_request(self, data):
 		response = None
 		try:
 			response = requests.post(self.BASE_ADD_INVOICE_API_URL, json=data, headers=self._get_headers())
@@ -32,7 +29,7 @@ class SalesInvoicePoster:
 			return response.json()
   
 	def _send_request(self, data):
-		return self._retry_request(data, self.MAX_RETRIES)
+		return self._retry_request(data)
 
 	def _handle_response(self, response):
 		if response.get("success"):
@@ -41,13 +38,13 @@ class SalesInvoicePoster:
 		else:
 			raise InvoiceAdditionError(response["msg"])
 
-	def _get_headers(self):
+	def _get_headers(self)->dict:
 		return {
 			"Content-Type": "application/json",
 			"Authorization": f"Bearer {self.token}"
 		}
 
-	def post_invoice(self, invoice_data):
+	def post_invoice(self, invoice_data)->dict:
 		response = self._send_request(invoice_data)
 		return self._handle_response(response)
 
@@ -62,12 +59,9 @@ class SalesInvoicePoster:
 			invoice_registered_no = response.get("result", {}).get("invoice_registered_number")
 			invoice_registered_date = response.get("result", {}).get("invoice_registered_date")
 			
-   
-			#Bad approach, look for better solution, this wont work if we change the naming series of POS Invoice
-			if "PS" in invoice_number:
-				sales_invoice=frappe.get_doc("POS Invoice", invoice_number)
-			else:
-				sales_invoice = frappe.get_doc("Sales Invoice", invoice_number)
+			# Check the doctype directly
+			invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_number) else "Sales Invoice"
+			sales_invoice = frappe.get_doc(invoice_type, invoice_number)
     
 			# Update Sales Invoice fields
 			sales_invoice.custom_einvoice_signatures = electronic_signature

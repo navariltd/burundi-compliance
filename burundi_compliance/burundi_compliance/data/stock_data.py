@@ -38,6 +38,3 @@ def single_stock_data(doc, method=None):
         stock_movement_data.append(data)
 
     return stock_movement_data
-
-
-

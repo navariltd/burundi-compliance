@@ -31,6 +31,33 @@ def get_columns():
             "width": 150
         },
         
+           {
+            "fieldname": "base_income_tax", 
+            "label": _("Base Income Tax"), 
+            "fieldtype": "Currency", 
+            "width": 200
+         },
+          {
+            "fieldname": "base_ire_0%", 
+            "label": _("Base IRE 0%"), 
+            "fieldtype": "Currency", 
+            "width": 200
+         },
+
+           {
+            "fieldname": "base_ire_20%", 
+            "label": _("Base IRE 20%"), 
+            "fieldtype": "Currency", 
+            "width": 200
+         },
+
+           {
+            "fieldname": "base_ire_30%", 
+            "label": _("Base IRE 30%"), 
+            "fieldtype": "Currency", 
+            "width": 200
+         },
+        
          {
             "fieldname": "ire_0%", 
             "label": _("IRE 0%"), 

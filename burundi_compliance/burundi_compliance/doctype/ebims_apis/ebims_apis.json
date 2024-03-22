@@ -16,7 +16,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Method Name",
-   "options": "eBIMS API Methods",
+   "options": "eBMS API Methods",
    "reqd": 1
   },
   {
@@ -30,7 +30,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-02-24 10:49:42.653500",
+ "modified": "2024-03-22 05:40:51.022651",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBIMS APIs",

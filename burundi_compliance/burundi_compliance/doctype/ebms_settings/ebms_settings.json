@@ -82,12 +82,14 @@
    "fieldname": "taxpayers_sector_of_activity",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Taxpayer's Sector of Activity"
+   "label": "Taxpayer's Sector of Activity",
+   "translatable": 1
   },
   {
    "fieldname": "taxpayers_legal_form",
    "fieldtype": "Data",
-   "label": "Taxpayer's Legal Form"
+   "label": "Taxpayer's Legal Form",
+   "translatable": 1
   },
   {
    "fieldname": "the_taxpayers_commercial_register_number",
@@ -98,7 +100,8 @@
    "fieldname": "the_taxpayers_tax_center",
    "fieldtype": "Select",
    "label": "The taxpayer's Tax Center",
-   "options": "\nDGC\nDMC\nDPMC"
+   "options": "\nDGC\nDMC\nDPMC",
+   "translatable": 1
   },
   {
    "fieldname": "column_break_xego",
@@ -107,14 +110,16 @@
   {
    "fieldname": "system_identification_given_by_obr",
    "fieldtype": "Data",
-   "label": "System Identification(given by OBR)"
+   "label": "System Identification(given by OBR)",
+   "translatable": 1
   },
   {
    "description": "Value \u201c1\u201d for natural person and \u201c2\u201d for legal person",
    "fieldname": "type_of_taxpayer",
    "fieldtype": "Select",
    "label": "Type of Taxpayer.",
-   "options": "\n1\n2"
+   "options": "\n1\n2",
+   "translatable": 1
   },
   {
    "default": "0",
@@ -122,7 +127,8 @@
    "fieldname": "subject_to_consumption_tax",
    "fieldtype": "Select",
    "label": "Subject to Consumption Tax",
-   "options": "\n0\n1"
+   "options": "\n0\n1",
+   "translatable": 1
   },
   {
    "default": "0",
@@ -130,7 +136,8 @@
    "fieldname": "subject_to_flatrate_withholding_tax",
    "fieldtype": "Select",
    "label": "Subject to FlatRate Withholding Tax",
-   "options": "\n0\n1"
+   "options": "\n0\n1",
+   "translatable": 1
   },
   {
    "fieldname": "more_info_tab",
@@ -142,14 +149,16 @@
    "description": "Maximum attempts the system will send data when server is down",
    "fieldname": "maximum_attempts",
    "fieldtype": "Data",
-   "label": "Maximum Attempts"
+   "label": "Maximum Attempts",
+   "translatable": 1
   },
   {
    "default": "60",
    "description": "Sleeping time before the next retry.",
    "fieldname": "retry_delay_seconds",
    "fieldtype": "Data",
-   "label": "Retry Delay (Seconds)"
+   "label": "Retry Delay (Seconds)",
+   "translatable": 1
   },
   {
    "default": "1",
@@ -157,15 +166,16 @@
    "fieldname": "subject_to_vat",
    "fieldtype": "Select",
    "label": "Subject to VAT",
-   "options": "\n0\n1"
+   "options": "\n0\n1",
+   "translatable": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-20 08:59:30.018128",
+ "modified": "2024-03-22 07:00:05.225735",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
- "name": "eBIMS Settings",
+ "name": "eBMS Settings",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [

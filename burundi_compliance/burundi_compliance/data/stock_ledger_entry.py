@@ -27,7 +27,7 @@ def get_stock_ledger_data(doc):
             "system_or_device_id": get_system_tax_id(),
             "item_code": doc.item_code,
             "item_designation": doc.item_code,
-            "item_quantity": abs(quantity_difference) if voucher_type == "Stock Reconciliation" else abs(doc.actual_qty),
+            "item_quantity": abs(float(quantity_difference)) if voucher_type == "Stock Reconciliation" else abs(float(doc.actual_qty)),
             "item_measurement_unit": doc.stock_uom,
             "item_purchase_or_sale_price": valuation_rate,
             "item_purchase_or_sale_currency": frappe.get_value("Company", doc.company, "default_currency"),
@@ -196,10 +196,13 @@ def get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc)
     '''
     Get the movement type for repack
     '''
+    
+    #get the item_code from stock ledger entry
     item_code=stock_ledger_entry_doc.item_code
+    
     for item in doc.items:
         if item.item_code==item_code:
-            if stock_ledger_entry_doc.actual_qty>0:
+            if stock_ledger_entry_doc.actual_qty > 0.0:
                 return "EN"
             else:
                 return "SAU"
