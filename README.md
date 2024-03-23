@@ -57,12 +57,14 @@ I believe we can see a Burundi Compliance module when we log into the system.
 It has a workspace with three doctypes.
 
 #### Doctypes
-i. [eBMS Settings](#ebms_setting)
-ii.[eBMS eBMS API Methods](#ebms_api_methods)
-iii.[eBMS Endpoint URLs](#ebms_endpoint_url)
+1. [eBMS Settings](#ebms_setting)
+2. [eBMS eBMS API Methods](#ebms_api_methods)
+3. [eBMS Endpoint URLs](#ebms_endpoint_url)
 
 #### i. eBMS Settings
 <a id="ebms_setting"></a>
+![ebms_settings](https://github.com/navariltd/burundi_compliance/assets/60258622/fe0535f3-6b79-4d46-9ae7-f206513a28ea)
+
 ##### Details Tab
 The first interface has fields for *username, password, and company*.
 - Fill in the username and password provided by [OBR](https://obr.bi/index.php/systeme-de-facturation-electronique-ebms) upon application.
@@ -80,11 +82,15 @@ This tab has two fields:
 If multi-companies within one site, make settings for each company, since username and password will be diferent. But only one company per doctype.
 
 #### <a id="ebms_api_methods"></a> ii. eBMS API Methods
+![Screenshot from 2024-03-23 10-09-10](https://github.com/navariltd/burundi_compliance/assets/60258622/3bbda9f8-0273-4a74-a51f-37d8d429a274)
+
 This comes with predefined 6 api methods, Incase of new method you can add it as new ebms api method.
 This helps in our next doctype
 
 #### iii. eBMS Endpoint URLs
 <a id="ebms_endpoint_url"><a/>
+![ebms_endpoint_urls](https://github.com/navariltd/burundi_compliance/assets/60258622/7707dffd-bb0d-4038-9b6b-9e0abc8ca95a)
+
 1. **Create Sandbox and related Endpoint URL**:
    - Choose the environment as sandbox.
    - Enter the correct server URL provided by [OBR](https://obr.bi/index.php/systeme-de-facturation-electronique-ebms).
@@ -97,6 +103,7 @@ This doctype will only have two transactions: sandbox and production.
 
 
 ## 2. Stock Movement
+![stock_entry](https://github.com/navariltd/burundi_compliance/assets/60258622/1a69c858-93a5-4f62-a3bb-92241681daa8)
 
 - **E-Tracker** Checkbox and **Re-Submit** Button:
   - After saving a document involving stock movements, an **E-Tracker** checkbox and a **Re-Submit** button appear.
@@ -105,6 +112,8 @@ This doctype will only have two transactions: sandbox and production.
   - On reload, the **E-Tracker** checkbox is automatically ticked.
   
 - **Stock Ledger Entry**:
+  ![stock_ledger_entry](https://github.com/navariltd/burundi_compliance/assets/60258622/05410074-15c6-4dfa-96e4-b27cef6f9c66)
+
   - Similarly, related **Stock Ledger Entries** have an **E-Tracker** checkbox.
   - While the request is pending, the **E-Tracker** checkbox is unticked, and the **Re-submit** button appears.
   - If the maximum attempts are exhausted, an email notifies the unsuccessful request. Resend by clicking the **Re-submit** button.
@@ -116,7 +125,8 @@ This doctype will only have two transactions: sandbox and production.
        - Filter transactions with **E-Tracker** equals "No".
        - Select pending entries, click the Action group button, and choose **eBIMS Tracker** to send to OBR.
   - It's recommended to rely on the scheduler for handling unsent transactions.
-  
+  ![schedular_job](https://github.com/navariltd/burundi_compliance/assets/60258622/a574f86c-f363-4e03-b4ee-0322b701bf97)
+
  
  ## 3. Selling
 This is where OBR want to track all the company revenues.
@@ -128,6 +138,8 @@ iii.[POS Invoice](#pos_invoice)
 
 
 #### i. Customer
+![Customer](https://github.com/navariltd/burundi_compliance/assets/60258622/ddb85831-6aed-4e4b-9538-c0254c63e355)
+
 On the Tax Tab:
 - Select the appropriate *GST Category* (e.g., select "Registered" if the customer is registered).
 - Enter the Tax ID/TIN.
@@ -139,6 +151,8 @@ On the Tax Tab:
 
 
 #### ii. Sales Invoice
+![payments](https://github.com/navariltd/burundi_compliance/assets/60258622/060f8f63-2589-4847-9c84-9823b22e2174)
+
 To send your invoice to OBR, follow these steps:
 - Select *Customer* and *Items*.
 - Choose the *Payment Type* from additional normal fields.
@@ -150,6 +164,8 @@ Upon submission, a pop-up message will appear:
 > "Invoice sent to OBR"
 
 Check the eBMS Tab:
+![Screenshot from 2024-03-23 12-16-01](https://github.com/navariltd/burundi_compliance/assets/60258622/6a8f216e-ee8f-45c1-9095-2fef42d83701)
+
 - The Read Only tab will display the response from OBR, including:
   - *Invoice Registered No.*
   - *Invoice Registered Date*
@@ -193,6 +209,7 @@ If the maximum retry attempts are reached, the sales invoice initiator receives 
 Once the issue is resolved, there are two approaches to send batches:
 1. A scheduler runs every 6 hours, automatically sending the requests.
 2. Manually, by navigating to the sales invoice list, filtering for **eBMS Submission** equals "No", selecting the relevant entries, and clicking "Submit to EBMS" from the Action menu.
+![bulk_sales_invoices](https://github.com/navariltd/burundi_compliance/assets/60258622/153f5276-0b97-4ac3-a81e-89d9914d91c8)
 
 
 ## Addition
