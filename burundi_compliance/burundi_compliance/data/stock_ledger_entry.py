@@ -32,6 +32,7 @@ def get_stock_ledger_data(doc):
             "item_purchase_or_sale_price": valuation_rate,
             "item_purchase_or_sale_currency": frappe.get_value("Company", doc.company, "default_currency"),
             "item_movement_type": movement_type,
+            "item_movement_invoice_ref": "",
             "item_movement_description":movement_description,
             "item_movement_date": formatted_date,
         }
@@ -151,10 +152,10 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
     '''
     Get the movement type for stock reconciliation
     '''
-    
+    warehouse=stock_ledger_entry_doc.warehouse
     if doc.purpose == "Opening Stock":
         for item in doc.items:
-            if item.item_code==item_code:
+            if item.item_code==item_code and item.warehouse==warehouse:
                 quantity_difference=item.quantity_difference
         if stock_ledger_entry_doc.actual_qty==0:
             movement_type = "EI"  # Opening Stock
@@ -163,7 +164,7 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
     
     elif doc.purpose=="Stock Reconciliation":
         for item in doc.items:
-            if item.item_code==item_code:
+            if item.item_code==item_code and item.warehouse==warehouse:
                 quantity_difference=item.quantity_difference
                 if stock_ledger_entry_doc.actual_qty==0:
                 

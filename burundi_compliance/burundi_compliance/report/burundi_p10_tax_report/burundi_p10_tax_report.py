@@ -23,6 +23,7 @@ def get_columns():
             "options": "Employee", 
             "width": 150
         },
+        
         {   
             "fieldname": "employee_name", 
             "label": _("Nom & Prenoms"),
@@ -35,56 +36,57 @@ def get_columns():
             "fieldname": "base_income_tax", 
             "label": _("Base Income Tax"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
+           
+        
           {
             "fieldname": "base_ire_0%", 
             "label": _("Base IRE 0%"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
 
            {
             "fieldname": "base_ire_20%", 
             "label": _("Base IRE 20%"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
 
            {
             "fieldname": "base_ire_30%", 
             "label": _("Base IRE 30%"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
         
          {
             "fieldname": "ire_0%", 
             "label": _("IRE 0%"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
          
           {
             "fieldname": "ire_20%", 
             "label": _("IRE 20%"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
           
            {
             "fieldname": "ire_30%", 
             "label": _("IRE 30%"), 
             "fieldtype": "Currency", 
-            "width": 200
+            "width": 150
          },
         
-       
         {
             "fieldname": "impot_a_payer", 
             "label": _("Impot a payer"), 
             "fieldtype": "Currency",
-            "width": 200
+            "width": 150
         },
     ]
 
@@ -107,7 +109,7 @@ def get_p10_report_data(filters):
 
     salary_components = [
         'Salaire de base', 'Indemnité de logement', 'Indemnité de déplacement',
-        'Leave Allowance', 'Heures supplementaire', 'Commissions', 'Impot a payer', 'IRE 0%', 'IRE 20%','IRE 30%']
+        'Leave Allowance', 'Heures supplementaire', 'Commissions', 'Impot a payer','Base IRE 0%','Base IRE 0%','Base IRE 30%' 'IRE 0%', 'IRE 20%','IRE 30%']
 
     query = frappe.qb.from_(salary_slip) \
         .inner_join(employee) \
