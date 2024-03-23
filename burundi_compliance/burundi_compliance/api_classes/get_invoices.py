@@ -2,12 +2,11 @@
 import requests
 import frappe
 from .base import OBRAPIBase
-from ..utils.base_api import full_api_url
 class InvoiceVerifier:
     def __init__(self, api_key):
         obr_base = OBRAPIBase()
         self.api_key = api_key
-        self.BASE_API_FOR_CHECK_TIN = full_api_url(obr_base.get_api_from_ebims_settings("get_invoice"))
+        self.BASE_API_FOR_CHECK_TIN =obr_base.get_api_from_ebims_settings("get_invoice")
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"

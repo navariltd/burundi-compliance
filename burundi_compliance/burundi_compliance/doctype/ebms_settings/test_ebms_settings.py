@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TesteBIMSSettings(FrappeTestCase):
+class TesteBMSSettings(FrappeTestCase):
 	pass

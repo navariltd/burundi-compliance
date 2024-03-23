@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class eBIMSEndpointURLs(Document):
+class eBMSEndpointURLs(Document):
 	pass

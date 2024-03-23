@@ -4,8 +4,6 @@ import frappe
 from .base import OBRAPIBase
 from requests.exceptions import RequestException
 import time as time
-from ..utils.base_api import full_api_url
-
 
 class InvoiceCanceller:
 
@@ -14,7 +12,7 @@ class InvoiceCanceller:
     
     def __init__(self, token):
         obr_base = OBRAPIBase()
-        self.BASE_CANCEL_INVOICE_API_URL = full_api_url(obr_base.get_api_from_ebims_settings("cancel_invoice"))
+        self.BASE_CANCEL_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("cancel_invoice")
         self.token = token
 
     def _retry_request(self, data, retries):

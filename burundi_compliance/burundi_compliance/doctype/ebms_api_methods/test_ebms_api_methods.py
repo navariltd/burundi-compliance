@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TesteBIMSEndpointURLs(FrappeTestCase):
+class TesteBMSAPIMethods(FrappeTestCase):
 	pass

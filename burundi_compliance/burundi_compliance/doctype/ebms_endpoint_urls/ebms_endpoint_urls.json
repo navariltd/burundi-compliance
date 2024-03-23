@@ -46,10 +46,10 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-19 15:11:57.518275",
+ "modified": "2024-03-22 05:46:03.267199",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
- "name": "eBIMS Endpoint URLs",
+ "name": "eBMS Endpoint URLs",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
