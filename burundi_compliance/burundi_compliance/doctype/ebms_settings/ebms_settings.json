@@ -83,24 +83,28 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Taxpayer's Sector of Activity",
+   "reqd": 1,
    "translatable": 1
   },
   {
    "fieldname": "taxpayers_legal_form",
    "fieldtype": "Data",
    "label": "Taxpayer's Legal Form",
+   "reqd": 1,
    "translatable": 1
   },
   {
    "fieldname": "the_taxpayers_commercial_register_number",
    "fieldtype": "Int",
-   "label": "The taxpayer's commercial register number"
+   "label": "The taxpayer's commercial register number",
+   "reqd": 1
   },
   {
    "fieldname": "the_taxpayers_tax_center",
    "fieldtype": "Select",
    "label": "The taxpayer's Tax Center",
    "options": "\nDGC\nDMC\nDPMC",
+   "reqd": 1,
    "translatable": 1
   },
   {
@@ -111,6 +115,7 @@
    "fieldname": "system_identification_given_by_obr",
    "fieldtype": "Data",
    "label": "System Identification(given by OBR)",
+   "reqd": 1,
    "translatable": 1
   },
   {
@@ -119,6 +124,7 @@
    "fieldtype": "Select",
    "label": "Type of Taxpayer.",
    "options": "\n1\n2",
+   "reqd": 1,
    "translatable": 1
   },
   {
@@ -128,6 +134,7 @@
    "fieldtype": "Select",
    "label": "Subject to Consumption Tax",
    "options": "\n0\n1",
+   "reqd": 1,
    "translatable": 1
   },
   {
@@ -137,6 +144,7 @@
    "fieldtype": "Select",
    "label": "Subject to FlatRate Withholding Tax",
    "options": "\n0\n1",
+   "reqd": 1,
    "translatable": 1
   },
   {
@@ -167,12 +175,13 @@
    "fieldtype": "Select",
    "label": "Subject to VAT",
    "options": "\n0\n1",
+   "reqd": 1,
    "translatable": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-22 07:00:05.225735",
+ "modified": "2024-03-25 09:18:25.798027",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
