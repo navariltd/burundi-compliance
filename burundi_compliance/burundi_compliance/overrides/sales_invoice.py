@@ -9,6 +9,8 @@ from ..utils.background_jobs import enqueue_stock_movement
 obr_integration_base = OBRAPIBase()
 
 auth_details=obr_integration_base.get_auth_details()
+allow_obr_to_track_sales=auth_details["allow_obr_to_track_sales"]
+allow_obr_to_track_stock_movement=auth_details["allow_obr_to_track_stock_movement"]
 				
 def on_submit(doc, method=None):
 	submit_invoice_request(doc)
@@ -31,28 +33,33 @@ def get_items(doc):
 		
 
 def on_submit_update_stock(doc, method=None):
-	if doc.update_stock==1 or doc.is_return==1:
-		try:
-			get_items(doc)
-		except Exception as e:
-			frappe.msgprint(f"Error during submission: {str(e)}")
+	if allow_obr_to_track_stock_movement==1:
+		if doc.update_stock==1 or doc.is_return==1:
+			try:
+				get_items(doc)
+			except Exception as e:
+				frappe.msgprint(f"Error during submission: {str(e)}")
 
 
 def submit_invoice_request(doc):
-	sales_invoice_data_processor = InvoiceDataProcessor(doc)
-	
-	invoice_data = sales_invoice_data_processor.prepare_invoice_data()
+	if allow_obr_to_track_sales==1:
+		sales_invoice_data_processor = InvoiceDataProcessor(doc)
+		
+		invoice_data = sales_invoice_data_processor.prepare_invoice_data()
 
-	if doc.is_return:
-		invoice_data = sales_invoice_data_processor.prepare_credit_note_data(invoice_data)
+		if doc.is_return:
+			invoice_data = sales_invoice_data_processor.prepare_credit_note_data(invoice_data)
 
-		if doc.custom_creating_payment_entry == 1:
-			invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
+			if doc.custom_creating_payment_entry == 1:
+				invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
 
-	# Enqueue background job to send invoice data to OBR
-	if doc.custom_differ_submission_to_obr == 0:
-		job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
-		if job_id:
-			frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
-		else:
-			frappe.msgprint("Job enqueue failed.")
+		# Enqueue background job to send invoice data to OBR
+		if doc.custom_differ_submission_to_obr == 0:
+			job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
+			if job_id:
+				frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
+			else:
+				frappe.msgprint("Job enqueue failed.")
+    
+    
+    

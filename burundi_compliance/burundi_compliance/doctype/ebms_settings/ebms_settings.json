@@ -27,7 +27,13 @@
   "subject_to_flatrate_withholding_tax",
   "more_info_tab",
   "maximum_attempts",
-  "retry_delay_seconds"
+  "retry_delay_seconds",
+  "column_break_cfbg",
+  "event_frequency",
+  "cron_format",
+  "permisions_section",
+  "allow_obr_to_track_sales",
+  "allow_obr_to_track_stock_movement"
  ],
  "fields": [
   {
@@ -177,11 +183,44 @@
    "options": "\n0\n1",
    "reqd": 1,
    "translatable": 1
+  },
+  {
+   "fieldname": "event_frequency",
+   "fieldtype": "Select",
+   "label": "Event Frequency",
+   "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nHourly Long\nDaily Long\nWeekly Long\nMonthly Long\nCron"
+  },
+  {
+   "depends_on": "eval:doc.event_frequency==='Cron'",
+   "fieldname": "cron_format",
+   "fieldtype": "Data",
+   "label": "Cron Format"
+  },
+  {
+   "fieldname": "column_break_cfbg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "permisions_section",
+   "fieldtype": "Section Break",
+   "label": "Permissions"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_obr_to_track_sales",
+   "fieldtype": "Check",
+   "label": "Allow OBR to track sales"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_obr_to_track_stock_movement",
+   "fieldtype": "Check",
+   "label": "Allow OBR to track stock movement"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-25 09:18:25.798027",
+ "modified": "2024-03-26 14:37:42.713519",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
