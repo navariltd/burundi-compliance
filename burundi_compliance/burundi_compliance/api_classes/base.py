@@ -53,10 +53,13 @@ class OBRAPIBase:
             "type_of_taxpayer": ebims_settings.type_of_taxpayer,
             "subject_to_consumption_tax": ebims_settings.subject_to_consumption_tax,
             "subject_to_flatrate_withholding_tax": ebims_settings.subject_to_flatrate_withholding_tax,
-            "subject_to_vat":ebims_settings.subject_to_vat
+            "subject_to_vat":ebims_settings.subject_to_vat,
+            "allow_obr_to_track_sales":ebims_settings.allow_obr_to_track_sales,
+            "allow_obr_to_track_stock_movement":ebims_settings.allow_obr_to_track_stock_movement,
+            
         }
         return auth_details
-    
+
  
     def get_api_from_ebims_settings(self, method_name):
         ebims_settings = frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))

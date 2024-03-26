@@ -110,6 +110,7 @@ def retry_cancel_invoice(invoice_data, doc):
         try:
             invoice_canceller = InvoiceCanceller(token)
             response = invoice_canceller.cancel_invoice(invoice_data)
+            frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
             frappe.publish_realtime("msgprint", f"Invoice cancelled successful!{response}", user=frappe.session.user)
             return
         except Exception as e:

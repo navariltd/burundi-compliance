@@ -23,6 +23,8 @@ def get_stock_ledger_data(doc):
     date = date_time_format(doc)
     formatted_date = date[0]
     
+    item_movement_invoice_ref=get_invoice_reference_number(voucher_type, voucher_no)
+        
     data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": doc.item_code,
@@ -32,7 +34,7 @@ def get_stock_ledger_data(doc):
             "item_purchase_or_sale_price": valuation_rate,
             "item_purchase_or_sale_currency": frappe.get_value("Company", doc.company, "default_currency"),
             "item_movement_type": movement_type,
-            "item_movement_invoice_ref": "",
+            "item_movement_invoice_ref": item_movement_invoice_ref,
             "item_movement_description":movement_description,
             "item_movement_date": formatted_date,
         }
@@ -78,7 +80,11 @@ def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, it
         movement_type, quantity_difference=get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code)
         movement_description=get_stock_movement_description(doc)
         return movement_type,quantity_difference, movement_description
-    
+    elif voucher_type == "Asset Capitalization" or voucher_type=="Asset Repair":
+        doc = get_doc_details("Asset Capitalization", voucher_no)
+        movement_type=get_item_movement_asset_capitalisation_on_submit_and_cancel(stock_ledger_entry_doc,doc)
+        movement_description=get_stock_movement_description(doc)
+        return movement_type,movement_description
     else:
         return None
     
@@ -110,7 +116,7 @@ def get_stock_movement_type(stock_ledger_entry_doc, doc):
     
 def get_stock_movement_on_submit(stock_entry_type, stock_movement_type):
     if stock_entry_type == "Material Receipt":
-            return "EI"
+            return "UAE"
     elif stock_entry_type == "Material Issue":
         if stock_movement_type == "Theft exits(SV)":
             return "SV"
@@ -134,7 +140,7 @@ def get_stock_movement_on_cancel(stock_entry_type):
     if stock_entry_type == "Material Receipt":
             return "SAU"
     elif stock_entry_type == "Material Issue":
-        return "ER"
+        return "UAE"
     elif stock_entry_type == "Manufacture":
         return "SAU"
     elif stock_entry_type in ["Repack", "Material Consumption for Manufacture",
@@ -168,14 +174,14 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
                 quantity_difference=item.quantity_difference
                 if stock_ledger_entry_doc.actual_qty==0:
                 
-                    if float(quantity_difference)>0.0:
+                    if float(quantity_difference) > 0.0:
                         movement_type = "EAJ"
-                    elif float(quantity_difference)<0.0:
+                    elif float(quantity_difference) < 0.0:
                         movement_type = "SAJ"
                 else:
-                    if float(quantity_difference)>0.0:
+                    if float(quantity_difference) > 0.0:
                         movement_type = "SAJ"
-                    elif float(quantity_difference)<0.0:
+                    elif float(quantity_difference) < 0.0:
                         movement_type = "EAJ"
     
     return movement_type, quantity_difference
@@ -244,4 +250,31 @@ def get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock
                 movement_type="SAU"
                 return movement_type, movement_description
             
+def get_item_movement_asset_capitalisation_on_submit_and_cancel(stock_ledger_entry_doc,doc):
+    '''
+    Get the movement type for asset capitalisation
+    '''
+    movement_type="EN"
+    # movement_description="Asset Capitalization"
+    item_code=stock_ledger_entry_doc.item_code
+    
+    for item in doc.items:
+        if item.item_code==item_code:
+            if stock_ledger_entry_doc.actual_qty > 0.0:
+                return movement_type
+            else:
+                # movement_description="Asset De-capitalization"
+                movement_type="SAU"
+                return movement_type
             
+            
+def get_invoice_reference_number(voucher_type, voucher_no):
+    item_invoice_ref=""
+    if voucher_type=="Purchase Invoice":
+        purchase_doc=frappe.get_doc("Purchase Invoice", voucher_no)
+        item_invoice_ref=purchase_doc.bill_no
+    elif voucher_type=="Sales Invoice":
+        sales_doc=frappe.get_doc("Sales Invoice", voucher_no)
+        item_invoice_ref=sales_doc.name
+    return item_invoice_ref
+
