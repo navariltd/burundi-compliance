@@ -769,4 +769,4 @@ It has similar fields like *Differ submission, payment type* etc.
 
   
 
-<center>GNU General Public License (v3). See [license.txt](https://github.com/navariltd/burundi_compliance/blob/master/license.txt) for more information.</center>
+<center>GNU General Public License (v3). See [license.txt](https://github.com/navariltd/burundi-compliance/blob/master/license.txt) for more information.</center>
