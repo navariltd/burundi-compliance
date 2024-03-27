@@ -30,7 +30,7 @@ Developed on the robust Frappe Framework and ERPNext platform, it streamlines re
 ```sh
 
 
-$  bench  get-app  --branch  {branch-name}  https://github.com/navariltd/burundi_compliance.git
+$  bench  get-app  --branch  {branch-name}  https://github.com/navariltd/burundi-compliance.git
 
 ```
 
@@ -38,12 +38,12 @@ $  bench  get-app  --branch  {branch-name}  https://github.com/navariltd/burundi
 Replace `{branch-name}` with the desired branch name from the repository. Ensure compatibility with your installed versions of Frappe and ERPNext.
 
 
-4. Install the burundi_compliance app on your site by running:
+4. Install the burundi-compliance app on your site by running:
 
 
 ```sh
 
-$  bench  --site  {sitename}  install-app  burundi_compliance
+$  bench  --site  {sitename}  install-app  burundi-compliance
 
 ```
 
@@ -59,7 +59,7 @@ Replace `{sitename}` with the name of your site.
 
 - Create a new site.
 
-- Choose Frappe Version-14/Version-15 or above, and select ERPNext, Lending and Burundi Compliance from the available Apps to Install.
+- Choose Frappe Version-14/Version-15 or above, and select ERPNext, and Burundi Compliance from the available Apps to Install.
 
 - Within minutes, the site should be up and running with a fresh install, ready to explore the app's simple and impressive features.
 
@@ -139,7 +139,7 @@ It has a workspace with three doctypes.
 
   
 
-![re_ebms_settings](https://github.com/navariltd/burundi_compliance/assets/60258622/c1645693-1f16-497d-be89-95271859751d)
+![re_ebms_settings](https://github.com/navariltd/burundi-compliance/assets/60258622/c1645693-1f16-497d-be89-95271859751d)
 
   
 
@@ -163,7 +163,7 @@ The first interface has fields for *username, password, and company*.
 
 ##### Tax Tab
 
-  ![Screenshot from 2024-03-25 10-19-16](https://github.com/navariltd/burundi_compliance/assets/60258622/11ce1aef-9130-42a7-a116-beeeba9252ca)
+  ![Screenshot from 2024-03-25 10-19-16](https://github.com/navariltd/burundi-compliance/assets/60258622/11ce1aef-9130-42a7-a116-beeeba9252ca)
 
 
 This tab contains details related to your organization's taxes. This are mendatory because they are mendatory when sending the Invoice.
@@ -189,7 +189,7 @@ This tab contains details related to your organization's taxes. This are mendato
 ##### More Info Tab
 
   
-![Screenshot from 2024-03-25 10-20-02](https://github.com/navariltd/burundi_compliance/assets/60258622/a1c87b38-a006-4178-bb4c-fbb7fa84ba54)
+![Screenshot from 2024-03-25 10-20-02](https://github.com/navariltd/burundi-compliance/assets/60258622/a1c87b38-a006-4178-bb4c-fbb7fa84ba54)
 
 This tab has two fields:
 
@@ -215,7 +215,7 @@ If multi-companies within one site, make settings for each company, since userna
 
   
 
-![re_ebms_methods](https://github.com/navariltd/burundi_compliance/assets/60258622/4a7c7a42-ada0-4125-ba04-04bc576cb5d5)
+![re_ebms_methods](https://github.com/navariltd/burundi-compliance/assets/60258622/4a7c7a42-ada0-4125-ba04-04bc576cb5d5)
 
   
 
@@ -236,7 +236,7 @@ This helps in our next doctype
   
 
 <a  id="ebms_endpoint_url"><a/>
-![re_sbms_endpoint_urls](https://github.com/navariltd/burundi_compliance/assets/60258622/05ff00c3-762c-495b-9167-fb126e7dd650)
+![re_sbms_endpoint_urls](https://github.com/navariltd/burundi-compliance/assets/60258622/05ff00c3-762c-495b-9167-fb126e7dd650)
  
 
 1.  **Create Sandbox and related Endpoint URL**:
@@ -273,7 +273,7 @@ This doctype will only have two transactions: sandbox and production.
 
 #### <a id="item"></a> iv. Item
 
-  ![re_item_tests](https://github.com/navariltd/burundi_compliance/assets/60258622/5ae687d7-8b10-4999-b052-5debb4a371d7)
+  ![re_item_tests](https://github.com/navariltd/burundi-compliance/assets/60258622/5ae687d7-8b10-4999-b052-5debb4a371d7)
 
 
 To ensure accurate tracking by OBR, it's essential to set up the system properly. If an item falls under the classification of goods that OBR monitors, it's important to enable this feature upon creation.
@@ -302,7 +302,7 @@ By activating these checkboxes, you ensure comprehensive tracking of relevant ac
 
   
 
-![re_test_stock_entry](https://github.com/navariltd/burundi_compliance/assets/60258622/bb6794b5-ef84-45b6-9fbb-af99b4788f50)
+![re_test_stock_entry](https://github.com/navariltd/burundi-compliance/assets/60258622/bb6794b5-ef84-45b6-9fbb-af99b4788f50)
 
   
 
@@ -332,7 +332,7 @@ By activating these checkboxes, you ensure comprehensive tracking of relevant ac
 
   
 
-![re_stock_ledger](https://github.com/navariltd/burundi_compliance/assets/60258622/5df74623-34d0-4861-add7-f8cdf3040ef6)
+![re_stock_ledger](https://github.com/navariltd/burundi-compliance/assets/60258622/5df74623-34d0-4861-add7-f8cdf3040ef6)
 
   
 
@@ -351,7 +351,7 @@ By activating these checkboxes, you ensure comprehensive tracking of relevant ac
   
 
 **Purchase Receipt/Purchase Invoice**
-![re_test_purchase_invoice](https://github.com/navariltd/burundi_compliance/assets/60258622/84e30890-bdb6-4385-b0ba-a2807c89d058)
+![re_test_purchase_invoice](https://github.com/navariltd/burundi-compliance/assets/60258622/84e30890-bdb6-4385-b0ba-a2807c89d058)
 
 When purchasing an item that needs to be tracked, the purchase receipt will automatically send data to OBR upon submission.
 
@@ -390,7 +390,7 @@ In cases where a user creates a purchase invoice directly without a purchase rec
 
   
 
-![re_schedular_job](https://github.com/navariltd/burundi_compliance/assets/60258622/cd70665c-6a5f-4c51-b13d-a70caa23a613)
+![re_schedular_job](https://github.com/navariltd/burundi-compliance/assets/60258622/cd70665c-6a5f-4c51-b13d-a70caa23a613)
 
   
 
@@ -430,7 +430,7 @@ This is where OBR want to track all the company revenues.
 
   
 
-![re_customer](https://github.com/navariltd/burundi_compliance/assets/60258622/0a281ca9-f2f4-45a5-9738-16a58d1397b1)
+![re_customer](https://github.com/navariltd/burundi-compliance/assets/60258622/0a281ca9-f2f4-45a5-9738-16a58d1397b1)
 
   
 
@@ -469,7 +469,7 @@ On the Tax Tab:
   
 
 #### ii. Delivery Note
-![Screenshot from 2024-03-25 08-08-31](https://github.com/navariltd/burundi_compliance/assets/60258622/21b000c4-99ee-4628-8b35-d938a4e8887f)
+![Screenshot from 2024-03-25 08-08-31](https://github.com/navariltd/burundi-compliance/assets/60258622/21b000c4-99ee-4628-8b35-d938a4e8887f)
 
 Upon creation of a delivery note, upon submission, it updates the stock and sends a similar payload to OBR.
 
@@ -488,7 +488,7 @@ If a company decides to bypass the delivery note, they can update stock directly
 
   
 
-![re_test_sales_invoice](https://github.com/navariltd/burundi_compliance/assets/60258622/5a0f69f0-26f4-48c8-addc-7499781f5647)
+![re_test_sales_invoice](https://github.com/navariltd/burundi-compliance/assets/60258622/5a0f69f0-26f4-48c8-addc-7499781f5647)
 
   
 
@@ -534,7 +534,7 @@ Check the eBMS Tab:
 
   
 
-![re_sales_invoice_ebms](https://github.com/navariltd/burundi_compliance/assets/60258622/6ce237c6-d142-4ba4-ac35-e3ba5539f434)
+![re_sales_invoice_ebms](https://github.com/navariltd/burundi-compliance/assets/60258622/6ce237c6-d142-4ba4-ac35-e3ba5539f434)
 
   
 
@@ -694,7 +694,7 @@ Once the issue is resolved, there are two approaches to send batches:
   
 
 ### iv. POS Invoice
-![re_test_pos_invoice](https://github.com/navariltd/burundi_compliance/assets/60258622/c5edf8ae-b313-4d42-b7d0-32680c6d973a)
+![re_test_pos_invoice](https://github.com/navariltd/burundi-compliance/assets/60258622/c5edf8ae-b313-4d42-b7d0-32680c6d973a)
 
 Similar to sales invoice, sends the data to OBR on **submit**.
 
