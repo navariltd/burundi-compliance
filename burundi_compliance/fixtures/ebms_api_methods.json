@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "eBMS API Methods",
+  "method": "login",
+  "modified": "2024-03-27 07:00:29.045213",
+  "name": "login"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "eBMS API Methods",
+  "method": "add_invoice",
+  "modified": "2024-03-27 07:01:05.129618",
+  "name": "add_invoice"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "eBMS API Methods",
+  "method": "add_stock_movement",
+  "modified": "2024-03-27 07:01:37.221058",
+  "name": "add_stock_movement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "eBMS API Methods",
+  "method": "cancel_invoice",
+  "modified": "2024-03-27 07:02:11.023848",
+  "name": "cancel_invoice"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "eBMS API Methods",
+  "method": "get_invoice",
+  "modified": "2024-03-27 07:02:30.334299",
+  "name": "get_invoice"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "eBMS API Methods",
+  "method": "check_TIN",
+  "modified": "2024-03-27 07:03:06.525561",
+  "name": "check_TIN"
+ }
+]

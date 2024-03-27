@@ -5,7 +5,7 @@ from ..utils.format_date_and_time import date_time_format
 from ..utils.invoice_signature import create_invoice_signature
 from ..api_classes.base import OBRAPIBase
 import time as time
-
+from erpnext.controllers.taxes_and_totals import get_itemised_tax_breakup_data
 
 class InvoiceDataProcessor:
     obr_base = OBRAPIBase()
@@ -16,6 +16,7 @@ class InvoiceDataProcessor:
 
     def prepare_invoice_data(self):
         company = frappe.get_doc("Company", self.doc.company)
+        company_address = self.get_company_address_details()
         company_tax_id=company.tax_id
         tp_phone_no = company.phone_no
         tp_email = company.email
@@ -28,22 +29,25 @@ class InvoiceDataProcessor:
             self.doc.db_set('custom_invoice_identifier', invoice_signature, commit=True)
             
         self.confirm_tin_verified(self.doc)
-        
         if self.doc.doctype=="POS Invoice":
             exempt_from_sales_tax=0
         else:
             exempt_from_sales_tax=self.doc.exempt_from_sales_tax
+            
         invoice_data = {
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
             "invoice_type": "FN",
             "tp_type": self.auth_details["type_of_taxpayer"],
             "tp_name": self.doc.company,
-            "tp_TIN": company_tax_id,
-            "tp_address_province":self.doc.company_address[:50],
+            "tp_TIN": "8768686",
+            "tp_address_province": company_address.get("tp_address_province"),
             "tp_phone_number": tp_phone_no,
-            "tp_address_commune": self.doc.company_address_display[:50],
-            "tp_address_quartier": self.doc.company_address[:50],
+            "tp_address_commune": company_address.get("tp_address_commune"),
+            "tp_address_avenue": company_address.get("tp_address_avenue"),
+            "tp_address_quartier": company_address.get("tp_address_quartier"),
+            "tp_address_rue": company_address.get("tp_address_rue"),
+            "tp_address_number": company_address.get("tp_address_number"),
             "tp_trade_number": self.auth_details["the_taxpayers_commercial_register_number"],
             "tp_email": tp_email,
             "vat_taxpayer": self.auth_details["subject_to_vat"],
@@ -85,32 +89,38 @@ class InvoiceDataProcessor:
 
         return invoice_data
 
-    def calculate_item_vat(self, item):
-        total_tax_amount = 0.0
-        if self.doc.taxes_and_charges:
-            for taxes in self.doc.taxes:
-                tax_percentage = taxes.rate
-                total_tax_amount += tax_percentage / 100 * item.qty * item.rate
+    # def calculate_item_vat(self, item):
+    #     total_tax_amount = 0.0
+    #     if self.doc.taxes_and_charges:
+    #         for taxes in self.doc.taxes:
+    #             tax_percentage = taxes.rate
+    #             total_tax_amount += tax_percentage / 100 * item.qty * item.rate
 
-        return total_tax_amount
+    #     return total_tax_amount
 
     def get_invoice_items(self):
         items = []
+        itemised_tax_data=get_itemised_tax_breakup_data(self.doc)
 
         for item in self.doc.items:
             
-            total_vat = self.calculate_item_vat(item)
+            tax_data = next((data for data in itemised_tax_data if data['item'] == item.item_code), None)
 
+            if tax_data:
+                total_vat = tax_data['VAT']['tax_amount']
+            else:
+                total_vat = 0
+                
             items.append({
                 "item_designation": item.item_code,
                 "item_quantity": abs(item.qty),
                 "item_price": item.rate,
                 "item_total_amount": item.amount,
-                "vat": abs(total_vat),
+                "vat": abs(int(total_vat)),
                 "item_ct": "0",
                 "item_tl": "0",
-                "item_price_nvat": abs(item.amount),
-                "item_price_wvat": abs(item.amount + total_vat)
+                "item_price_nvat": abs(int(item.amount)),
+                "item_price_wvat": abs(int(item.amount + total_vat))
             })
 
         return items
@@ -130,7 +140,6 @@ class InvoiceDataProcessor:
                 continue
             item_movement_type = "SN"
             if self.doc.is_return==1:
-            # Set item movement type to "ER" for credit notes
                 item_movement_type = "ER"
             data = {
                 "system_or_device_id": get_system_tax_id(),
@@ -167,3 +176,19 @@ class InvoiceDataProcessor:
         if customer.custom_gst_category=="Registered":
             if not customer.custom_tin_verified:
                 frappe.throw(f"Kindly go and verify the Tin number of this customer on <b>customer</b> doctype")
+
+    def get_company_address_details(self):
+        address_details = {}
+        links = frappe.get_all('Dynamic Link', filters={'link_doctype': 'Company', 'link_name': self.doc.company, 'parenttype': 'Address'}, fields=['parent'])
+        if links:
+            address = frappe.get_doc("Address", links[0].parent)
+            address_details = {
+                "tp_address_province": address.state,
+                "tp_address_commune": address.custom_commune,
+                "tp_address_quartier": address.custom_quartier,
+                "tp_address_avenue": address.custom_avenue,
+                "tp_address_rue": address.custom_rue,
+                "tp_address_number": address.custom_numéro
+            }
+        return address_details
+    
