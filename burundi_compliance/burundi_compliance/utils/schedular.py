@@ -37,3 +37,5 @@ def check_and_send_pending_sales_invoices():
             frappe.log_error(frappe.get_traceback(), "Error in sending sales invoice {0}".format(sales_invoice.name))
             continue
         
+def testing_schedular():
+    frappe.publish_realtime("testing_schedular", user=frappe.session.user)

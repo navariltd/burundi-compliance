@@ -27,12 +27,17 @@
   "subject_to_flatrate_withholding_tax",
   "more_info_tab",
   "maximum_attempts",
+  "column_break_qtoq",
   "retry_delay_seconds",
-  "column_break_cfbg",
+  "schedular_events_section",
   "event_frequency",
   "cron_format",
+  "column_break_ngbk",
+  "stock_movement_event_frequency",
+  "stock_movement_cron_format",
   "permisions_section",
   "allow_obr_to_track_sales",
+  "column_break_ssmv",
   "allow_obr_to_track_stock_movement"
  ],
  "fields": [
@@ -185,25 +190,22 @@
    "translatable": 1
   },
   {
+   "default": "Hourly",
    "fieldname": "event_frequency",
    "fieldtype": "Select",
-   "label": "Event Frequency",
-   "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nHourly Long\nDaily Long\nWeekly Long\nMonthly Long\nCron"
+   "label": "Invoice Event Frequency",
+   "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
   },
   {
    "depends_on": "eval:doc.event_frequency==='Cron'",
    "fieldname": "cron_format",
    "fieldtype": "Data",
-   "label": "Cron Format"
-  },
-  {
-   "fieldname": "column_break_cfbg",
-   "fieldtype": "Column Break"
+   "label": "Invoice Cron Format"
   },
   {
    "fieldname": "permisions_section",
    "fieldtype": "Section Break",
-   "label": "Permissions"
+   "label": "eBMS Permissions"
   },
   {
    "default": "0",
@@ -216,11 +218,40 @@
    "fieldname": "allow_obr_to_track_stock_movement",
    "fieldtype": "Check",
    "label": "Allow OBR to track stock movement"
+  },
+  {
+   "fieldname": "schedular_events_section",
+   "fieldtype": "Section Break",
+   "label": "Schedular Events"
+  },
+  {
+   "fieldname": "column_break_ngbk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qtoq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ssmv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Hourly",
+   "fieldname": "stock_movement_event_frequency",
+   "fieldtype": "Select",
+   "label": "Stock Movement Event Frequency",
+   "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
+  },
+  {
+   "fieldname": "stock_movement_cron_format",
+   "fieldtype": "Data",
+   "label": "Stock Movement Cron Format"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-26 14:37:42.713519",
+ "modified": "2024-03-27 11:16:21.245822",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",

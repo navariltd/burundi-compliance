@@ -52,12 +52,12 @@ def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, it
         doc = get_doc_details("Stock Entry", voucher_no)
         movement_type=get_stock_movement_type(stock_ledger_entry_doc, doc)
         movement_description=get_stock_movement_description(doc)
-        
         return movement_type,movement_description
     
     elif voucher_type == "Purchase Receipt":
         doc = get_doc_details("Purchase Receipt", voucher_no)
-        movement_type, movement_description=get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
+        movement_type=get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
+        movement_description=get_stock_movement_description(doc)
         return movement_type,movement_description
     
     elif voucher_type == "Delivery Note":
@@ -72,7 +72,8 @@ def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, it
     
     elif voucher_type == "Purchase Invoice":
         doc = get_doc_details("Purchase Invoice", voucher_no)
-        movement_type, movement_description=get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
+        movement_type=get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock_ledger_entry_doc,doc)
+        movement_description=get_stock_movement_description(doc)
         return movement_type,movement_description
         
     elif voucher_type == "Stock Reconciliation":
@@ -81,7 +82,7 @@ def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, it
         movement_description=get_stock_movement_description(doc)
         return movement_type,quantity_difference, movement_description
     elif voucher_type == "Asset Capitalization" or voucher_type=="Asset Repair":
-        doc = get_doc_details("Asset Capitalization", voucher_no)
+        doc = get_doc_details(voucher_type, voucher_no)
         movement_type=get_item_movement_asset_capitalisation_on_submit_and_cancel(stock_ledger_entry_doc,doc)
         movement_description=get_stock_movement_description(doc)
         return movement_type,movement_description
@@ -238,17 +239,15 @@ def get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock
     Get the movement type for purchase receipt
     '''
     movement_type="EI"
-    movement_description="Normal Purchase of goods"
     item_code=stock_ledger_entry_doc.item_code
 
     for item in doc.items:
         if item.item_code==item_code:
             if stock_ledger_entry_doc.actual_qty>0.0:
-                return movement_type,movement_description
+                return movement_type
             else:
-                movement_description="Normal Return of goods"
                 movement_type="SAU"
-                return movement_type, movement_description
+                return movement_type
             
 def get_item_movement_asset_capitalisation_on_submit_and_cancel(stock_ledger_entry_doc,doc):
     '''
