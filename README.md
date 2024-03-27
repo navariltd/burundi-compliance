@@ -65,7 +65,7 @@ Replace `{sitename}` with the name of your site.
 
   
 
-If assistance is needed to get started, reach out for consultation and support from [Navari](solutions@navari.co.ke).
+If assistance is needed to get started, reach out for consultation and support from: [Navari](https://navari.co.ke/).
 
   
 
