@@ -11,7 +11,8 @@ allow_obr_to_track_stock_movement=auth_details["allow_obr_to_track_stock_movemen
 
 
 def on_update(doc, method=None):
-   send_data(doc)
+    obr_integration_base.authenticate()
+    send_data(doc)
                 
                 
 def send_data(doc):

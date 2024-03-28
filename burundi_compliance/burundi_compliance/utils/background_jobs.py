@@ -18,17 +18,17 @@ retry_delay_seconds = int(get_maximum_attempts()["retry_delay_seconds"])
 def retry_sales_invoice_post(invoice_data, doc):
     from ..api_classes.add_invoices import SalesInvoicePoster
     retries = 0    
-    
+    doc=frappe.get_doc("Sales Invoice", invoice_data.get("invoice_number"))
     while retries < max_retries:
         try:
             sales_invoice_poster = SalesInvoicePoster(token)
             result = sales_invoice_poster.post_invoice(invoice_data)
-            frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
+            #frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
             
             return
         except Exception as e:
             retries += 1
-            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc.name)
+            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc)
             time.sleep(retry_delay_seconds)
             continue  
 
@@ -67,10 +67,11 @@ def retry_stock_movement(data, doc):
     
     from ..api_classes.add_stock_movement import TrackStockMovement
     retries = 0
+    doc=frappe.get_doc(doc.doctype, doc.name)
     while retries < max_retries:
         try:
             stock_movement = TrackStockMovement(token)
-            result = stock_movement.post_stock_movement(data)
+            result = stock_movement.post_stock_movement(data, doc)
         
             frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
             if doc.doctype == "Stock Ledger Entry":
@@ -180,7 +181,7 @@ def send_max_retries_email(recipient, subject, message, as_markdown=True):
 ######################################################################################################################
 @frappe.whitelist(allow_guest=True)
 def retry_sending_invoice(invoice_identifier):
-    
+    base_auth.authenticate()
     invoice_name = invoice_identifier.split('/')[-1].split()[0]
     doc = frappe.get_doc('Sales Invoice', invoice_name)
     
