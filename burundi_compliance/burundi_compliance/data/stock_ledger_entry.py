@@ -117,7 +117,7 @@ def get_stock_movement_type(stock_ledger_entry_doc, doc):
     
 def get_stock_movement_on_submit(stock_entry_type, stock_movement_type):
     if stock_entry_type == "Material Receipt":
-            return "UAE"
+            return "EAU"
     elif stock_entry_type == "Material Issue":
         if stock_movement_type == "Theft exits(SV)":
             return "SV"
@@ -135,20 +135,20 @@ def get_stock_movement_on_submit(stock_entry_type, stock_movement_type):
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
         return "SAU"
     else:
-        return "UAE"
+        return "EAU"
     
 def get_stock_movement_on_cancel(stock_entry_type):
     if stock_entry_type == "Material Receipt":
             return "SAU"
     elif stock_entry_type == "Material Issue":
-        return "UAE"
+        return "EAU"
     elif stock_entry_type == "Manufacture":
         return "SAU"
     elif stock_entry_type in ["Repack", "Material Consumption for Manufacture",
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
         return "ER"
     else:
-        return "UAE"
+        return "EAU"
         
         
 def get_stock_movement_description(doc):
@@ -238,7 +238,7 @@ def get_item_movement_on_purchase_receipt_and_invoice_on_submit_and_cancel(stock
     '''
     Get the movement type for purchase receipt
     '''
-    movement_type="EI"
+    movement_type="EN"
     item_code=stock_ledger_entry_doc.item_code
 
     for item in doc.items:

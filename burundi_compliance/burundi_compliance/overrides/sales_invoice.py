@@ -13,6 +13,7 @@ allow_obr_to_track_sales=auth_details["allow_obr_to_track_sales"]
 allow_obr_to_track_stock_movement=auth_details["allow_obr_to_track_stock_movement"]
 				
 def on_submit(doc, method=None):
+	obr_integration_base.authenticate()
 	submit_invoice_request(doc)
 	doc.submit()
 	doc.reload()
@@ -60,6 +61,6 @@ def submit_invoice_request(doc):
 				frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
 			else:
 				frappe.msgprint("Job enqueue failed.")
-    
-    
-    
+	
+	
+	

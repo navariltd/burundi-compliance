@@ -40,7 +40,7 @@ class InvoiceDataProcessor:
             "invoice_type": "FN",
             "tp_type": self.auth_details["type_of_taxpayer"],
             "tp_name": self.doc.company,
-            "tp_TIN": "8768686",
+            "tp_TIN": self.doc.company_tax_id,
             "tp_address_province": company_address.get("tp_address_province"),
             "tp_phone_number": tp_phone_no,
             "tp_address_commune": company_address.get("tp_address_commune"),
