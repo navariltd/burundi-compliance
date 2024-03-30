@@ -23,9 +23,10 @@ def retry_sales_invoice_post(invoice_data, doc):
         try:
             sales_invoice_poster = SalesInvoicePoster(token)
             result = sales_invoice_poster.post_invoice(invoice_data)
-            #frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
+            if result.get("success")==True:
+                frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
+                return
             
-            return
         except Exception as e:
             retries += 1
             frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc)
@@ -72,19 +73,16 @@ def retry_stock_movement(data, doc):
         try:
             stock_movement = TrackStockMovement(token)
             result = stock_movement.post_stock_movement(data, doc)
-        
-            frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
-            if doc.doctype == "Stock Ledger Entry":
-                frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
-            doc.reload()
-            frappe.publish_realtime("msgprint", "Stock movement sent to OBR", user=frappe.session.user)
-            
-            return 
+            if result.get('success')==True:
+                frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
+                if doc.doctype == "Stock Ledger Entry":
+                    frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
+                return 
         except Exception as e:
             frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {str(e)}", reference_doctype=doc.doctype, reference_name=doc.name)
             retries += 1
             time.sleep(retry_delay_seconds)
-            continue 
+            continue
     frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
     
     '''send email to sales manager if max retries reached'''
@@ -212,30 +210,18 @@ def retry_stock_movement_after_failure(doc_type, doc_name):
     frappe.msgprint(f"Retrying sending stock movement data to OBR for {doc.name}", alert=True)
     
     if doc.custom_etracker == 0:
-        if doc_type == "Stock Entry":
-            from ..data.stock_entry_data import get_stock_entry_items
-            data= get_stock_entry_items(doc)
-        elif doc_type == "Purchase Invoice":
-            from ..data.purchase_invoice_data import  get_purchase_data_for_stock_update
-            data= get_purchase_data_for_stock_update(doc)
-        elif doc_type == "Stock Reconciliation":
-            from ..data.stock_reconciliation_data import get_stock_reconciliation_items
-            data= get_stock_reconciliation_items(doc)
-        elif doc_type == "Delivery Note":
-            from ..data.delivery_note import get_delivery_note_items
-            data= get_delivery_note_items(doc)
-        elif doc_type == "Purchase Receipt":
-            from ..data.purchase_receipt_date import purchase_receipt_data
-            data= purchase_receipt_data(doc)
-        else:
-            frappe.throw(f"Unsupported DocType: {doc_type}")
-
-        for item in data:
-            enqueue_stock_movement(item, doc)
+        get_stock_ledger_send_data(doc_type, doc_name)
     else:
         frappe.throw("Stock movement already recorded by OBR")
 
-
+def get_stock_ledger_send_data(doctype, doc_name):
+    this_doc = frappe.get_doc(doctype, doc_name)
+    for item in this_doc.items:
+        stock_ledger_entry = frappe.get_all("Stock Ledger Entry", filters={"item_code": item.item_code, "voucher_no": doc_name}, fields=["*"])
+        for stock_ledger in stock_ledger_entry:
+            stock_ledger_doc = frappe.get_doc("Stock Ledger Entry", stock_ledger.name)
+            from ..overrides.stock_ledger_entry import send_data
+            send_data(stock_ledger_doc)
 
 def get_user_email(doc):
     doc_owner=doc.owner

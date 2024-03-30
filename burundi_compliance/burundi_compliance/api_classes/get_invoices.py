@@ -2,6 +2,7 @@
 import requests
 import frappe
 from .base import OBRAPIBase
+from frappe.integrations.utils import make_post_request
 class InvoiceVerifier:
     def __init__(self, api_key):
         obr_base = OBRAPIBase()
@@ -26,11 +27,8 @@ class InvoiceVerifier:
 
         try:
             # Make a POST request to the API
-            response = requests.post(self.BASE_API_FOR_CHECK_TIN, json=invoice_verifier, headers=self.headers)
-            response.raise_for_status() 
-
-            # Parse the JSON response
-            result = response.json()
+            response = make_post_request(self.BASE_API_FOR_CHECK_TIN, json=invoice_verifier, headers=self.headers)
+            result = response
             return result
 
         except requests.exceptions.RequestException as e:

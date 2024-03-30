@@ -347,7 +347,7 @@
    "is_virtual": 0,
    "label": "Stock Movement Type",
    "length": 0,
-   "mandatory_depends_on": null,
+   "mandatory_depends_on": "eval:doc.stock_entry_type == 'Material Issue'",
    "modified": "2024-02-08 12:32:04.473966",
    "modified_by": "Administrator",
    "module": null,
