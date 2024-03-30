@@ -41,7 +41,6 @@ def get_stock_ledger_data(doc):
     
     return data
 
-
 def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, item_code):
     
     '''
@@ -94,7 +93,7 @@ def get_doc_details(doc, voucher_no):
         doc=frappe.get_doc(doc, voucher_no)
         return doc
     except Exception as e:
-        frappe.throw(f"No dicument found with {doc} and {voucher_no}")
+        frappe.throw(f"No document found with {doc} and {voucher_no}")
     
 def get_stock_movement_type(stock_ledger_entry_doc, doc):
     '''
@@ -105,7 +104,7 @@ def get_stock_movement_type(stock_ledger_entry_doc, doc):
     
     if stock_ledger_entry_doc.actual_qty>0 and stock_entry_type in ["Material Receipt", "Manufacture"] or stock_ledger_entry_doc.actual_qty<0 and stock_entry_type in  ["Material Issue", "Material Consumption for Manufacture",
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
-        return get_stock_movement_on_submit(stock_entry_type, stock_movement_type)
+        return get_stock_movement_on_submit(stock_entry_type, stock_movement_type, doc)
     
     elif stock_ledger_entry_doc.actual_qty<0 and stock_entry_type in ["Material Receipt", "Manufacture"] or stock_ledger_entry_doc.actual_qty>0 and stock_entry_type in  ["Material Issue", "Material Consumption for Manufacture",
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
@@ -115,9 +114,11 @@ def get_stock_movement_type(stock_ledger_entry_doc, doc):
         return get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc)
        
     
-def get_stock_movement_on_submit(stock_entry_type, stock_movement_type):
-    if stock_entry_type == "Material Receipt":
-            return "EAU"
+def get_stock_movement_on_submit(stock_entry_type, stock_movement_type, doc):
+    if stock_entry_type == "Material Receipt" and doc.is_opening == "Yes":
+            return "EI"
+    elif stock_entry_type == "Material Receipt" and doc.is_opening == "No":
+        return "EAU"
     elif stock_entry_type == "Material Issue":
         if stock_movement_type == "Theft exits(SV)":
             return "SV"
@@ -131,7 +132,7 @@ def get_stock_movement_on_submit(stock_entry_type, stock_movement_type):
             return "ST"
     elif stock_entry_type == "Manufacture":
         return "EN"
-    elif stock_entry_type in ["Repack", "Material Consumption for Manufacture",
+    elif stock_entry_type in ["Material Consumption for Manufacture",
                             "Material Transfer for Manufacture", "Send to Subcontractor"]:
         return "SAU"
     else:

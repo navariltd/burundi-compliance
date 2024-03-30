@@ -1,6 +1,7 @@
 import requests
 import frappe
 from .base import OBRAPIBase
+from frappe.integrations.utils import make_post_request
 
 
 class TinVerifier:
@@ -26,11 +27,10 @@ class TinVerifier:
         response = None
 
         try:
-            response = requests.post(self.BASE_API_FOR_CHECK_TIN, json=tin, headers=self.headers)
-            
-            response.raise_for_status() 
+            response = make_post_request(self.BASE_API_FOR_CHECK_TIN, json=tin, headers=self.headers)
+            # response.raise_for_status() 
 
-            result = response.json()
+            result = response
             return result
 
         except requests.exceptions.RequestException as e:

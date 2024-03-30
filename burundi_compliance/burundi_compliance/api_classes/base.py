@@ -35,7 +35,7 @@ class OBRAPIBase:
             error_message = f"Error during authentication: {str(e)}"
             frappe.log_error(error_message, "OBRAPIBase Authentication Error")
             self.enqueue_retry_task()
-            time.sleep(10)
+            time.sleep(5)
             frappe.msgprint("Authentication Problem with OBR server, Job queued")
 
     def get_auth_details(self):        
