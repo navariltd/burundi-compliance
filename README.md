@@ -10,7 +10,7 @@ The Burundi Compliance app seamlessly integrates OBR tax functionalities into ER
 Developed on the robust Frappe Framework and ERPNext platform, it streamlines repetitive tasks and simplifies the tax compliance process for businesses.
 ### Specifications
 - English Version: [SPECIFICATIONS D'INTERFACAGE EBMS - Eng.docx](https://github.com/navariltd/burundi_compliance/files/14740821/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.Eng.docx)
-- French Version: [SPECIFICATIONS D'INTERFACAGE EBMS - DEBUT NOVEMBRE-1 (1).docx](https://github.com/navariltd/burundi_compliance/files/14740823/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.DEBUT.NOVEMBRE-1.1.docx)
+- French Version: [SPECIFICATIONS D'INTERFACAGE EBMS - ACCUSE RECEPTION.docx](https://github.com/navariltd/burundi-compliance/files/14821851/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.ACCUSE.RECEPTION.docx)
 #### Manual/Self-Hosted Installation
 
 
@@ -24,7 +24,7 @@ Developed on the robust Frappe Framework and ERPNext platform, it streamlines re
 
   
 
-3. Once bench and ERPNext are installed, add burundi_compliance to your bench by running:
+3. Once bench and ERPNext are installed, add burundi-compliance to your bench by running:
 
   
 ```sh
@@ -105,7 +105,7 @@ I believe we can see a Burundi Compliance module when we log into the system.
 
   
 
-It has a workspace with three doctypes.
+It has a workspace with three shortcuts to various custom doctypes.
 
   
 
@@ -139,7 +139,7 @@ It has a workspace with three doctypes.
 
   
 
-![re_ebms_settings](https://github.com/navariltd/burundi-compliance/assets/60258622/c1645693-1f16-497d-be89-95271859751d)
+![re-re-Ebms](https://github.com/navariltd/burundi-compliance/assets/60258622/f36e3afc-2443-4a2c-a733-2a2bf81634aa)
 
   
 
@@ -189,9 +189,9 @@ This tab contains details related to your organization's taxes. This are mendato
 ##### More Info Tab
 
   
-![Screenshot from 2024-03-25 10-20-02](https://github.com/navariltd/burundi-compliance/assets/60258622/a1c87b38-a006-4178-bb4c-fbb7fa84ba54)
+![Screenshot from 2024-04-01 12-02-00](https://github.com/navariltd/burundi-compliance/assets/60258622/a8399448-aa48-4422-80f1-d81036eed69a)
 
-This tab has two fields:
+This tab has frequency schedular fields:
 
   
 
@@ -200,12 +200,17 @@ This tab has two fields:
   
 
 2. Retry Delay: This is the interval between retries. Enter the duration in seconds.
+3.  **Invoice Event Frequency**: This option controls how often the system automatically sends invoices to OBR. Choose the frequency that best matches how often you want your invoices sent. Consider factors like your sales volume and when you prefer to submit invoices to OBR.
+    
+4.  **Stock Movement Event Frequency**: This option sets how often the system sends stock movement data to OBR. Choose a frequency that aligns with your needs for updating OBR on stock changes.
+    
+5.  **Setting a Specific Time for Invoice Sending**: If you want to send invoices at a specific time each day, you can use a feature called Cron. When you select this option, another field will appear where you can enter a special format called Cron. You can use a website like [Crontab Guru](https://crontab.guru/) to help you get the timing right. For example, if you want to send invoices every day at 12:00 pm, you would enter "0 12 * * *" in the Cron format field.
 
-  
+6.  **Allow OBR to track sales**: This setting controls whether the system will send invoices to OBR for tracking purposes. When enabled, invoices will be automatically sent to OBR. When disabled, invoices will not be sent to OBR.
+    
+7.  **Allow OBR to track stock movement**: This setting controls whether the system will track stock movement data and send it to OBR. When enabled, stock movement information will be automatically sent to OBR. When disabled, stock movement will not be tracked or sent to OBR.
 
-  
-
-If multi-companies within one site, make settings for each company, since username and password will be diferent. But only one company per doctype.
+If multi-companies are within one site, make settings for each company, since username and password will be different. But only one company per doctype.
 
   
 
@@ -298,7 +303,7 @@ By activating these checkboxes, you ensure comprehensive tracking of relevant ac
 
   
 
-## 2. Stock Movement
+## 2. <a id="Stock_Movement"></a>Stock Movement
 
   
 
@@ -396,7 +401,7 @@ In cases where a user creates a purchase invoice directly without a purchase rec
 
   
 
-## 3. Selling
+## 3. <a id="Selling"></a>Selling
 
   
 
@@ -747,8 +752,24 @@ It has similar fields like *Differ submission, payment type* etc.
   
 
 - If registered, the **TIN Verified** checkbox is automatically ticked.
-
   
+3. **Address**
+   ![Screenshot from 2024-04-01 11-45-07](https://github.com/navariltd/burundi-compliance/assets/60258622/03d4e46d-e297-4e13-b378-856daa22286a)
+
+  This contains the location information required when sending invoices. Remember to fill all fields with *.
+  - Rue
+  - Avenue
+  - Numero
+  - Commune
+  - Quartier
+  - Town
+  - Province
+  
+4.  **Integration Request**
+When there's a need to check the status or details of an action like sending an invoice or recording stock movement, all the relevant information is available in this document type. If an invoice or stock movement fails to go through, the status will be marked as "Failed". If the action is successful, the status will be marked as "Completed". Additionally, this document records details about the payload, output and any errors encountered during the process.
+    
+5.  **Error Log**:
+In the event of an action failing and needing more detailed information than what's provided in the Integration Request, the Error Log document comes into play. It contains comprehensive error logs with additional details, assisting in pinpointing exactly where the error occurred and providing more clarity on what went wrong.
 
   
 
