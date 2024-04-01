@@ -165,7 +165,6 @@
   },
   {
    "default": "1440",
-   "description": "Maximum attempts the system will send data when server is down",
    "fieldname": "maximum_attempts",
    "fieldtype": "Data",
    "label": "Maximum Attempts",
@@ -173,7 +172,6 @@
   },
   {
    "default": "60",
-   "description": "Sleeping time before the next retry.",
    "fieldname": "retry_delay_seconds",
    "fieldtype": "Data",
    "label": "Retry Delay (Seconds)",
@@ -251,7 +249,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-27 11:16:21.245822",
+ "modified": "2024-04-01 10:06:35.169939",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",

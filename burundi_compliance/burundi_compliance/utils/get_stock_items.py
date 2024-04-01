@@ -10,17 +10,15 @@ obr_details=OBRAPIBase()
 
 def get_items(doc):
     items_data = single_stock_data(doc)   
-    
-    
-    for item in items_data:
-            try:
+    # frappe.throw(str(items_data))
+    # for item in items_data:
+    #         try:
                 
-                #get the stock ledger entry for the item
-                stock_ledger_entry = frappe.get_all("Stock Ledger Entry", filters={"item_code": item.get("item_code"), "voucher_no": doc.name}, fields=["*"])
-                for stock_ledger in stock_ledger_entry:
-                    stock_ledger_doc = frappe.get_doc("Stock Ledger Entry", stock_ledger.name)
-                    send_data(stock_ledger_doc)
-                    # frappe.msgprint(f"The transaction for {item.get('item_code')} queued successfully", alert=True)
-            except Exception as e:
-                frappe.msgprint(f"Error sending item {item}: {str(e)}")
-                raise StockMovementError(f"Error sending item {item}: {str(e)}")   
+    #             #get the stock ledger entry for the item
+    #             stock_ledger_entry = frappe.get_all("Stock Ledger Entry", filters={"item_code": item.get("item_code"), "voucher_no": doc.name}, fields=["*"])
+    #             for stock_ledger in stock_ledger_entry:
+    #                 stock_ledger_doc = frappe.get_doc("Stock Ledger Entry", stock_ledger.name)
+    #                 send_data(stock_ledger_doc)
+    #         except Exception as e:
+    #             frappe.msgprint(f"Error sending item {item}: {str(e)}")
+    #             raise StockMovementError(f"Error sending item {item}: {str(e)}")   

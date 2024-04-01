@@ -22,13 +22,18 @@ def single_stock_data(doc, method=None):
         if not check_br_permission:
             continue
         
+        if doc.doctype == "Sales Invoice":
+            item_purchase_or_sale_price = item.rate
+        else:
+            item_purchase_or_sale_price = item.valuation_rate
+        
         data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": item.item_code,
             "item_designation": item.item_name,
             "item_quantity": item.qty,
             "item_measurement_unit": item.uom,
-            "item_purchase_or_sale_price": item.valuation_rate,
+            "item_purchase_or_sale_price": item_purchase_or_sale_price,
             "item_purchase_or_sale_currency": doc.company_currency,
             "item_movement_type": "EN",
             "item_movement_description":'Purchased goods',

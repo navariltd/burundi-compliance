@@ -2,7 +2,9 @@
 from ..utils.system_tax_id import get_system_tax_id
 import frappe
 from ..utils.format_date_and_time import date_time_format
+from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 
+auth=OBRAPIBase()
 
 def get_stock_ledger_data(doc):
     
@@ -31,7 +33,7 @@ def get_stock_ledger_data(doc):
             "item_designation": doc.item_code,
             "item_quantity": abs(float(quantity_difference)) if voucher_type == "Stock Reconciliation" else abs(float(doc.actual_qty)),
             "item_measurement_unit": doc.stock_uom,
-            "item_purchase_or_sale_price": valuation_rate,
+            "item_purchase_or_sale_price": int(valuation_rate),
             "item_purchase_or_sale_currency": frappe.get_value("Company", doc.company, "default_currency"),
             "item_movement_type": movement_type,
             "item_movement_invoice_ref": item_movement_invoice_ref,
@@ -212,7 +214,7 @@ def get_item_movement_on_repack_on_submit_and_cancel(stock_ledger_entry_doc,doc)
     for item in doc.items:
         if item.item_code==item_code:
             if stock_ledger_entry_doc.actual_qty > 0.0:
-                return "EN"
+                return "EAU"
             else:
                 return "SAU"
             
