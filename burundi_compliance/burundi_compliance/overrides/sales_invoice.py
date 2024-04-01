@@ -5,6 +5,7 @@ import frappe
 from ..data.sale_invoice_data import InvoiceDataProcessor
 from frappe import _
 from ..utils.background_jobs import enqueue_stock_movement
+from burundi_compliance.burundi_compliance.utils.get_stock_items import get_items
 
 obr_integration_base = OBRAPIBase()
 
@@ -17,30 +18,18 @@ def on_submit(doc, method=None):
 	submit_invoice_request(doc)
 	doc.submit()
 	doc.reload()
-	if doc.doctype == "Sales Invoice":
-	 	on_submit_update_stock(doc)
+	# if doc.doctype == "Sales Invoice":
+	#  	on_submit_update_stock(doc)
 
-
-def get_items(doc):
-	sales_invoice_data_processor = InvoiceDataProcessor(doc)
-	items_data = sales_invoice_data_processor.get_sales_data_for_stock_update()
-	
-	for item in items_data:
-			try:
-				enqueue_stock_movement(item, doc)
-				frappe.msgprint(f"The transaction for {item.get('item_designation')} was queued successfully!", alert=True)
-			except Exception as e:
-				frappe.msgprint(f"Error sending item {item}: {str(e)}")
-		
-
-def on_submit_update_stock(doc, method=None):
-	if allow_obr_to_track_stock_movement==1:
-		if doc.update_stock==1 or doc.is_return==1:
-			try:
-				get_items(doc)
-			except Exception as e:
-				frappe.msgprint(f"Error during submission: {str(e)}")
-
+# def on_submit_update_stock(doc, method=None):
+# 	if allow_obr_to_track_stock_movement==1:
+# 		if doc.update_stock==1 or doc.is_return==1:
+# 				# Check if the flag is set before queuing stock movements
+# 				if not doc.get("__stock_movement_queued"):
+# 					frappe.publish_realtime('update_stock 1', {"message": "Updating stock"}, user=frappe.session.user)
+# 					get_items(doc)
+# 					# Set the flag to indicate that stock movement has been queued
+# 					doc.set("__stock_movement_queued", True)
 
 def submit_invoice_request(doc):
 	if allow_obr_to_track_sales==1:

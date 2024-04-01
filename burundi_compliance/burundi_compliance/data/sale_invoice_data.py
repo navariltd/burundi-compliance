@@ -4,6 +4,8 @@ from ..utils.system_tax_id import get_system_tax_id
 from ..utils.format_date_and_time import date_time_format
 from ..utils.invoice_signature import create_invoice_signature
 from ..api_classes.base import OBRAPIBase
+from bs4 import BeautifulSoup
+
 import time as time
 from erpnext.controllers.taxes_and_totals import get_itemised_tax_breakup_data
 
@@ -70,10 +72,13 @@ class InvoiceDataProcessor:
         return invoice_data
 
     def prepare_credit_note_data(self, invoice_data):
+        
         reason_for_cancel = self.doc.custom_reason_for_creditcancel
         if not reason_for_cancel:
             frappe.throw("Reason for creating note is mandatory. Kindly fill it.")
-
+        # Use BeautifulSoup to parse HTML and extract plain text
+        soup = BeautifulSoup(reason_for_cancel, 'html.parser')
+        reason_for_cancel = soup.get_text()
         invoice_data.update({
             "invoice_type": "FA",
             "cn_motif": reason_for_cancel,
@@ -101,13 +106,20 @@ class InvoiceDataProcessor:
     def get_invoice_items(self):
         items = []
         itemised_tax_data=get_itemised_tax_breakup_data(self.doc)
+        # frappe.throw(f"Itemised tax data: {itemised_tax_data}")
 
         for item in self.doc.items:
             
             tax_data = next((data for data in itemised_tax_data if data['item'] == item.item_code), None)
 
+            
             if tax_data:
-                total_vat = tax_data['VAT']['tax_amount']
+                # Check if VAT exists, if not, check for other tax details
+                if 'VAT' in tax_data:
+                    total_vat = tax_data['VAT']['tax_amount']
+                else:
+                 
+                    total_vat = 0
             else:
                 total_vat = 0
                 

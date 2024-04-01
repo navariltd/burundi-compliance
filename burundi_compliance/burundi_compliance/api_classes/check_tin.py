@@ -28,7 +28,6 @@ class TinVerifier:
 
         try:
             response = make_post_request(self.BASE_API_FOR_CHECK_TIN, json=tin, headers=self.headers)
-            # response.raise_for_status() 
 
             result = response
             return result

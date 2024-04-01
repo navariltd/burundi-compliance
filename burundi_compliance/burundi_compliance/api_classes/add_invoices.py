@@ -11,7 +11,8 @@ class SalesInvoicePoster:
         obr_base = OBRAPIBase()
         self.BASE_ADD_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("add_invoice")
         self.token = token
-    def _update_integration_request(self, response, invoice_data):
+        
+    def _create_or_update_integration_request(self, response, invoice_data):
         success = response.get("success")
         status="Failed"
         if success:
@@ -28,25 +29,26 @@ class SalesInvoicePoster:
             except Exception as e:
                 frappe.publish_realtime("msgprint", f"Error while saving Integration Request: {str(e)}", user=frappe.session.user)
                 frappe.log_error(f"Error saving Integration Request: {str(e)}")
+        else:
+            create_request_log(invoice_data,
+                                integration_type=None,
+                                service_name="eBMS Invoice",
+                                error="",
+                                name=invoice_data.get("invoice_number"),
+                                request_headers=self._get_headers(),
+                                output=response,
+                                reference_doctype="Sales Invoice",
+                                reference_docname=invoice_data.get("invoice_number"),
+                                status=status,
+                                url=self.BASE_ADD_INVOICE_API_URL
+                                )
 
     def _handle_response(self, response, invoice_data):
         success = response.get("success")
         if success:
             self.update_sales_invoice(response)
-            self._update_integration_request(response, invoice_data)
-        else:
-            create_request_log(invoice_data,
-                integration_type=None,
-                service_name="eBMS Invoice",
-                name=invoice_data.get("invoice_number"),
-                error="",
-                url=self.BASE_ADD_INVOICE_API_URL,
-                request_headers=self._get_headers(),
-                output=response,
-                reference_doctype="Sales Invoice",
-                reference_docname=invoice_data.get("invoice_number"),
-                status="Completed"
-            )
+            self._create_or_update_integration_request(response, invoice_data)
+       
         return response
     
     def check_if_integration_request_exist(self, invoice_data):
