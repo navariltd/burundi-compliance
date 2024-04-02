@@ -242,7 +242,7 @@
    "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
   },
   {
-   "depends_on": "eval:stock_movement_event_frequency==='Cron'",
+   "depends_on": "eval:doc.stock_movement_event_frequency==='Cron'",
    "fieldname": "stock_movement_cron_format",
    "fieldtype": "Data",
    "label": "Stock Movement Cron Format"
@@ -250,7 +250,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-02 11:00:02.600684",
+ "modified": "2024-04-02 12:09:28.749522",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
