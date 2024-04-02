@@ -185,15 +185,18 @@ doc_events = {
 ##################################################################################################################
 ##############################Remember to change the cron job to the correct time#################################
 ##################################################################################################################
-from burundi_compliance.burundi_compliance.utils.event_frequency_schedular import get_event_frequency
-invoice_frequency, stock_movement_frequency = get_event_frequency()
-scheduler_events = {
+# from burundi_compliance.burundi_compliance.utils.event_frequency_schedular import get_event_frequency
+# invoice_frequency, stock_movement_frequency = get_event_frequency()
 
- "cron":{
-        f"{stock_movement_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"],
-        f"{invoice_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"]
- }
-}
+# scheduler_events = {
+
+#  "cron":{
+#       f"{invoice_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
+#         f"{stock_movement_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"],
+       
+#  },
+ 
+# }
 
 # import frappe
 # frappe.throw(f"{invoice_frequency} {stock_movement_frequency}")

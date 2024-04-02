@@ -188,7 +188,7 @@
    "translatable": 1
   },
   {
-   "default": "Hourly",
+   "default": "Daily",
    "fieldname": "event_frequency",
    "fieldtype": "Select",
    "label": "Invoice Event Frequency",
@@ -242,6 +242,7 @@
    "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
   },
   {
+   "depends_on": "eval:stock_movement_event_frequency==='Cron'",
    "fieldname": "stock_movement_cron_format",
    "fieldtype": "Data",
    "label": "Stock Movement Cron Format"
@@ -249,7 +250,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-01 10:06:35.169939",
+ "modified": "2024-04-02 11:00:02.600684",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",

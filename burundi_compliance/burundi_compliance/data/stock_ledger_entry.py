@@ -279,4 +279,3 @@ def get_invoice_reference_number(voucher_type, voucher_no):
         sales_doc=frappe.get_doc("Sales Invoice", voucher_no)
         item_invoice_ref=sales_doc.name
     return item_invoice_ref
-

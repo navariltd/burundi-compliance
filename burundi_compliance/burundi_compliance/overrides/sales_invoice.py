@@ -42,7 +42,6 @@ def submit_invoice_request(doc):
 
 			if doc.custom_creating_payment_entry == 1:
 				invoice_data = sales_invoice_data_processor.prepare_reimbursement_deposit_data(invoice_data)
-
 		# Enqueue background job to send invoice data to OBR
 		if doc.custom_differ_submission_to_obr == 0:
 			job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
