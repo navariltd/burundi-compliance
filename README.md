@@ -284,9 +284,9 @@ This configuration involves ticking the **Allow OBR to track...** checkbox, whic
 
   
 
--  **Inventory**: This option enables OBR to track stock movements for the item, recording any incoming or outgoing movements.
+-  **Inventory**: This option enables OBR to track stock movements for items, recording any incoming or outgoing movements.
 
--  **Purchase**: Enabling this option allows OBR to track the item's movement during purchase transactions.
+-  **Purchase**: Enabling this option allows OBR to track items' movement during purchase transactions.
 
 -  **Sales**: By default, this option is already ticked. It permits OBR to monitor any sales involving the item.
 
