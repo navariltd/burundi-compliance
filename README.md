@@ -61,7 +61,7 @@ Replace `{sitename}` with the name of your site.
 
 - Choose Frappe Version-14/Version-15 or above, and select ERPNext, and Burundi Compliance from the available Apps to Install.
 
-- Within minutes, the site should be up and running with a fresh install, ready to explore the app's simple and impressive features.
+- Within minutes, the site will be up and running with a fresh install, ready to explore the app's simple and impressive features.
 
   
 
@@ -166,13 +166,13 @@ The first interface has fields for *username, password, and company*.
   ![Screenshot from 2024-03-25 10-19-16](https://github.com/navariltd/burundi-compliance/assets/60258622/11ce1aef-9130-42a7-a116-beeeba9252ca)
 
 
-This tab contains details related to your organization's taxes. This are mendatory because they are mendatory when sending the Invoice.
+This tab contains details related to your organization's taxes. These details are mandatory when sending Invoices.
 
--*Taxpayer's Sector of Activity* - this is the company domain
+-*Taxpayer's Sector of Activity* - This is the company domain
 
 -*Taxpayer's Legal Form* -
 
--*The taxpayer's commercial register number*-This is the trade number of the company
+-*The taxpayer's commercial register number*-This is the company's trade number
 
 -*Subject to VAT* -
 
@@ -289,9 +289,9 @@ This configuration involves ticking the **Allow OBR to track...** checkbox, whic
 
   
 
--  **Inventory**: This option enables OBR to track stock movements for the item, recording any incoming or outgoing movements.
+-  **Inventory**: This option enables OBR to track stock movements for items, recording any incoming or outgoing movements.
 
--  **Purchase**: Enabling this option allows OBR to track the item's movement during purchase transactions.
+-  **Purchase**: Enabling this option allows OBR to track items' movement during purchase transactions.
 
 -  **Sales**: By default, this option is already ticked. It permits OBR to monitor any sales involving the item.
 
@@ -321,7 +321,7 @@ By activating these checkboxes, you ensure comprehensive tracking of relevant ac
 
   
 
-- Upon submission, a confirmation pop-up appears:
+- Upon submission, a confirmation pop-up will appear:
 
   
 
