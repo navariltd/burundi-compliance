@@ -14,10 +14,17 @@ allow_obr_to_track_sales=auth_details["allow_obr_to_track_sales"]
 allow_obr_to_track_stock_movement=auth_details["allow_obr_to_track_stock_movement"]
 				
 def on_submit(doc, method=None):
-	obr_integration_base.authenticate()
-	submit_invoice_request(doc)
-	doc.submit()
-	doc.reload()
+    obr_integration_base.authenticate()
+
+    if doc.doctype == "Sales Invoice" and doc.is_consolidated == 0:
+        submit_invoice_request(doc)
+    elif doc.doctype == "POS Invoice":
+        submit_invoice_request(doc)
+    
+    doc.submit()
+    doc.reload()
+
+
 	# if doc.doctype == "Sales Invoice":
 	#  	on_submit_update_stock(doc)
 

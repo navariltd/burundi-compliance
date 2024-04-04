@@ -1,7 +1,7 @@
 
 from burundi_compliance.burundi_compliance.utils.background_jobs import enqueue_retry_posting_sales_invoice
 from burundi_compliance.burundi_compliance.data.sale_invoice_data import InvoiceDataProcessor
-from burundi_compliance.burundi_compliance.overrides.sales_invoice import on_submit_update_stock
+# from burundi_compliance.burundi_compliance.overrides.sales_invoice import on_submit_update_stock
 from burundi_compliance.burundi_compliance.utils.get_stock_items import get_items
 import frappe
 import ast
@@ -15,8 +15,7 @@ def bulk_invoice_submission():
  
 	sales_invoices_str = frappe.form_dict.get("sales_invoices")
 	doctype = frappe.form_dict.get("doctype")
-	sales_invoices = ast.literal_eval(sales_invoices_str)
-	
+	sales_invoices = ast.literal_eval(sales_invoices_str)#converts the string to a list
 	for invoice in sales_invoices:
 		
 		try:
@@ -41,8 +40,6 @@ def bulk_invoice_submission():
 				frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
 			else:
 				frappe.msgprint("Job enqueue failed.")
-		if doctype == "Sales Invoice":
-			on_submit_update_stock(doc)
   
 
 @frappe.whitelist(allow_guest=True)

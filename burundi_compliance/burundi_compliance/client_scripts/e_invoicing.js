@@ -1,45 +1,47 @@
 frappe.ui.form.on('Sales Invoice', {
     refresh: function(frm) {
         if (frm.doc.docstatus == 1) {
-            
-            frm.add_custom_button(__('Get Invoice'), function() {
-                // Call the backend function when the button is clicked
-                frappe.call({
-                    method: 'burundi_compliance.burundi_compliance.api_classes.get_invoices.confirm_invoice',
-                    args: {
-                        "invoice_identifier": frm.doc.custom_invoice_identifier
-                    },
-                    callback: function(response) {
-                        if (response.message) {
-                            showInvoiceDetailsDialog(response.message.result);
-                        } else {
-                            frappe.msgprint("Failed to get invoice details");
-                        }
-                    }
-                });
-            }, __('eBIMS Actions'));
-
-            if (frm.doc.custom_einvoice_signatures == null) {
-                frm.add_custom_button(__('Re-Submit'), function() {
-                    frappe.call({
-                        method: 'burundi_compliance.burundi_compliance.utils.background_jobs.retry_sending_invoice',
-                        args: {
-                            "invoice_identifier": frm.doc.custom_invoice_identifier
-                        },
-                        callback: function(response) {
-                            if (response.message) {
-                                frappe.msgprint("Invoice sent successfully");
-                            } else {
-                                frappe.msgprint("Failed to send invoice");
-                            }
-                        }
-                    });
-                }, __('eBIMS Actions'));
-            }
+            addInvoiceButtons(frm, 'Sales Invoice');
         }
     },
 });
 
+frappe.ui.form.on('POS Invoice', {
+    refresh: function(frm) {
+        if (frm.doc.docstatus == 1) {
+            addInvoiceButtons(frm, 'POS Invoice');
+        }
+    },
+});
+
+function addInvoiceButtons(frm, invoiceType) {
+    frm.add_custom_button(__('Get Invoice'), function() {
+        callBackendFunction(frm, invoiceType, 'api_classes.get_invoices.confirm_invoice');
+    }, __('eBIMS Actions'));
+
+    if (frm.doc.custom_einvoice_signatures == null) {
+        frm.add_custom_button(__('Re-Submit'), function() {
+          
+            callBackendFunction(frm, invoiceType, 'utils.background_jobs.retry_sending_invoice');
+        }, __('eBIMS Actions'));
+    }
+}
+
+function callBackendFunction(frm, invoiceType, method) {
+    frappe.call({
+        method: `burundi_compliance.burundi_compliance.${method}`,
+        args: {
+            "invoice_identifier": frm.doc.custom_invoice_identifier
+        },
+        callback: function(response) {
+            if (response.message) {
+                showInvoiceDetailsDialog(response.message.result);
+            } else {
+                frappe.msgprint("Failed to get invoice details");
+            }
+        }
+    });
+}
 
 function showInvoiceDetailsDialog(result) {
     let invoice = result.invoices[0];
@@ -96,10 +98,8 @@ function showInvoiceDetailsDialog(result) {
                 default: invoice.customer_TIN,
                 read_only: true
             },
-           
         ]
     });
-
 
     dialog.set_primary_action(__('Close'), function() {
         dialog.hide();

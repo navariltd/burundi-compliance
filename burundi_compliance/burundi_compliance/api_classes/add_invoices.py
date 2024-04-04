@@ -18,7 +18,7 @@ class SalesInvoicePoster:
         if success:
             status="Completed"
         integration_req = self.check_if_integration_request_exist(invoice_data)
-        
+        doc=self.get_doc(invoice_data)
         if integration_req:
             try:
                 doc = frappe.get_doc("Integration Request", invoice_data.get('invoice_number'))
@@ -37,7 +37,7 @@ class SalesInvoicePoster:
                                 name=invoice_data.get("invoice_number"),
                                 request_headers=self._get_headers(),
                                 output=response,
-                                reference_doctype="Sales Invoice",
+                                reference_doctype=doc.doctype,
                                 reference_docname=invoice_data.get("invoice_number"),
                                 status=status,
                                 url=self.BASE_ADD_INVOICE_API_URL
@@ -52,8 +52,9 @@ class SalesInvoicePoster:
         return response
     
     def check_if_integration_request_exist(self, invoice_data):
+        doc=self.get_doc(invoice_data)
         integration_request = frappe.db.exists("Integration Request", {
-            "reference_doctype": "Sales Invoice",
+            "reference_doctype": doc.doctype,
             "reference_docname": invoice_data.get("invoice_number")
         })
         if integration_request:
@@ -79,7 +80,11 @@ class SalesInvoicePoster:
             response_data = json.loads(response.text)
             msg=response_data.get("msg")
             success=response_data.get("success")
-            doc=frappe.get_doc("Sales Invoice", invoice_data.get("invoice_number"))
+            
+            # doc=frappe.get_doc("Sales Invoice", invoice_data.get("invoice_number"))
+            # if not doc:
+            #     doc=frappe.get_doc("POS Invoice", invoice_data.get("invoice_number"))
+            doc = self.get_doc(invoice_data)
             if success==False:
                 integration_req = self.check_if_integration_request_exist(invoice_data)
                 if integration_req:
@@ -95,7 +100,7 @@ class SalesInvoicePoster:
                                             name=invoice_data.get("invoice_number"),
                                             request_headers=self._get_headers(),
                                             output=response_data,
-                                            reference_doctype="Sales Invoice",
+                                            reference_doctype=doc.doctype,
                                             reference_docname=invoice_data.get("invoice_number"),
                                             status="Failed",
                                             url=self.BASE_ADD_INVOICE_API_URL
@@ -114,17 +119,16 @@ class SalesInvoicePoster:
             invoice_registered_date = response.get("result", {}).get("invoice_registered_date")
 
             # Check the doctype directly
-            invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_number) else "Sales Invoice"
-            sales_invoice = frappe.get_doc(invoice_type, invoice_number)
+            invoice=self.get_doc({"invoice_number": invoice_number})
 
             # Update Sales Invoice fields
-            sales_invoice.custom_einvoice_signatures = electronic_signature
-            sales_invoice.custom_invoice_registered_no = invoice_registered_no
-            sales_invoice.custom_invoice_registered_date = invoice_registered_date
-            sales_invoice.custom_submitted_to_obr = 1
+            invoice.custom_einvoice_signatures = electronic_signature
+            invoice.custom_invoice_registered_no = invoice_registered_no
+            invoice.custom_invoice_registered_date = invoice_registered_date
+            invoice.custom_submitted_to_obr = 1
 
             # Save the Sales Invoice
-            sales_invoice.save()
+            invoice.save()
             frappe.db.commit()
             frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=frappe.session.user)
         except Exception as e:
@@ -145,3 +149,8 @@ class SalesInvoicePoster:
             frappe.publish_realtime("msgprint", f"Error while saving Integration Request: {str(e)}", user=frappe.session.user)
             frappe.log_error(f"Error saving Integration Request: {str(e)}")
             
+            
+    def get_doc(self, invoice_data):
+        invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_data.get("invoice_number")) else "Sales Invoice"
+        doc = frappe.get_doc(invoice_type, invoice_data.get("invoice_number"))
+        return doc

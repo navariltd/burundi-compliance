@@ -38,6 +38,7 @@ app_include_js = [
 
 doctype_js = {
     "Sales Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
+    "POS Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
     "Company":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Customer":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Supplier":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",

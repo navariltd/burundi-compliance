@@ -1,13 +1,39 @@
 from datetime import datetime, timedelta
 
+# def date_time_format(doc):
+
+#     formatted_date = f'{doc.posting_date} {doc.posting_time}'
+#     datetime_obj = datetime.strptime(formatted_date, '%Y-%m-%d %H:%M:%S.%f')
+
+#     formatted_date = datetime_obj.strftime('%Y-%m-%d %H:%M:%S')
+#     identity_date=datetime_obj.strftime('%Y%m%d%H%M%S')
+
+#     return formatted_date, identity_date
+# from datetime import datetime
+
+# def date_time_format(doc):
+#     formatted_date = f'{doc.posting_date} {doc.posting_time}'
+#     datetime_obj = datetime.strptime(formatted_date, '%Y-%m-%d %H:%M:%S')
+
+#     formatted_date = datetime_obj.strftime('%Y-%m-%d %H:%M:%S')
+#     identity_date = datetime_obj.strftime('%Y%m%d%H%M%S')
+
+#     return formatted_date, identity_date
+
+from datetime import datetime
+
 def date_time_format(doc):
-
     formatted_date = f'{doc.posting_date} {doc.posting_time}'
-    datetime_obj = datetime.strptime(formatted_date, '%Y-%m-%d %H:%M:%S.%f')
+    
+    # Check if microseconds are present in the formatted_date
+    if '.' in formatted_date:
+        format_str = '%Y-%m-%d %H:%M:%S.%f'
+    else:
+        format_str = '%Y-%m-%d %H:%M:%S'
 
+    datetime_obj = datetime.strptime(formatted_date, format_str)
     formatted_date = datetime_obj.strftime('%Y-%m-%d %H:%M:%S')
-    identity_date=datetime_obj.strftime('%Y%m%d%H%M%S')
-
+    identity_date = datetime_obj.strftime('%Y%m%d%H%M%S')
     return formatted_date, identity_date
 
 # def date_time_format(doc):

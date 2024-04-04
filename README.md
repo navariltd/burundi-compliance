@@ -8,11 +8,32 @@
 The Burundi Compliance app seamlessly integrates OBR tax functionalities into ERPNext, empowering users to efficiently manage tax compliance tasks.
 
 Developed on the robust Frappe Framework and ERPNext platform, it streamlines repetitive tasks and simplifies the tax compliance process for businesses.
+
+### Summary of Key Features:
+
+1. **Sales Invoice Tax Tracking:** 
+   - Seamlessly send sales invoices to OBR for meticulous tax tracking, ensuring adherence to regulatory standards and facilitating transparent financial reporting.
+
+2. **Stock Movement Monitoring:** 
+   - Track stock movements for sales transactions within ERPNext, enabling comprehensive oversight and compliance with tax regulations governing inventory management.
+
+3. **Supplier/Customer Registration Verification:** 
+   - Automatically verify supplier/customer registration status, ensuring that only registered members are engaged in business transactions, thereby mitigating risks associated with non-compliant suppliers.
+
+4. **Real-Time TIN Verification:** 
+   - Verify Tax Identification Numbers (TINs) of registered customers in real-time, validating their authenticity and promoting compliance with tax regulations.
+
+5. **Automated Compliance Checks:** 
+   - Implement automated compliance checks to enforce adherence to tax regulations at every stage of business operations, reducing the risk of non-compliance and associated penalties.
+
+### Architecture Overview
+Streamlined Integration: ERPNext Communicating with OBR Server and Database
+(#Image)
+
 ### Specifications
 - English Version: [SPECIFICATIONS D'INTERFACAGE EBMS - Eng.docx](https://github.com/navariltd/burundi_compliance/files/14740821/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.Eng.docx)
 - French Version: [SPECIFICATIONS D'INTERFACAGE EBMS - ACCUSE RECEPTION.docx](https://github.com/navariltd/burundi-compliance/files/14821851/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.ACCUSE.RECEPTION.docx)
 #### Manual/Self-Hosted Installation
-
 
 1. [Install bench](https://github.com/frappe/bench)
 
@@ -20,9 +41,7 @@ Developed on the robust Frappe Framework and ERPNext platform, it streamlines re
 
 2. [Install ERPNext](https://github.com/frappe/erpnext#installation)
 
-  
-
-  
+    
 
 3. Once bench and ERPNext are installed, add burundi-compliance to your bench by running:
 
@@ -771,6 +790,20 @@ When there's a need to check the status or details of an action like sending an 
 5.  **Error Log**:
 In the event of an action failing and needing more detailed information than what's provided in the Integration Request, the Error Log document comes into play. It contains comprehensive error logs with additional details, assisting in pinpointing exactly where the error occurred and providing more clarity on what went wrong.
 
+## Summary of Endpoints
+
+|                | ERPNext                                | OBR Server                                    |
+|----------------|----------------------------------------|-----------------------------------------------|
+| Authenticate User | Send user credentials                   | Receive request for authentication, verify credentials, issue access token             |
+|                  | *Endpoint: `(/login`)*                  |                                               |
+| Add Sales Invoice / POS Invoice | Send invoice details            | Receive request to add invoice, process the request, send confirmation                  |
+|                                 | *Endpoint: `(/addInvoice_confirm/`)* |                                           |
+| Add Stock Movements            | Send stock movement details       | Receive request to add stock movements, process the request, send confirmation         |
+|                                 | *Endpoint: `(/AddStockMovement/`)* |                                          |
+| Check TIN (Customer, Supplier) | Send TIN for verification         | Receive request to verify TIN, check TIN validity, return owner's name                 |
+|                                 | *Endpoint: `(/checkTIN/`)*        |                                               |
+| Cancel Sales Invoice           | Send invoice ID for cancellation  | Receive request to cancel invoice, process the request, send confirmation              |
+|                                 | *Endpoint: `(/cancelInvoice/`)*   |                                               |
   
 
 ## FAQS
