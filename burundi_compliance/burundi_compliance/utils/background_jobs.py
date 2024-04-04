@@ -17,8 +17,9 @@ retry_delay_seconds = int(get_maximum_attempts()["retry_delay_seconds"])
 @frappe.whitelist(allow_guest=True)
 def retry_sales_invoice_post(invoice_data, doc):
     from ..api_classes.add_invoices import SalesInvoicePoster
-    retries = 0    
-    doc=frappe.get_doc("Sales Invoice", invoice_data.get("invoice_number"))
+    retries = 0
+    invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_data.get("invoice_number")) else "Sales Invoice"
+    doc = frappe.get_doc(invoice_type, invoice_data.get("invoice_number"))
     while retries < max_retries:
         try:
             sales_invoice_poster = SalesInvoicePoster(token)
@@ -26,10 +27,15 @@ def retry_sales_invoice_post(invoice_data, doc):
             if result.get("success")==True:
                 frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
                 return
+            else:
+                frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {result.text}", reference_doctype=doc.doctype, reference_name=doc)
+                time.sleep(retry_delay_seconds)
+                retries += 1
+                continue
             
         except Exception as e:
             retries += 1
-            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc)
+            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype=doc.doctype, reference_name=doc)
             time.sleep(retry_delay_seconds)
             continue  
 
@@ -181,7 +187,8 @@ def send_max_retries_email(recipient, subject, message, as_markdown=True):
 def retry_sending_invoice(invoice_identifier):
     base_auth.authenticate()
     invoice_name = invoice_identifier.split('/')[-1].split()[0]
-    doc = frappe.get_doc('Sales Invoice', invoice_name)
+    invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_name) else "Sales Invoice"
+    doc = frappe.get_doc(invoice_type, invoice_name)
     
     sales_invoice_data_processor = InvoiceDataProcessor(doc)
     invoice_data = sales_invoice_data_processor.prepare_invoice_data()

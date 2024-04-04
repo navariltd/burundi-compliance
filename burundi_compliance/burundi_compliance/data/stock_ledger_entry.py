@@ -167,7 +167,7 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
         for item in doc.items:
             if item.item_code==item_code and item.warehouse==warehouse:
                 quantity_difference=item.quantity_difference
-        if stock_ledger_entry_doc.actual_qty==0:
+        if stock_ledger_entry_doc.is_cancelled==0:
             movement_type = "EI"  # Opening Stock
         else:
             movement_type="SAU"
@@ -176,17 +176,18 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
         for item in doc.items:
             if item.item_code==item_code and item.warehouse==warehouse:
                 quantity_difference=item.quantity_difference
-                if stock_ledger_entry_doc.actual_qty==0:
-                
+                if stock_ledger_entry_doc.is_cancelled==0:
                     if float(quantity_difference) > 0.0:
                         movement_type = "EAJ"
                     elif float(quantity_difference) < 0.0:
                         movement_type = "SAJ"
+                elif stock_ledger_entry_doc.is_cancelled==1:
+                    if float(quantity_difference) > 0.0:
+                        movement_type = "SAJ"
+                    elif float(quantity_difference) < 0.0:
+                        movement_type = "EAJ"
                 else:
-                    if float(quantity_difference) > 0.0:
-                        movement_type = "SAJ"
-                    elif float(quantity_difference) < 0.0:
-                        movement_type = "EAJ"
+                    movement_type = "SAU"
     
     return movement_type, quantity_difference
 
@@ -279,3 +280,4 @@ def get_invoice_reference_number(voucher_type, voucher_no):
         sales_doc=frappe.get_doc("Sales Invoice", voucher_no)
         item_invoice_ref=sales_doc.name
     return item_invoice_ref
+
