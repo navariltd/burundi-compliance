@@ -15,10 +15,10 @@ Developed on the robust Frappe Framework and ERPNext platform, it streamlines re
    - Seamlessly send sales invoices to OBR for meticulous tax tracking, ensuring adherence to regulatory standards and facilitating transparent financial reporting.
 
 2. **Stock Movement Monitoring:** 
-   - Track stock movements for sales transactions within ERPNext, enabling comprehensive oversight and compliance with tax regulations governing inventory management.
+   - Track stock movements for inventory and sales transactions within ERPNext, enabling comprehensive oversight and compliance with tax regulations governing inventory management.
 
-3. **Supplier/Customer Registration Verification:** 
-   - Automatically verify supplier/customer registration status, ensuring that only registered members are engaged in business transactions, thereby mitigating risks associated with non-compliant suppliers.
+3. **Supplier Registration Verification:** 
+   - Automatically verify supplier registration status, ensuring that only registered members are engaged in business transactions, thereby mitigating risks associated with non-compliant suppliers.
 
 4. **Real-Time TIN Verification:** 
    - Verify Tax Identification Numbers (TINs) of registered customers in real-time, validating their authenticity and promoting compliance with tax regulations.
@@ -28,7 +28,7 @@ Developed on the robust Frappe Framework and ERPNext platform, it streamlines re
 
 ### Architecture Overview
 Streamlined Integration: ERPNext Communicating with OBR Server and Database
-(#Image)
+![Screenshot from 2024-04-04 15-13-22](https://github.com/navariltd/burundi-compliance/assets/60258622/8f58d333-a70a-4678-b5dd-31c898e7d8f9)
 
 ### Specifications
 - English Version: [SPECIFICATIONS D'INTERFACAGE EBMS - Eng.docx](https://github.com/navariltd/burundi_compliance/files/14740821/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.Eng.docx)
