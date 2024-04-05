@@ -94,14 +94,6 @@ class InvoiceDataProcessor:
 
         return invoice_data
 
-    # def calculate_item_vat(self, item):
-    #     total_tax_amount = 0.0
-    #     if self.doc.taxes_and_charges:
-    #         for taxes in self.doc.taxes:
-    #             tax_percentage = taxes.rate
-    #             total_tax_amount += tax_percentage / 100 * item.qty * item.rate
-
-    #     return total_tax_amount
 
     def get_invoice_items(self):
         items = []

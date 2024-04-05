@@ -45,7 +45,7 @@ def retry_sales_invoice_post(invoice_data, doc):
     '''send email to sales manager if max retries reached'''
     try:
         subject = f'Maximum retries reached. Unable to send invoice to OBR. '
-        message="I hope this message finds you well.\n We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes).\nTo address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
+        message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes). To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
         send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
     except Exception as e:
         frappe.msgprint(f"Error sending emails: {str(e)}")
@@ -94,7 +94,7 @@ def retry_stock_movement(data, doc):
     '''send email to sales manager if max retries reached'''
     try:
         subject = f'Maximum retries reached. Unable to send invoice to OBR. '
-        message="I hope this message finds you well.\n We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes).\nTo address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
+        message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the stock data to OBR (Office Burundais des Recettes).To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
         send_max_retries_email(get_user_email(frappe.get_doc(doc.voucher_type, doc.voucher_no)), subject, message, as_markdown=False)
     except Exception as e:
         frappe.msgprint(f"Error sending emails: {str(e)}")

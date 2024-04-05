@@ -56,14 +56,12 @@ class TrackStockMovement:
                     frappe.publish_realtime("msgprint", f"Failed Check on:<div style='color:red'> {str(response_data)}</div>", user=frappe.session.user)
                     self._update_integration_request(response_data, stock_movement_data,doc, status="Failed")
                 except Exception as e:
-                    frappe.publish_realtime("msgprint", f"Error while creating Integration Request 1: {str(e)}", user=frappe.session.user)
                     frappe.log_error(f"Error while creating Integration Request: {str(e)}")
             else:
                 return self._handle_response(response_data,stock_movement_data, doc_)
         except requests.exceptions.RequestException as e:
             error_message = f"Error during API request: {str(e)}"
-            frappe.log_error(error_message, "Add Stock Movement Request Error")
-            frappe.log_error(f"Response content: {response.text}")
+            frappe.log_error(error_message, f"Add Stock Movement Request Error {response.text}")
            
 
     def check_if_integration_request_exist(self, doc):
