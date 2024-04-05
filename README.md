@@ -1,18 +1,18 @@
 # <center>Burundi Compliance</center>
 
-## <center> OBR Integration for ERPNext</center>
+## <center> EBMS(Système de facturation électronique) Integration for ERPNext</center>
 
-  
+
 ### Overview
 
-The Burundi Compliance app seamlessly integrates OBR tax functionalities into ERPNext, empowering users to efficiently manage tax compliance tasks.
+The Burundi Compliance app seamlessly integrates EBMS(Système de facturation électronique) tax functionalities into ERPNext, empowering users to efficiently manage tax compliance tasks.
 
 Developed on the robust Frappe Framework and ERPNext platform, it streamlines repetitive tasks and simplifies the tax compliance process for businesses.
 
-### Summary of Key Features:
+### Summary of Main Features:
 
 1. **Sales Invoice Tax Tracking:** 
-   - Seamlessly send sales invoices to OBR for meticulous tax tracking, ensuring adherence to regulatory standards and facilitating transparent financial reporting.
+   - Seamlessly send sales invoices to OBR(Office Burundais des Recettes) for meticulous tax tracking, ensuring adherence to regulatory standards and facilitating transparent financial reporting.
 
 2. **Stock Movement Monitoring:** 
    - Track stock movements for inventory and sales transactions within ERPNext, enabling comprehensive oversight and compliance with tax regulations governing inventory management.
@@ -33,70 +33,8 @@ Streamlined Integration: ERPNext Communicating with OBR Server and Database
 ### Specifications
 - English Version: [SPECIFICATIONS D'INTERFACAGE EBMS - Eng.docx](https://github.com/navariltd/burundi_compliance/files/14740821/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.Eng.docx)
 - French Version: [SPECIFICATIONS D'INTERFACAGE EBMS - ACCUSE RECEPTION.docx](https://github.com/navariltd/burundi-compliance/files/14821851/SPECIFICATIONS.D.INTERFACAGE.EBMS.-.ACCUSE.RECEPTION.docx)
-#### Manual/Self-Hosted Installation
-
-1. [Install bench](https://github.com/frappe/bench)
-
-  
-
-2. [Install ERPNext](https://github.com/frappe/erpnext#installation)
-
-    
-
-3. Once bench and ERPNext are installed, add burundi-compliance to your bench by running:
-
-  
-```sh
 
 
-$  bench  get-app  --branch  {branch-name}  https://github.com/navariltd/burundi-compliance.git
-
-```
-
-
-Replace `{branch-name}` with the desired branch name from the repository. Ensure compatibility with your installed versions of Frappe and ERPNext.
-
-
-4. Install the burundi-compliance app on your site by running:
-
-
-```sh
-
-$  bench  --site  {sitename}  install-app  burundi-compliance
-
-```
-
-Replace `{sitename}` with the name of your site.
-
-  
-
-#### Frappe Cloud Installation
-
-- Sign up with Frappe Cloud.
-
-- Setup a [bench](https://frappecloud.com/docs/benches/create-new).
-
-- Create a new site.
-
-- Choose Frappe Version-14/Version-15 or above, and select ERPNext, and Burundi Compliance from the available Apps to Install.
-
-- Within minutes, the site will be up and running with a fresh install, ready to explore the app's simple and impressive features.
-
-  
-
-If assistance is needed to get started, reach out for consultation and support from: [Navari](https://navari.co.ke/).
-
-  
-
-### Troubleshooting
-
-- If you encounter any errors during installation, refer to the error messages for guidance.
-
-- Ensure all dependencies are correctly installed and compatible with the versions specified.
-
-  
-
-  
 
 ## Key Features
 
@@ -120,8 +58,7 @@ If assistance is needed to get started, reach out for consultation and support f
 
   
 
-I believe we can see a Burundi Compliance module when we log into the system.
-
+Once the user logs into the system, among teh modules, there is Burundi Compliance.
   
 
 It has a workspace with three shortcuts to various custom doctypes.
@@ -146,9 +83,7 @@ It has a workspace with three shortcuts to various custom doctypes.
 
 4. [Item](#item)
 
-  
 
-  
 
 #### i. eBMS Settings
 
@@ -219,15 +154,15 @@ This tab has frequency schedular fields:
   
 
 2. Retry Delay: This is the interval between retries. Enter the duration in seconds.
-3.  **Invoice Event Frequency**: This option controls how often the system automatically sends invoices to OBR. Choose the frequency that best matches how often you want your invoices sent. Consider factors like your sales volume and when you prefer to submit invoices to OBR.
+3.  **Invoice Event Frequency**: This option controls how often the system automatically sends invoices to OBR(Office Burundais des Recettes). Choose the frequency that best matches how often you want your invoices sent. Consider factors like your sales volume and when you prefer to submit invoices to OBR.
     
-4.  **Stock Movement Event Frequency**: This option sets how often the system sends stock movement data to OBR. Choose a frequency that aligns with your needs for updating OBR on stock changes.
+4.  **Stock Movement Event Frequency**: This option sets how often the system sends stock movement data to OBR(Office Burundais des Recettes). Choose a frequency that aligns with your needs for updating OBR on stock changes.
     
 5.  **Setting a Specific Time for Invoice Sending**: If you want to send invoices at a specific time each day, you can use a feature called Cron. When you select this option, another field will appear where you can enter a special format called Cron. You can use a website like [Crontab Guru](https://crontab.guru/) to help you get the timing right. For example, if you want to send invoices every day at 12:00 pm, you would enter "0 12 * * *" in the Cron format field.
 
-6.  **Allow OBR to track sales**: This setting controls whether the system will send invoices to OBR for tracking purposes. When enabled, invoices will be automatically sent to OBR. When disabled, invoices will not be sent to OBR.
+6.  **Allow OBR(Office Burundais des Recettes) to track sales**: This setting controls whether the system will send invoices to OBR for tracking purposes. When enabled, invoices will be automatically sent to OBR. When disabled, invoices will not be sent to OBR.
     
-7.  **Allow OBR to track stock movement**: This setting controls whether the system will track stock movement data and send it to OBR. When enabled, stock movement information will be automatically sent to OBR. When disabled, stock movement will not be tracked or sent to OBR.
+7.  **Allow OBR(Office Burundais des Recettes) to track stock movement**: This setting controls whether the system will track stock movement data and send it to OBR. When enabled, stock movement information will be automatically sent to OBR. When disabled, stock movement will not be tracked or sent to OBR.
 
 If multi-companies are within one site, make settings for each company, since username and password will be different. But only one company per doctype.
 
@@ -394,7 +329,7 @@ In cases where a user creates a purchase invoice directly without a purchase rec
 
   
 
-1. A scheduler runs every 6 hours to send pending stock ledger entries automatically.
+1. A scheduler runs every X hours(as set in the stock movement Event Frequency, ebms setting doctype) to send pending stock ledger entries automatically.
 
   
 
@@ -706,7 +641,7 @@ Once the issue is resolved, there are two approaches to send batches:
 
   
 
-1. A scheduler runs every 6 hours, automatically sending the requests.
+1. A scheduler runs every as set in the Invoice Event Frequency, ebms setting doctype, automatically sending the requests.
 
   
 
@@ -806,12 +741,75 @@ In the event of an action failing and needing more detailed information than wha
 |                                 | *Endpoint: `(/cancelInvoice/`)*   |                                               |
   
 
-## FAQS
-1. What happens when you tick update stock on POS Invoice, does it send two request to OBR?
->Yes, but they dont happen at the same time.
->First, te invoice will be sent to OBR. Then later when we close the entry for POS, it will create stock ledger entry for items sold, at this point, the schedular will send the stock details to OBR.
+
+
+#### Manual/Self-Hosted Installation
+
+1. [Install bench](https://github.com/frappe/bench)
 
   
+
+2. [Install ERPNext](https://github.com/frappe/erpnext#installation)
+
+    
+
+3. Once bench and ERPNext are installed, add burundi-compliance to your bench by running:
+
+  
+```sh
+
+
+$  bench  get-app  --branch  {branch-name}  https://github.com/navariltd/burundi-compliance.git
+
+```
+
+
+Replace `{branch-name}` with the desired branch name from the repository. Ensure compatibility with your installed versions of Frappe and ERPNext.
+
+
+4. Install the burundi-compliance app on your site by running:
+
+
+```sh
+
+$  bench  --site  {sitename}  install-app  burundi-compliance
+
+```
+
+Replace `{sitename}` with the name of your site.
+
+  
+
+#### Frappe Cloud Installation
+
+- Sign up with Frappe Cloud.
+
+- Setup a [bench](https://frappecloud.com/docs/benches/create-new).
+
+- Create a new site.
+
+- Choose Frappe Version-14/Version-15 or above, and select ERPNext, and Burundi Compliance from the available Apps to Install.
+
+- Within minutes, the site will be up and running with a fresh install, ready to explore the app's simple and impressive features.
+
+  
+
+If assistance is needed to get started, reach out for consultation and support from: [Navari](https://navari.co.ke/).
+
+  
+
+### Troubleshooting
+
+- If you encounter any errors during installation, refer to the error messages for guidance.
+
+- Ensure all dependencies are correctly installed and compatible with the versions specified.
+
+  
+
+  ## FAQS
+1. What happens when you tick update stock on POS Invoice, does it send two request to OBR(Office Burundais des Recettes?
+>Yes, but they dont happen at the same time.
+>First, the invoice will be sent to OBR. Then later when we close the entry for POS, it will create stock ledger entry for items sold, at this point, the schedular will send the stock details to OBR.
 
   
 
