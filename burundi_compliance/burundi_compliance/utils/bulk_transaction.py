@@ -52,6 +52,7 @@ def bulk_stock_submission():
 	stock_docs = frappe.form_dict.get("stock_details")
 	stock_docs_list = ast.literal_eval(stock_docs)
 	doctype=frappe.form_dict.get("doctype")
+	frappe.publish_realtime("stock_update", "Updating stock for selected invoices", user=frappe.session.user)
 	for stock_doc in stock_docs_list:
 		try:
 			doc=frappe.get_doc(doctype, stock_doc)
