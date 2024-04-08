@@ -46,7 +46,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Payroll Reports",
-   "link_count": 5,
+   "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -74,19 +74,9 @@
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "Burundi P10 Tax Report",
+   "label": "IPRO1 Report",
    "link_count": 0,
    "link_to": "Burundi P10 Tax Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi P9A Tax Deduction Card Report",
-   "link_count": 0,
-   "link_to": "Burundi P9A Tax Deduction Card Report",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -102,7 +92,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-03-22 05:43:32.458914",
+ "modified": "2024-04-07 09:45:31.514215",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "Burundi Compliance",

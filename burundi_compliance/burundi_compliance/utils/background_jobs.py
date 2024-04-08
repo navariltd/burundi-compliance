@@ -91,13 +91,13 @@ def retry_stock_movement(data, doc):
             continue
     frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
     
-    '''send email to sales manager if max retries reached'''
-    try:
-        subject = f'Maximum retries reached. Unable to send invoice to OBR. '
-        message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the stock data to OBR (Office Burundais des Recettes).To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
-        send_max_retries_email(get_user_email(frappe.get_doc(doc.voucher_type, doc.voucher_no)), subject, message, as_markdown=False)
-    except Exception as e:
-        frappe.msgprint(f"Error sending emails: {str(e)}")
+    # '''send email to stock manager if max retries reached'''
+    # try:
+    #     subject = f'Maximum retries reached. Unable to send invoice to OBR. '
+    #     message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the stock data to OBR (Office Burundais des Recettes).To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
+    #     send_max_retries_email(get_user_email(frappe.get_doc(doc.voucher_type, doc.voucher_no)), subject, message, as_markdown=False)
+    # except Exception as e:
+    #     frappe.msgprint(f"Error sending emails: {str(e)}")
 
 def enqueue_stock_movement(data, doc):
     frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_stock_movement', data=data, doc=doc, queue='long', is_async=True)

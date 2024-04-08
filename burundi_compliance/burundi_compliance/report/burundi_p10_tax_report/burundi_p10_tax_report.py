@@ -1,9 +1,6 @@
 # Copyright (c) 2024, Navari Limited and contributors
 # For license information, please see license.txt
 
-# import frappe
-
-
 import frappe
 from frappe import _
 from pypika import Case
@@ -33,8 +30,8 @@ def get_columns():
         },
         
            {
-            "fieldname": "base_income_tax", 
-            "label": _("Base Income Tax"), 
+            "fieldname": "base_imposable", 
+            "label": _("Base imposable"), 
             "fieldtype": "Currency", 
             "width": 150
          },
@@ -102,14 +99,14 @@ def get_p10_report_data(filters):
         conditions.append(salary_slip.company == filters.get("company"))
     if filters.get("employee"):
         conditions.append(salary_slip.employee == filters.get("employee"))
-    if filters.get("from_date") and filters.get("to_date"):
-        conditions.append(
-            salary_slip.posting_date.between(filters.get("from_date"), filters.get("to_date"))
-        )
+    if filters.get("from_date"):
+        conditions.append(salary_slip.start_date >= filters.get("from_date"))
+    if filters.get("to_date"):
+        conditions.append(salary_slip.end_date <= filters.get("to_date"))
 
     salary_components = [
         'Salaire de base', 'Indemnité de logement', 'Indemnité de déplacement',
-        'Leave Allowance', 'Heures supplementaire', 'Commissions', 'Impot a payer','Base IRE 0%','Base IRE 0%','Base IRE 30%' 'IRE 0%', 'IRE 20%','IRE 30%']
+        'Leave Allowance', 'Heures supplementaire', 'Commissions','Base imposable', 'Impot a payer','Base IRE 0%','Base IRE 20%','Base IRE 30%', 'IRE 0%', 'IRE 20%','IRE 30%']
 
     query = frappe.qb.from_(salary_slip) \
         .inner_join(employee) \
@@ -129,7 +126,6 @@ def get_p10_report_data(filters):
                 reduce(lambda x, y: x & y, conditions)).orderby(salary_slip.employee)
     
     data = query.run(as_dict=True)
-    
     
     employee_data = {}
     for row in data:
@@ -155,4 +151,3 @@ def get_p10_report_data(filters):
         report_data.append(row)
  
     return report_data
-
