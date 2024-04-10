@@ -20,11 +20,13 @@
   "the_taxpayers_commercial_register_number",
   "the_taxpayers_tax_center",
   "subject_to_vat",
+  "exempted_from_vat",
   "column_break_xego",
   "system_identification_given_by_obr",
   "type_of_taxpayer",
   "subject_to_consumption_tax",
   "subject_to_flatrate_withholding_tax",
+  "assujetti_au_pf",
   "more_info_tab",
   "maximum_attempts",
   "column_break_qtoq",
@@ -246,11 +248,23 @@
    "fieldname": "stock_movement_cron_format",
    "fieldtype": "Data",
    "label": "Stock Movement Cron Format"
+  },
+  {
+   "default": "0",
+   "fieldname": "exempted_from_vat",
+   "fieldtype": "Check",
+   "label": "Exon\u00e9r\u00e9 \u00e0 la TVA"
+  },
+  {
+   "default": "0",
+   "fieldname": "assujetti_au_pf",
+   "fieldtype": "Check",
+   "label": "Assujetti au PF"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-02 12:09:28.749522",
+ "modified": "2024-04-10 09:08:59.913123",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
