@@ -154,7 +154,7 @@ This tab has frequency schedular fields:
   
 
 2. Retry Delay: This is the interval between retries. Enter the duration in seconds.
-3.  **Invoice Event Frequency**: This option controls how often the system automatically sends invoices to OBR(Office Burundais des Recettes). Choose the frequency that best matches how often you want your invoices sent. Consider factors like your sales volume and when you prefer to submit invoices to OBR.
+3.  **Invoice Event Frequency**: This option controls how often the system automatically sends invoices to OBR(Office Burundais des Recettes). Choose the frequency that best matches how often you want your invoices to be sent. Consider factors like your sales volume and when you prefer to submit invoices to OBR.
     
 4.  **Stock Movement Event Frequency**: This option sets how often the system sends stock movement data to OBR(Office Burundais des Recettes). Choose a frequency that aligns with your needs for updating OBR on stock changes.
     
