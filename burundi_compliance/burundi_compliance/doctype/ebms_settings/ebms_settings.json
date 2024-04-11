@@ -20,7 +20,6 @@
   "the_taxpayers_commercial_register_number",
   "the_taxpayers_tax_center",
   "subject_to_vat",
-  "exempted_from_vat",
   "column_break_xego",
   "system_identification_given_by_obr",
   "type_of_taxpayer",
@@ -251,12 +250,6 @@
   },
   {
    "default": "0",
-   "fieldname": "exempted_from_vat",
-   "fieldtype": "Check",
-   "label": "Exon\u00e9r\u00e9 \u00e0 la TVA"
-  },
-  {
-   "default": "0",
    "fieldname": "assujetti_au_pf",
    "fieldtype": "Check",
    "label": "Assujetti au PF"
@@ -264,7 +257,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-10 09:08:59.913123",
+ "modified": "2024-04-11 11:11:41.140980",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",

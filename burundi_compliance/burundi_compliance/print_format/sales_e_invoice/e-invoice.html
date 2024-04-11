@@ -177,7 +177,7 @@
                             {%else%}
                                 <span>OUI</span>
                             {% endif %}</div>
-                        <div><strong>Exonéré à la TVA:</strong> {% if ebms_settings.exempted_from_vat==0 %}
+                        <div><strong>Exonéré à la TVA:</strong> {% if doc.taxes_and_charges=="Sales Exempt" %}
                             <span>OUI</span>
                             {% else %}
                             <span>NON</span>
