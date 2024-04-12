@@ -136,7 +136,7 @@
                         {{ letter_head.content | safe }}
                     </div>
                 {%- endif %}
-                <div class="head_adon" style="margin-top:35px">
+                <div class="head_adon" style="margin-top:70px">
                     {% set ebms_settings = frappe.get_doc("eBMS Settings", doc.company) %}
                     {% if ebms_settings %}
                     <div><strong>Nom du contribuable:</strong> {{doc.company}}</div>
@@ -263,7 +263,7 @@
                         <tr>
                             <th>Nature de l’article ou
                                 service</th>
-                            <th>Qté</th>
+                            <th>QUANTITE</th>
                             <th>PU</th>
                             <th>PVHTVA</th>
                         </tr>
