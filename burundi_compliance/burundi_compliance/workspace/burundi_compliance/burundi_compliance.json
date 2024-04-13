@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS Setting\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBIMS API Methods\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
+ "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
  "creation": "2024-03-06 21:09:27.172909",
  "custom_blocks": [],
  "docstatus": 0,
@@ -46,7 +46,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Payroll Reports",
-   "link_count": 5,
+   "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -71,23 +71,12 @@
    "onboard": 0,
    "type": "Link"
   },
-  
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "Burundi P10 Tax Report",
+   "label": "IPRO1 Report",
    "link_count": 0,
    "link_to": "Burundi P10 Tax Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi P9A Tax Deduction Card Report",
-   "link_count": 0,
-   "link_to": "Burundi P9A Tax Deduction Card Report",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -103,7 +92,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-03-11 09:37:59.839173",
+ "modified": "2024-04-07 09:45:31.514215",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "Burundi Compliance",
@@ -118,16 +107,24 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "eBIMS Setting",
-   "link_to": "eBIMS Setting",
+   "label": "eBMS Settings",
+   "link_to": "eBMS Settings",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "eBIMS API Methods",
-   "link_to": "eBIMS API Methods",
+   "label": "eBMS API Methods",
+   "link_to": "eBMS API Methods",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "eBMS Endpoint URLs",
+   "link_to": "eBMS Endpoint URLs",
    "stats_filter": "[]",
    "type": "DocType"
   }

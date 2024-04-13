@@ -8,7 +8,7 @@ app_license = "GNU General Public License (v3)"
 # required_apps = []
 
 fixtures=[
-   "eBIMS API Methods",
+   "eBMS API Methods",
 ]
 
 # Includes in <head>
@@ -38,6 +38,7 @@ app_include_js = [
 
 doctype_js = {
     "Sales Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
+    "POS Invoice":"burundi_compliance/client_scripts/e_invoicing.js",
     "Company":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Customer":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
     "Supplier":"burundi_compliance/client_scripts/customer_supplier_check_tin.js",
@@ -48,7 +49,15 @@ doctype_js = {
     "doctype" : "public/js/doctype.js"}
 
 
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+    "Sales Invoice" : "burundi_compliance/client_scripts/sales_invoice_list.js",
+     "POS Invoice" : "burundi_compliance/client_scripts/pos_invoice_list.js",
+    "Stock Ledger Entry" : "burundi_compliance/client_scripts/stock_list.js",
+    "Stock Entry" : "burundi_compliance/client_scripts/stock_list.js",
+    "Stock Reconciliation" : "burundi_compliance/client_scripts/stock_recon_list.js",
+                   }
+
+
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -150,24 +159,14 @@ doc_events = {
         #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
         
     },
-    "Purchase Receipt":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.purchase_receipt.on_submit",
-    },
-    "Delivery Note":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.delivery_note.on_submit_or_cancel_update_stock",
-        "before_cancel":"burundi_compliance.burundi_compliance.overrides.delivery_note.before_cancel_update_stock",
-    },
-    "Stock Entry":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_entry.on_submit"
-    },
-    "Stock Reconciliation":{
-        "on_submit":"burundi_compliance.burundi_compliance.overrides.stock_reconciliation.on_submit"
+ "POS Invoice":{
+        
+       "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
+        "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
+        #"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+        
     },
     
-    "Purchase Invoice":{
-        "on_submit": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_submit_update_stock",
-        "on_cancel": "burundi_compliance.burundi_compliance.overrides.purchase_invoice.on_cancel_update_stock",
-    },
     "Customer":{
         "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
     },
@@ -175,16 +174,34 @@ doc_events = {
         #use similar function with customer_check_tin
         "before_save":"burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
     },
+    "Stock Ledger Entry":{
+        "on_update":"burundi_compliance.burundi_compliance.overrides.stock_ledger_entry.on_update"
+    }
     
 }
 
-# Scheduled Tasks
+# Scheduled Tasks minor changes
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"burundi_compliance.tasks.all"
-# 	],
+##################################################################################################################
+##############################Remember to change the cron job to the correct time#################################
+##################################################################################################################
+from burundi_compliance.burundi_compliance.utils.event_frequency_schedular import get_event_frequency
+invoice_frequency, stock_movement_frequency = get_event_frequency()
+
+scheduler_events = {
+
+ "cron":{
+      f"{invoice_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
+        f"{stock_movement_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"],
+       
+ },
+ 
+}
+
+# import frappe
+# frappe.throw(f"{invoice_frequency} {stock_movement_frequency}")
+
 # 	"daily": [
 # 		"burundi_compliance.tasks.daily"
 # 	],

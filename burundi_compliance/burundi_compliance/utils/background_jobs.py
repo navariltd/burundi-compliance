@@ -17,18 +17,25 @@ retry_delay_seconds = int(get_maximum_attempts()["retry_delay_seconds"])
 @frappe.whitelist(allow_guest=True)
 def retry_sales_invoice_post(invoice_data, doc):
     from ..api_classes.add_invoices import SalesInvoicePoster
-    retries = 0    
-    
+    retries = 0
+    invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_data.get("invoice_number")) else "Sales Invoice"
+    doc = frappe.get_doc(invoice_type, invoice_data.get("invoice_number"))
     while retries < max_retries:
         try:
             sales_invoice_poster = SalesInvoicePoster(token)
             result = sales_invoice_poster.post_invoice(invoice_data)
-            frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
+            if result.get("success")==True:
+                frappe.publish_realtime("msgprint", f"Invoice sent to OBR", user=doc.owner)
+                return
+            else:
+                frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {result.text}", reference_doctype=doc.doctype, reference_name=doc)
+                time.sleep(retry_delay_seconds)
+                retries += 1
+                continue
             
-            return
         except Exception as e:
             retries += 1
-            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}")
+            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype=doc.doctype, reference_name=doc)
             time.sleep(retry_delay_seconds)
             continue  
 
@@ -38,7 +45,7 @@ def retry_sales_invoice_post(invoice_data, doc):
     '''send email to sales manager if max retries reached'''
     try:
         subject = f'Maximum retries reached. Unable to send invoice to OBR. '
-        message="I hope this message finds you well.\n We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes).\nTo address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
+        message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes). To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
         send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
     except Exception as e:
         frappe.msgprint(f"Error sending emails: {str(e)}")
@@ -64,32 +71,33 @@ def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
 
 @frappe.whitelist(allow_guest=True)
 def retry_stock_movement(data, doc):
+    
     from ..api_classes.add_stock_movement import TrackStockMovement
     retries = 0
+    doc=frappe.get_doc(doc.doctype, doc.name)
     while retries < max_retries:
         try:
             stock_movement = TrackStockMovement(token)
-            result = stock_movement.post_stock_movement(data)
-            
-            frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
-            doc.reload()
-            frappe.publish_realtime("msgprint", "Stock movement sent to OBR", user=frappe.session.user)
-            
-            return 
+            result = stock_movement.post_stock_movement(data, doc)
+            if result.get('success')==True:
+                frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
+                if doc.doctype == "Stock Ledger Entry":
+                    frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
+                return 
         except Exception as e:
-            frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {str(e)}")
+            frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {str(e)}", reference_doctype=doc.doctype, reference_name=doc.name)
             retries += 1
             time.sleep(retry_delay_seconds)
-            continue 
+            continue
     frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
     
-    '''send email to sales manager if max retries reached'''
-    try:
-        subject = f'Maximum retries reached. Unable to send invoice to OBR. '
-        message="I hope this message finds you well.\n We regret to inform you that we have encountered difficulties in sending the sales invoice data to OBR (Office Burundais des Recettes).\nTo address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
-        send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
-    except Exception as e:
-        frappe.msgprint(f"Error sending emails: {str(e)}")
+    # '''send email to stock manager if max retries reached'''
+    # try:
+    #     subject = f'Maximum retries reached. Unable to send invoice to OBR. '
+    #     message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the stock data to OBR (Office Burundais des Recettes).To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
+    #     send_max_retries_email(get_user_email(frappe.get_doc(doc.voucher_type, doc.voucher_no)), subject, message, as_markdown=False)
+    # except Exception as e:
+    #     frappe.msgprint(f"Error sending emails: {str(e)}")
 
 def enqueue_stock_movement(data, doc):
     frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_stock_movement', data=data, doc=doc, queue='long', is_async=True)
@@ -107,11 +115,12 @@ def retry_cancel_invoice(invoice_data, doc):
         try:
             invoice_canceller = InvoiceCanceller(token)
             response = invoice_canceller.cancel_invoice(invoice_data)
+            frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
             frappe.publish_realtime("msgprint", f"Invoice cancelled successful!{response}", user=frappe.session.user)
             return
         except Exception as e:
             retries += 1
-            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}")
+            frappe.log_error(f"Error during retry ({retries}/{max_retries}): {str(e)}", reference_doctype="Sales Invoice", reference_name=doc.name)
             time.sleep(retry_delay_seconds)
             continue  
 
@@ -176,9 +185,10 @@ def send_max_retries_email(recipient, subject, message, as_markdown=True):
 ######################################################################################################################
 @frappe.whitelist(allow_guest=True)
 def retry_sending_invoice(invoice_identifier):
-    
+    base_auth.authenticate()
     invoice_name = invoice_identifier.split('/')[-1].split()[0]
-    doc = frappe.get_doc('Sales Invoice', invoice_name)
+    invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_name) else "Sales Invoice"
+    doc = frappe.get_doc(invoice_type, invoice_name)
     
     sales_invoice_data_processor = InvoiceDataProcessor(doc)
     invoice_data = sales_invoice_data_processor.prepare_invoice_data()
@@ -207,33 +217,22 @@ def retry_stock_movement_after_failure(doc_type, doc_name):
     frappe.msgprint(f"Retrying sending stock movement data to OBR for {doc.name}", alert=True)
     
     if doc.custom_etracker == 0:
-        if doc_type == "Stock Entry":
-            from ..data.stock_entry_data import get_stock_entry_items
-            data= get_stock_entry_items(doc)
-        elif doc_type == "Purchase Invoice":
-            from ..data.purchase_invoice_data import  get_purchase_data_for_stock_update
-            data= get_purchase_data_for_stock_update(doc)
-        elif doc_type == "Stock Reconciliation":
-            from ..data.stock_reconciliation_data import get_stock_reconciliation_items
-            data= get_stock_reconciliation_items(doc)
-        elif doc_type == "Delivery Note":
-            from ..data.delivery_note import get_delivery_note_items
-            data= get_delivery_note_items(doc)
-        elif doc_type == "Purchase Receipt":
-            from ..data.purchase_receipt_date import purchase_receipt_data
-            data= purchase_receipt_data(doc)
-        else:
-            frappe.throw(f"Unsupported DocType: {doc_type}")
-
-        for item in data:
-            enqueue_stock_movement(item, doc)
+        get_stock_ledger_send_data(doc_type, doc_name)
     else:
         frappe.throw("Stock movement already recorded by OBR")
 
-
+def get_stock_ledger_send_data(doctype, doc_name):
+    this_doc = frappe.get_doc(doctype, doc_name)
+    for item in this_doc.items:
+        stock_ledger_entry = frappe.get_all("Stock Ledger Entry", filters={"item_code": item.item_code, "voucher_no": doc_name}, fields=["*"])
+        for stock_ledger in stock_ledger_entry:
+            stock_ledger_doc = frappe.get_doc("Stock Ledger Entry", stock_ledger.name)
+            from ..overrides.stock_ledger_entry import send_data
+            send_data(stock_ledger_doc)
 
 def get_user_email(doc):
     doc_owner=doc.owner
     user=frappe.get_doc("User", doc_owner)
     email=user.email
     return email
+

@@ -40,7 +40,7 @@ def execute(filters=None):
     if not employees:
         return [], []
 
-    p9a_tax_deduction_card_type = ("Basic Salary",
+    p9a_tax_deduction_card_type = ("Salaire de base",
                                     "Benefits NonCash",
                                     "Value of Quarters",
                                     "Total Gross Pay",
@@ -164,7 +164,7 @@ def get_columns():
     },
         {
         "fieldname": "basic_salary",
-        "label": _("Basic Salary | A"),
+        "label": _("Salaire de base"),
         "fieldtype": "Currency",
         "width": 150
     },
@@ -236,7 +236,7 @@ def get_columns():
     },
         {
         "fieldname": "insurance_relief",
-        "label": _("Insurance Relief"),
+        "label": _("Assurance"),
         "fieldtype": "Currency",
         "width": 150
     },

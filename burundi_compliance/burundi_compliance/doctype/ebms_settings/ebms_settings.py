@@ -6,13 +6,7 @@ from frappe.model.document import Document
 from ...api_classes.base import OBRAPIBase
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 
-from ...utils.base_api import full_api_url
-
 obr_base=OBRAPIBase()
-class eBIMSSetting(Document):
+class eBMSSettings(Document):
 	pass
 
-	# def onload(self):
-	# 	frappe.throw(obr_base.authenticate())
- 
-		

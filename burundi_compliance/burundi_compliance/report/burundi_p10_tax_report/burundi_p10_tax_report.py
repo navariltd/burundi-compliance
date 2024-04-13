@@ -1,9 +1,6 @@
 # Copyright (c) 2024, Navari Limited and contributors
 # For license information, please see license.txt
 
-# import frappe
-
-
 import frappe
 from frappe import _
 from pypika import Case
@@ -12,7 +9,6 @@ from functools import reduce
 def execute(filters=None):
     if filters.from_date > filters.to_date:
         frappe.throw(_("From Date cannot be greater than To Date"))
-
     return get_columns(), get_p10_report_data(filters)
 
 def get_columns():
@@ -24,59 +20,74 @@ def get_columns():
             "options": "Employee", 
             "width": 150
         },
+        
         {   
             "fieldname": "employee_name", 
-            "label": _("Employee Name"),
+            "label": _("Nom & Prenoms"),
             "fieldtype": "Data", 
             "read_only": 1,
             "width": 150
         },
-        {   
-            "fieldname": "basic_salary", 
-            "label": _("Basic Salary"), 
-            "fieldtype": "Currency", 
-            "width": 150
-        },
-        {
-            "fieldname": "housing_allowance", 
-            "label": _("Housing Allowance"), 
-            "fieldtype": "Currency", 
-            "width": 150
-        },
-        {
-            "fieldname": "transport_allowance", 
-            "label": _("Transport Allowance"), 
+        
+           {
+            "fieldname": "base_imposable", 
+            "label": _("Base imposable"), 
             "fieldtype": "Currency", 
             "width": 150
          },
-        {
-            "fieldname": "leave_pay", 
-            "label": _("Leave Pay"), 
+           
+        
+          {
+            "fieldname": "base_ire_0%", 
+            "label": _("Base IRE 0%"), 
             "fieldtype": "Currency", 
             "width": 150
-        },
-        {
-            "fieldname": "overtime", 
-            "label": _("Overtime"), 
+         },
+
+           {
+            "fieldname": "base_ire_20%", 
+            "label": _("Base IRE 20%"), 
             "fieldtype": "Currency", 
             "width": 150
-        },
-        {
-            "fieldname": "lump_sum_payment", 
-            "label": _("Lump Sum Payment"), 
-            "fieldtype": "Currency",
+         },
+
+           {
+            "fieldname": "base_ire_30%", 
+            "label": _("Base IRE 30%"), 
+            "fieldtype": "Currency", 
             "width": 150
-        },
+         },
+        
+         {
+            "fieldname": "ire_0%", 
+            "label": _("IRE 0%"), 
+            "fieldtype": "Currency", 
+            "width": 150
+         },
+         
+          {
+            "fieldname": "ire_20%", 
+            "label": _("IRE 20%"), 
+            "fieldtype": "Currency", 
+            "width": 150
+         },
+          
+           {
+            "fieldname": "ire_30%", 
+            "label": _("IRE 30%"), 
+            "fieldtype": "Currency", 
+            "width": 150
+         },
+        
         {
-            "fieldname": "paye", 
-            "label": _("PAYE"), 
+            "fieldname": "impot_a_payer", 
+            "label": _("Impot a payer"), 
             "fieldtype": "Currency",
             "width": 150
         },
     ]
 
     return columns
-
 
 def get_p10_report_data(filters):
     employee = frappe.qb.DocType("Employee")
@@ -88,14 +99,14 @@ def get_p10_report_data(filters):
         conditions.append(salary_slip.company == filters.get("company"))
     if filters.get("employee"):
         conditions.append(salary_slip.employee == filters.get("employee"))
-    if filters.get("from_date") and filters.get("to_date"):
-        conditions.append(
-            salary_slip.posting_date.between(filters.get("from_date"), filters.get("to_date"))
-        )
+    if filters.get("from_date"):
+        conditions.append(salary_slip.start_date >= filters.get("from_date"))
+    if filters.get("to_date"):
+        conditions.append(salary_slip.end_date <= filters.get("to_date"))
 
     salary_components = [
-        'Basic Salary', 'House Allowance', 'Transport Allowance',
-        'Leave Allowance', 'Overtime', 'Commissions', 'PAYE']
+        'Salaire de base', 'Indemnité de logement', 'Indemnité de déplacement',
+        'Leave Allowance', 'Heures supplementaire', 'Commissions','Base imposable', 'Impot a payer','Base IRE 0%','Base IRE 20%','Base IRE 30%', 'IRE 0%', 'IRE 20%','IRE 30%']
 
     query = frappe.qb.from_(salary_slip) \
         .inner_join(employee) \
@@ -116,7 +127,6 @@ def get_p10_report_data(filters):
     
     data = query.run(as_dict=True)
     
-
     employee_data = {}
     for row in data:
         employee_pin = row["custom_tax_id"]
@@ -139,5 +149,5 @@ def get_p10_report_data(filters):
         row = {"custom_tax_id": employee_pin, "employee_name": employee_name}
         row.update(components)
         report_data.append(row)
-        
+ 
     return report_data

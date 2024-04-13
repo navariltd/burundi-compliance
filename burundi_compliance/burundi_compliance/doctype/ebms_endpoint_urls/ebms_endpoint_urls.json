@@ -1,0 +1,72 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{environment}",
+ "creation": "2024-03-13 06:30:48.336601",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "environment",
+  "column_break_fcho",
+  "server_url",
+  "section_break_fols",
+  "apis"
+ ],
+ "fields": [
+  {
+   "default": "Production",
+   "fieldname": "environment",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Environment",
+   "options": "\nSandBox\nProduction"
+  },
+  {
+   "fieldname": "apis",
+   "fieldtype": "Table",
+   "label": "APIS",
+   "options": "eBIMS APIs"
+  },
+  {
+   "default": "https://ebms.obr.gov.bi:9443/ebms_api/",
+   "fieldname": "server_url",
+   "fieldtype": "Data",
+   "label": "Server Url",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fcho",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_fols",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-22 05:46:03.267199",
+ "modified_by": "Administrator",
+ "module": "Burundi Compliance",
+ "name": "eBMS Endpoint URLs",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

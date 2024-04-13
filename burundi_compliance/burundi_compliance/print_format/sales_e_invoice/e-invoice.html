@@ -41,7 +41,7 @@
         .invoice-container {
             max-width: 900px;
             padding: 2px;
-            padding-left: 15px;
+            
         }
 
         .head-row {
@@ -91,6 +91,8 @@
         .t-table {
             width: 100%;
             border-collapse: collapse;
+            margin-left:-40px;
+            margin-top: 50px;
         }
     
         .t-table td {
@@ -134,7 +136,27 @@
                         {{ letter_head.content | safe }}
                     </div>
                 {%- endif %}
+                <div class="head_adon" style="margin-top:70px">
+                    {% set ebms_settings = frappe.get_doc("eBMS Settings", doc.company) %}
+                    {% if ebms_settings %}
+                    <div><strong>Nom du contribuable:</strong> {{doc.company}}</div>
+                    <div><strong>Secteur d'activité: </strong>{{ebms_settings.taxpayers_sector_of_activity}}</div>
+                    <div><strong>Registre de commerce:</strong> {{ebms_settings.the_taxpayers_commercial_register_number}}</div>
+                        
+                    {% else %}
+                        <div>No eBMS Settings found for company: {{ doc.company }}</div>
+                    {% endif %}
+                    <div><strong>Personne physique:</strong> Société</div>
+                    <div><strong>Centre Fiscal:</strong> {{ebms_settings.the_taxpayers_tax_center}}</div>
+                   
+     
+
+                </div>
+                
+
+
             </div>
+            
 
             <!-- QR Code Image -->
             <div class="head-col">
@@ -148,6 +170,45 @@
                         <p>No electronic signature available.</p>
                     {%- endif %} -->
                     <!--===============================================End of QR code =============================================================================-->
+                    <div>
+                        <div><strong>Assujetti a la TVA: </strong>
+                            {%if ebms_settings.subject_to_vat == 0%}
+                                <span>NON</span>
+                            {%else%}
+                                <span>OUI</span>
+                            {% endif %}</div>
+                        <div><strong>Exonéré à la TVA:</strong> {% if doc.taxes_and_charges=="Sales Exempt" %}
+                            <span>OUI</span>
+                            {% else %}
+                            <span>NON</span>
+                            {% endif %}
+                        </div>
+                        <div><strong>Assujetti a la TC:</strong> {% if ebms_settings.subject_to_consumption_tax==0 %}
+                            <span>NON</span>
+                            {% else %}
+                            <span>OUI</span>
+                            {% endif %}
+                        </div>
+                        <div><strong>Assujetti au PF: </strong>{% if ebms_settings.assujetti_au_pf ==0%}
+                            <span>NON</span>
+                            {% else %}
+                            <span>OUI</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>               {% set links = frappe.get_all('Dynamic Link', filters={'link_doctype': 'Company', 'link_name': doc.company, 'parenttype': 'Address'}, fields=['parent']) %}
+
+                        {% if links %}
+                            {% set address = frappe.get_doc("Address", links[0].parent) %}
+                            {% if address %}
+                        
+                                <div><strong>Commune:</strong> {{ address.custom_commune }}</div>
+                                <div><strong>Avenue:</strong> {{ address.custom_avenue }}</div>
+                                <div><strong>Numero:</strong> {{ address.custom_numéro }}</div>
+                            {% endif %}
+                        {% else %}
+                            <div>No address found for the company.</div>
+                        {% endif %}</div>
                     <div class="mt-2" style="margin-top: 0px;">
                         <h3>FACTURE</h3>
                         <h4>{{ doc.name }}</h4>
@@ -167,14 +228,23 @@
 <div class="row" style="display:flex">
     <div class="col-md-6">
         <h4>  Le client</h4>
-        <p>Nom et prénom ou Raison sociale: {{ doc.customer_name }}</p>
-        <p>NIF : {{ doc.tax_id }}</p>
-        <p>Résident à  : {{ doc.customer_address }}</p>
-        <p>Assujetti à la TVA:
-            {% if doc.exempt_from_sales_tax == 1 %}
-            Non
+        <p><strong>Personne physique:</strong> {%set customer_doc=frappe.get_doc("Customer", doc.customer_name)%}
+        {% if customer_doc %}
+            {% if customer_doc.customer_type=="Company" %}
+                <span>Société</span>
             {% else %}
-            Oui
+        <span>Personne physique</span>
+        {% endif %}
+        {% endif %}
+        </p>
+        <p><strong>Nom et prénom ou Raison sociale:</strong> {{ doc.customer_name }}</p>
+        <p><strong>NIF :</strong> {{ doc.tax_id }}</p>
+        <p><strong>Résident à  :</strong> {{ doc.customer_address }}</p>
+        <p><strong>Assujetti à la TVA:</strong>
+            {% if doc.exempt_from_sales_tax == 1 %}
+            NON
+            {% else %}
+            OUI
             {% endif %}
           </p>        
     </div>
@@ -185,7 +255,7 @@
 </div>
 
         <!-- Items Table -->
-        <div class="row ">
+        <div class="row t-table">
             <div class="col mr-5 ml-5">
                 
                 <table class="table table-bordered">
@@ -193,7 +263,7 @@
                         <tr>
                             <th>Nature de l’article ou
                                 service</th>
-                            <th>Qté</th>
+                            <th>QUANTITE</th>
                             <th>PU</th>
                             <th>PVHTVA</th>
                         </tr>
@@ -203,8 +273,8 @@
                             <tr>
                                 <td>{{ item.item_name }}</td>
                                 <td>{{ item.qty }}</td>
-                                <td>{{ item.rate }}</td>
-                                <td>{{ item.amount }}</td>
+                                <td>{{ '{:,.0f}'.format(item.rate) }}</td>
+                                <td>{{ '{:,.0f}'.format(item.amount) }}</td>
                                 
                             </tr>
                         {% endfor %}

@@ -1,14 +1,14 @@
 import requests
 import frappe
 from .base import OBRAPIBase
-from ..utils.base_api import full_api_url
+from frappe.integrations.utils import make_post_request
+
 
 class TinVerifier:
     def __init__(self, api_key):
         obr_base = OBRAPIBase()
         self.api_key = api_key
         self.BASE_API_FOR_CHECK_TIN =F"https://ebms.obr.gov.bi:9443/ebms_api/checkTIN/"
-        #self.BASE_API_FOR_CHECK_TIN =full_api_url(obr_base.get_api_from_ebims_settings("check_TIN"))
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
@@ -27,11 +27,9 @@ class TinVerifier:
         response = None
 
         try:
-            response = requests.post(self.BASE_API_FOR_CHECK_TIN, json=tin, headers=self.headers)
-            
-            response.raise_for_status() 
+            response = make_post_request(self.BASE_API_FOR_CHECK_TIN, json=tin, headers=self.headers)
 
-            result = response.json()
+            result = response
             return result
 
         except requests.exceptions.RequestException as e:
@@ -43,7 +41,6 @@ class TinVerifier:
             if response:
                 frappe.log_error(f"Response content: {response.text}")
             return {"success": False, "msg": f"Request error: {str(e)}"}
-
 
 obr_base_auth=OBRAPIBase()
 token=obr_base_auth.authenticate()

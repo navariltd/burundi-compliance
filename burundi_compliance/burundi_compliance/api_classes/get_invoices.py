@@ -2,12 +2,12 @@
 import requests
 import frappe
 from .base import OBRAPIBase
-from ..utils.base_api import full_api_url
+from frappe.integrations.utils import make_post_request
 class InvoiceVerifier:
     def __init__(self, api_key):
         obr_base = OBRAPIBase()
         self.api_key = api_key
-        self.BASE_API_FOR_CHECK_TIN = full_api_url(obr_base.get_api_from_ebims_settings("get_invoice"))
+        self.BASE_API_FOR_CHECK_TIN =obr_base.get_api_from_ebims_settings("get_invoice")
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
@@ -27,11 +27,8 @@ class InvoiceVerifier:
 
         try:
             # Make a POST request to the API
-            response = requests.post(self.BASE_API_FOR_CHECK_TIN, json=invoice_verifier, headers=self.headers)
-            response.raise_for_status() 
-
-            # Parse the JSON response
-            result = response.json()
+            response = make_post_request(self.BASE_API_FOR_CHECK_TIN, json=invoice_verifier, headers=self.headers)
+            result = response
             return result
 
         except requests.exceptions.RequestException as e:

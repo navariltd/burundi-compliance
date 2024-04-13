@@ -3,7 +3,6 @@ import time
 from frappe import _
 import frappe
 from ..doctype.custom_exceptions import AuthenticationError
-from ..utils.base_api import full_api_url
 import time as time
 class OBRAPIBase:
 
@@ -14,11 +13,11 @@ class OBRAPIBase:
             try:
                 return self.authenticate_with_retry()
             except AuthenticationError as auth_error:
-                time.sleep(10)
+                time.sleep(5)
                 
     def authenticate_with_retry(self):
         auth_details = self.get_auth_details()
-        login_url = full_api_url(self.get_api_from_ebims_settings("login"))
+        login_url = self.get_api_from_ebims_settings("login")
         headers = {"Content-Type": "application/json"}
         data = {"username": auth_details["username"], "password": auth_details['password']}
 
@@ -36,11 +35,11 @@ class OBRAPIBase:
             error_message = f"Error during authentication: {str(e)}"
             frappe.log_error(error_message, "OBRAPIBase Authentication Error")
             self.enqueue_retry_task()
-            time.sleep(10)
+            time.sleep(5)
             frappe.msgprint("Authentication Problem with OBR server, Job queued")
 
     def get_auth_details(self):        
-        ebims_settings=frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
+        ebims_settings=frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))
        
         auth_details = {
             "username": ebims_settings.username,
@@ -54,29 +53,36 @@ class OBRAPIBase:
             "type_of_taxpayer": ebims_settings.type_of_taxpayer,
             "subject_to_consumption_tax": ebims_settings.subject_to_consumption_tax,
             "subject_to_flatrate_withholding_tax": ebims_settings.subject_to_flatrate_withholding_tax,
-            "subject_to_vat":ebims_settings.subject_to_vat
+            "subject_to_vat":ebims_settings.subject_to_vat,
+            "allow_obr_to_track_sales":ebims_settings.allow_obr_to_track_sales,
+            "allow_obr_to_track_stock_movement":ebims_settings.allow_obr_to_track_stock_movement,
+            
         }
         return auth_details
-    
-    
-    # def get_api_from_ebims_settings(self, method_name):
-    #     ebims_settings=frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
-    #     if ebims_settings.sandbox==1:
-    #         for api_row in ebims_settings.get("testing_apis"):
-    #             if api_row.get("method_name") == method_name:
-    #                 return api_row.get("api")
-    #     else:
-    #         for api_row in ebims_settings.get("production_apis"):
-    #             if api_row.get("method_name") == method_name:
-    #                 return api_row.get("api")
-    #     return None
-    def get_api_from_ebims_settings(self, method_name):
-        ebims_settings = frappe.get_doc("eBIMS Setting", frappe.defaults.get_user_default("Company"))
-        api_list = ebims_settings.get("testing_apis") if ebims_settings.sandbox == 1 else ebims_settings.get("production_apis")
 
+ 
+    def get_api_from_ebims_settings(self, method_name):
+        ebims_settings = frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))
+        sandbox=ebims_settings.sandbox
+        
+        if sandbox==1:
+            try:
+                api_list_doc = frappe.get_doc("eBMS Endpoint URLs", "SandBox")
+            except frappe.DoesNotExistError:
+                frappe.throw(_("Kindly create 'SandBox' urls in eBMS Endpoint URLs"))
+            
+        else:
+            api_list_doc = frappe.get_doc("eBMS Endpoint URLs", "Production")
+            if api_list_doc is None:
+                frappe.throw(_("Kindly create 'Production' urls in eBMS Endpoint URLs"))
+            
+        
+        api_list = api_list_doc.get("apis")
+        base_url = api_list_doc.get("server_url")
         for api_row in api_list:
             if api_row.get("method_name") == method_name:
-                return api_row.get("api")
+                
+                return f"{base_url}{api_row.get('api')}"
 
         return None
 

@@ -5,7 +5,7 @@ from ..utils.system_tax_id import get_system_tax_id
 from ..utils.system_tax_id import get_system_tax_id
 from ..utils.format_date_and_time import date_time_format
 
-def purchase_receipt_data(doc, method=None):
+def single_stock_data(doc, method=None):
     '''
     Get items from the purchase receipt which will update the stock
     '''
@@ -22,13 +22,18 @@ def purchase_receipt_data(doc, method=None):
         if not check_br_permission:
             continue
         
+        if doc.doctype == "Sales Invoice":
+            item_purchase_or_sale_price = item.rate
+        else:
+            item_purchase_or_sale_price = item.valuation_rate
+        
         data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": item.item_code,
             "item_designation": item.item_name,
             "item_quantity": item.qty,
             "item_measurement_unit": item.uom,
-            "item_purchase_or_sale_price": item.valuation_rate,
+            "item_purchase_or_sale_price": item_purchase_or_sale_price,
             "item_purchase_or_sale_currency": doc.company_currency,
             "item_movement_type": "EN",
             "item_movement_description":'Purchased goods',
@@ -38,6 +43,3 @@ def purchase_receipt_data(doc, method=None):
         stock_movement_data.append(data)
 
     return stock_movement_data
-
-
-
