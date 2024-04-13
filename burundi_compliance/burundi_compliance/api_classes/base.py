@@ -13,7 +13,7 @@ class OBRAPIBase:
             try:
                 return self.authenticate_with_retry()
             except AuthenticationError as auth_error:
-                time.sleep(10)
+                time.sleep(5)
                 
     def authenticate_with_retry(self):
         auth_details = self.get_auth_details()

@@ -212,7 +212,7 @@
                     <th>Nature de l’article ou service</th>
                     <th>QUANTITE</th>
                     <th>PU</th>
-                    <th>PVHTVA</th>
+                    <th>PVHTVA(BIF)</th>
                 </tr>
             </thead>
             <tbody>
@@ -228,17 +228,17 @@
                 <!-- Additional Rows for PVT HTVA, TVA, and Total TVAC -->
                 <tr>
                     <td colspan="3" class="text-right"> TOTAL HTVA:</td>
-                    <td>Fr. <b>{{ '{:,.0f}'.format(doc.base_total | round) }}</b></td>
+                    <td> <b>{{ '{:,.0f}'.format(doc.base_total | round) }}</b></td>
                 </tr>
                 {% if doc.exempt_from_sales_tax == 0 %}
                 <tr>
                     <td colspan="3" class="text-right">TVA:</td>
-                    <td>Fr. <strong>{{ '{:,.0f}'.format(doc.base_total_taxes_and_charges | round) }}</strong></td>
+                    <td> <strong>{{ '{:,.0f}'.format(doc.base_total_taxes_and_charges | round) }}</strong></td>
                 </tr>
                 {% endif %}
                 <tr>
                     <td colspan="3" class="text-right"><strong>Total TVAC:</strong></td>
-                    <td>Fr. <strong>{{ '{:,.0f}'.format(doc.base_grand_total | round) }}</strong></td>
+                    <td> <strong>{{ '{:,.0f}'.format(doc.base_grand_total | round) }}</strong></td>
                 </tr>
                
             </tbody>

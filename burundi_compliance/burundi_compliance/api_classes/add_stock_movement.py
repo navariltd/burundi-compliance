@@ -33,7 +33,6 @@ class TrackStockMovement:
                 doc.error = ""
                 doc.save()
             except Exception as e:
-                frappe.publish_realtime("msgprint", f"Problem while saving Integration Request: {str(e)}", user=frappe.session.user)
                 frappe.log_error(f"Error saving Integration Request: {str(e)}")
         else:
             self.create_integration_request(stock_movement_data, str(response),'Null',doc, status=status)
@@ -53,7 +52,6 @@ class TrackStockMovement:
             response_data = response.json()
             if response_data.get("success")==False:
                 try:
-                    frappe.publish_realtime("msgprint", f"Failed Check on:<div style='color:red'> {str(response_data)}</div>", user=frappe.session.user)
                     self._update_integration_request(response_data, stock_movement_data,doc, status="Failed")
                 except Exception as e:
                     frappe.log_error(f"Error while creating Integration Request: {str(e)}")
