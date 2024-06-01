@@ -4,8 +4,8 @@ app_title = "Navari Burundian Revenue Authority Integration"
 app_publisher = "Navari Limited"
 app_description = "Burundian Revenue Authority (OBR) Tax Compliance Integration for ERPNext"
 app_email = "mania@navari.co.ke"
-app_license = "GNU General Public License (v3)"
-# required_apps = []
+app_license = "GNU Affero General Public License v3.0"
+required_apps = ["frappe/erpnext"]
 
 fixtures=[
    "eBMS API Methods",
