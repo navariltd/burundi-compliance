@@ -1,6 +1,6 @@
 
 app_name = "burundi_compliance"
-app_title = "Burundi OBR Tax Compliance"
+app_title = "Navari Burundian Revenue Authority Integration"
 app_publisher = "Navari Limited"
 app_description = "Burundian Revenue Authority (OBR) Tax Compliance Integration for ERPNext"
 app_email = "mania@navari.co.ke"
