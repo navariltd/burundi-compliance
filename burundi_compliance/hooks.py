@@ -1,8 +1,8 @@
 
 app_name = "burundi_compliance"
-app_title = "Burundi Compliance"
+app_title = "Burundi OBR Tax Compliance"
 app_publisher = "Navari Limited"
-app_description = "Burundi OBR Tax Inegration"
+app_description = "Burundian Revenue Authority (OBR) Tax Compliance Integration for ERPNext"
 app_email = "mania@navari.co.ke"
 app_license = "GNU General Public License (v3)"
 # required_apps = []
