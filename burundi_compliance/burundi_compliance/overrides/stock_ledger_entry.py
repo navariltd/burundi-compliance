@@ -32,7 +32,6 @@ def send_data(doc):
     '''If the item is set to be tracked, then enqueue the stock movement'''
     if allow_obr_to_track_stock_movement == 1 and item_doc.custom_allow_obr_to_track_stock_movement == 1:
         try:
-
             enqueue_stock_movement(data, doc)
             frappe.msgprint(f"The transaction for {data.get('item_code')} queued successfully", alert=True)
         except Exception as e:
