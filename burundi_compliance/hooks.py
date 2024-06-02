@@ -1,11 +1,11 @@
 
 app_name = "burundi_compliance"
-app_title = "Burundi Compliance"
+app_title = "Navari Burundian Revenue Authority Integration"
 app_publisher = "Navari Limited"
-app_description = "Burundi OBR Tax Inegration"
+app_description = "Burundian Revenue Authority (OBR) Integration with ERPNext by Navari Ltd"
 app_email = "mania@navari.co.ke"
-app_license = "GNU General Public License (v3)"
-# required_apps = []
+app_license = "GNU Affero General Public License v3.0"
+required_apps = ["frappe/erpnext"]
 
 fixtures=[
    "eBMS API Methods",
@@ -186,15 +186,14 @@ doc_events = {
 ##################################################################################################################
 ##############################Remember to change the cron job to the correct time#################################
 ##################################################################################################################
-from burundi_compliance.burundi_compliance.utils.event_frequency_schedular import get_event_frequency
-invoice_frequency, stock_movement_frequency = get_event_frequency()
+# from burundi_compliance.burundi_compliance.utils.event_frequency_schedular import get_event_frequency
+# invoice_frequency, stock_movement_frequency = get_event_frequency()
 
 scheduler_events = {
 
  "cron":{
-      f"{invoice_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
-        f"{stock_movement_frequency}":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"],
-       
+      "0 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
+        "2 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"], 
  },
  
 }

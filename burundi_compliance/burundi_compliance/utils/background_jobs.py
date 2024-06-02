@@ -71,7 +71,7 @@ def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
 
 @frappe.whitelist(allow_guest=True)
 def retry_stock_movement(data, doc):
-    
+
     from ..api_classes.add_stock_movement import TrackStockMovement
     retries = 0
     doc=frappe.get_doc(doc.doctype, doc.name)
@@ -90,19 +90,10 @@ def retry_stock_movement(data, doc):
             time.sleep(retry_delay_seconds)
             continue
     frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
-    
-    # '''send email to stock manager if max retries reached'''
-    # try:
-    #     subject = f'Maximum retries reached. Unable to send invoice to OBR. '
-    #     message="I hope this message finds you well. We regret to inform you that we have encountered difficulties in sending the stock data to OBR (Office Burundais des Recettes).To address this matter promptly, we kindly request that you reach out to OBR directly to confirm the issue and ensure a smooth resolution",
-    #     send_max_retries_email(get_user_email(frappe.get_doc(doc.voucher_type, doc.voucher_no)), subject, message, as_markdown=False)
-    # except Exception as e:
-    #     frappe.msgprint(f"Error sending emails: {str(e)}")
 
 def enqueue_stock_movement(data, doc):
     frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_stock_movement', data=data, doc=doc, queue='long', is_async=True)
     
-
 
 ######################################################################################################
 ###########Enqueue the background job to Cancel sales invoice#####################################
@@ -212,6 +203,7 @@ def retry_sending_invoice(invoice_identifier):
 
 @frappe.whitelist(allow_guest=True)
 def retry_stock_movement_after_failure(doc_type, doc_name):
+
     doc = frappe.get_doc(doc_type, doc_name)
     
     frappe.msgprint(f"Retrying sending stock movement data to OBR for {doc.name}", alert=True)
