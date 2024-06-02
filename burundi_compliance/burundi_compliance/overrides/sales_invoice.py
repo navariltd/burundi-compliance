@@ -25,19 +25,6 @@ def on_submit(doc, method=None):
     doc.reload()
 
 
-	# if doc.doctype == "Sales Invoice":
-	#  	on_submit_update_stock(doc)
-
-# def on_submit_update_stock(doc, method=None):
-# 	if allow_obr_to_track_stock_movement==1:
-# 		if doc.update_stock==1 or doc.is_return==1:
-# 				# Check if the flag is set before queuing stock movements
-# 				if not doc.get("__stock_movement_queued"):
-# 					frappe.publish_realtime('update_stock 1', {"message": "Updating stock"}, user=frappe.session.user)
-# 					get_items(doc)
-# 					# Set the flag to indicate that stock movement has been queued
-# 					doc.set("__stock_movement_queued", True)
-
 def submit_invoice_request(doc):
 	if allow_obr_to_track_sales==1:
 		sales_invoice_data_processor = InvoiceDataProcessor(doc)
