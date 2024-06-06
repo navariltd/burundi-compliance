@@ -3,7 +3,7 @@ from ..utils.system_tax_id import get_system_tax_id
 import frappe
 from ..utils.format_date_and_time import date_time_format
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
-
+import time
 auth=OBRAPIBase()
 
 def get_stock_ledger_data(doc):
@@ -26,11 +26,14 @@ def get_stock_ledger_data(doc):
     formatted_date = date[0]
     
     item_movement_invoice_ref=get_invoice_reference_number(voucher_type, voucher_no)
-        
+    
+    
+    item_designation=create_item_designation(specified_doc, item_code)
+    
     data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": doc.item_code,
-            "item_designation": doc.item_code,
+            "item_designation": item_designation,
             "item_quantity": abs(float(quantity_difference)) if voucher_type == "Stock Reconciliation" else abs(float(doc.actual_qty)),
             "item_measurement_unit": doc.stock_uom,
             "item_purchase_or_sale_price": int(valuation_rate),
@@ -40,7 +43,6 @@ def get_stock_ledger_data(doc):
             "item_movement_description":movement_description,
             "item_movement_date": formatted_date,
         }
-    
     return data
 
 def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, item_code):
@@ -281,3 +283,12 @@ def get_invoice_reference_number(voucher_type, voucher_no):
         item_invoice_ref=sales_doc.name
     return item_invoice_ref
 
+
+def create_item_designation(specified_doc, item_code):
+    items=specified_doc.items
+    for item in items:
+        if item.item_code==item_code:
+            if item.batch_no:
+                return item.item_code + " - "+item.batch_no
+            else:
+                return item.item_code
