@@ -33,7 +33,7 @@ def check_and_send_pending_stock_ledger_entry():
     for stock_ledger_entry in stock_ledger_entries:
         
         try:
-            time.sleep(3)
+            
             stock_ledger_entry_doc = frappe.get_doc("Stock Ledger Entry", stock_ledger_entry.name)
             if stock_ledger_entry_doc.voucher_type == "Stock Reconciliation" and stock_ledger_entry_doc.has_batch_no == 1 and stock_ledger_entry_doc.actual_qty < 0:
                 continue
@@ -42,7 +42,7 @@ def check_and_send_pending_stock_ledger_entry():
                 continue
             # frappe.publish_realtime("msgpring",f'{stock_ledger_entry_doc}', user=frappe.session.user)
             send_data(stock_ledger_entry_doc)
-            
+            time.sleep(2)
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Error in sending stock ledger entry {0}".format(stock_ledger_entry.name))
             continue
