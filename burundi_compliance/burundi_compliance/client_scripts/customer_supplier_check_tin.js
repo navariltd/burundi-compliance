@@ -34,7 +34,6 @@ function showInvoiceDetailsDialog(result, doctype) {
                 read_only: true
             }
            
-          
            
         ]
     });

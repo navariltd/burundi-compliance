@@ -38,7 +38,7 @@ class TinVerifier:
             frappe.log_error(error_message, "CheckTin Request Error")
             frappe.log_error(f"Response content: {response}")
             frappe.throw(f"{tin} Not registered")
-           
+        
 
 obr_base_auth=OBRAPIBase()
 token=obr_base_auth.authenticate()

@@ -115,9 +115,10 @@ class InvoiceDataProcessor:
                     total_vat = 0
             else:
                 total_vat = 0
-                
+            item_designation=item.item_code +"-" + item.batch_no if item.batch_no else item.item_code
             items.append({
-                "item_designation": item.item_code,
+                "item_code": item.item_code,
+                "item_designation": item_designation,
                 "item_quantity": abs(item.qty),
                 "item_price": item.rate,
                 "item_total_amount": item.amount,
@@ -127,7 +128,6 @@ class InvoiceDataProcessor:
                 "item_price_nvat": abs(int(item.amount)),
                 "item_price_wvat": abs(int(item.amount + total_vat))
             })
-
         return items
 
     def get_sales_data_for_stock_update(self, method=None):
@@ -146,10 +146,12 @@ class InvoiceDataProcessor:
             item_movement_type = "SN"
             if self.doc.is_return==1:
                 item_movement_type = "ER"
+                
+            item_designation = item.item_code + " - " + item.batch_no if item.batch_no else item.item_code
             data = {
                 "system_or_device_id": get_system_tax_id(),
                 "item_code": item.item_code,
-                "item_designation": item.item_name,
+                "item_designation": item_designation,
                 "item_quantity": item.qty,
                 "item_measurement_unit": item_uom,
                 "item_purchase_or_sale_price": item.rate, 
