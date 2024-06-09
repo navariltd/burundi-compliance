@@ -14,6 +14,7 @@
   "column_break_kuje",
   "company",
   "sandbox",
+  "tin",
   "more_details_tab",
   "taxpayers_sector_of_activity",
   "taxpayers_legal_form",
@@ -60,6 +61,7 @@
   },
   {
    "default": "0",
+   "description": "Tick if its testing",
    "fieldname": "sandbox",
    "fieldtype": "Check",
    "in_list_view": 1,
@@ -106,6 +108,7 @@
    "translatable": 1
   },
   {
+   "description": "Le num\u00e9ro du registre de commerce du contribuable",
    "fieldname": "the_taxpayers_commercial_register_number",
    "fieldtype": "Int",
    "label": "The taxpayer's commercial register number",
@@ -114,7 +117,7 @@
   {
    "fieldname": "the_taxpayers_tax_center",
    "fieldtype": "Select",
-   "label": "The taxpayer's Tax Center",
+   "label": "The taxpayer's Tax Center/ Le centre fiscal du contribuable",
    "options": "\nDGC\nDMC\nDPMC",
    "reqd": 1,
    "translatable": 1
@@ -131,31 +134,32 @@
    "translatable": 1
   },
   {
-   "description": "Value \u201c1\u201d for natural person and \u201c2\u201d for legal person",
+   "default": "pour personne morale",
+   "description": "Valeur \u00ab\u00a01\u00a0\u00bb pour personne physique et \u00ab\u00a02\u00a0\u00bb pour personne morale",
    "fieldname": "type_of_taxpayer",
    "fieldtype": "Select",
-   "label": "Type of Taxpayer.",
-   "options": "\n1\n2",
+   "label": "Type of Taxpayer/ Type de contribuable.",
+   "options": "\npour personne physique et\npour personne morale",
    "reqd": 1,
    "translatable": 1
   },
   {
-   "default": "0",
-   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "default": "pour un non assujetti ou",
+   "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
    "fieldname": "subject_to_consumption_tax",
    "fieldtype": "Select",
-   "label": "Subject to Consumption Tax",
-   "options": "\n0\n1",
+   "label": "Subject to Consumption Tax/ Assujetti \u00e0 la taxe de consommation",
+   "options": "\npour un non assujetti ou\npour un assujetti",
    "reqd": 1,
    "translatable": 1
   },
   {
-   "default": "0",
-   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "default": "pour un non assujetti ou",
+   "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
    "fieldname": "subject_to_flatrate_withholding_tax",
    "fieldtype": "Select",
-   "label": "Subject to FlatRate Withholding Tax",
-   "options": "\n0\n1",
+   "label": "Subject to FlatRate Withholding/ Assujetti au pr\u00e9l\u00e8vement forfaitaire lib\u00e9ratoire Tax",
+   "options": "\npour un non assujetti ou\npour un assujetti",
    "reqd": 1,
    "translatable": 1
   },
@@ -179,12 +183,12 @@
    "translatable": 1
   },
   {
-   "default": "1",
-   "description": "Value: \u201c0\u201d for a non-taxable person or \u201c1\u201d for a taxable person",
+   "default": "pour un assujetti",
+   "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
    "fieldname": "subject_to_vat",
    "fieldtype": "Select",
-   "label": "Subject to VAT",
-   "options": "\n0\n1",
+   "label": "Subject to VAT/Assujetti \u00e0 la TVA",
+   "options": "\npour un non assujetti ou\npour un assujetti",
    "reqd": 1,
    "translatable": 1
   },
@@ -253,11 +257,17 @@
    "fieldname": "assujetti_au_pf",
    "fieldtype": "Check",
    "label": "Assujetti au PF"
+  },
+  {
+   "fetch_from": "company.tax_id",
+   "fieldname": "tin",
+   "fieldtype": "Data",
+   "label": "TIN"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-11 11:11:41.140980",
+ "modified": "2024-06-09 11:08:25.179604",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",

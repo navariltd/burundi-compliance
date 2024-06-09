@@ -36,10 +36,10 @@ class TinVerifier:
             # Handle request exceptions (e.g., network issues)
             error_message = f"Error during API request: {str(e)}"
             frappe.log_error(error_message, "CheckTin Request Error")
-            frappe.log_error(f"Response content: {response.text}")
+            frappe.log_error(f"Response content: {response}")
             # Check if response is available before logging
             if response:
-                frappe.log_error(f"Response content: {response.text}")
+                frappe.log_error(f"Response content: {response}")
             return {"success": False, "msg": f"Request error: {str(e)}"}
 
 obr_base_auth=OBRAPIBase()

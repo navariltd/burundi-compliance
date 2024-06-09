@@ -40,7 +40,7 @@ class InvoiceDataProcessor:
             "invoice_number": self.doc.name,
             "invoice_date": formatted_date_data[0],
             "invoice_type": "FN",
-            "tp_type": self.auth_details["type_of_taxpayer"],
+            "tp_type": 1 if self.auth_details["type_of_taxpayer"]=="pour personne physique et" else 2,
             "tp_name": self.doc.company,
             "tp_TIN": company_tax_id,
             "tp_address_province": company_address.get("tp_address_province"),
@@ -52,9 +52,9 @@ class InvoiceDataProcessor:
             "tp_address_number": company_address.get("tp_address_number"),
             "tp_trade_number": self.auth_details["the_taxpayers_commercial_register_number"],
             "tp_email": tp_email,
-            "vat_taxpayer": self.auth_details["subject_to_vat"],
-            "ct_taxpayer": self.auth_details["subject_to_consumption_tax"],
-            "tl_taxpayer": self.auth_details["subject_to_flatrate_withholding_tax"],
+            "vat_taxpayer": 0 if self.auth_details["subject_to_vat"]=="pour un non assujetti ou" else 1,
+            "ct_taxpayer": 0 if self.auth_details["subject_to_consumption_tax"]=="pour un non assujetti ou" else 1,
+            "tl_taxpayer": 0 if self.auth_details["subject_to_flatrate_withholding_tax"]=="pour un non assujetti ou" else 1,
             "tp_fiscal_center": self.auth_details["the_taxpayers_tax_center"],
             "tp_activity_sector": self.auth_details["tp_activity_sector"],
             "tp_legal_form": self.auth_details["tp_legal_form"],
@@ -70,6 +70,7 @@ class InvoiceDataProcessor:
             "invoice_items": self.get_invoice_items()
         }
         return invoice_data
+    
 
     def prepare_credit_note_data(self, invoice_data):
         
