@@ -9,6 +9,8 @@ from frappe.test_runner import make_test_objects
 from frappe.tests.utils import FrappeTestCase
 from frappe import _
 from burundi_compliance.burundi_compliance.api_classes.add_invoices import SalesInvoicePoster
+from burundi_compliance.burundi_compliance.api_classes.cancel_invoice import InvoiceCanceller
+from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 from ..doctype.custom_exceptions import InvoiceAdditionError, AuthenticationError
 from ..data.test_data import prepare_test_invoice_data
 
@@ -130,3 +132,4 @@ class TestCancelInvoice(FrappeTestCase):
             mock_post.side_effect = requests.exceptions.RequestException("API error")
             with self.assertRaises(AuthenticationError):
                 canceller.cancel_invoice(test_invoice_data) 
+                

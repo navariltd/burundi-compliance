@@ -11,10 +11,7 @@ import time
 
 
 def on_update(doc, method=None):
-    pass
-    # obr_integration_base.authenticate()
-    # send_data(doc)
-                
+    pass                
                 
 def send_data(doc):
     data = get_stock_ledger_data(doc)
