@@ -24,7 +24,14 @@ class OBRAPIBase:
         try:
             response = requests.post(login_url, json=data, headers=headers)
             response.raise_for_status()
-            result = response.json()
+            try:
+                result = response.json()
+            except ValueError as e:
+                frappe.msgprint("Received non-JSON response from OBR server")
+                frappe.log_error(f"Error decoding JSON response: {str(e)}", "OBRAPIBase Authentication Error")
+                self.enqueue_retry_task()
+                time.sleep(10)
+                return False
 
             if result.get("success"):
                 return result["result"]["token"]
@@ -36,33 +43,36 @@ class OBRAPIBase:
             frappe.msgprint("Authentication Problem with OBR server, Job queued")
             error_message = f"Error during authentication: {str(e)}"
             frappe.log_error(error_message, "OBRAPIBase Authentication Error")
-            
             self.enqueue_retry_task()
             time.sleep(10)
+            return False
+
             
 
     def get_auth_details(self):        
-        ebims_settings=frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))
-       
-        auth_details = {
-            "username": ebims_settings.username,
-            "password": ebims_settings.get_password(fieldname="password", raise_exception=False),
-            "sandbox": ebims_settings.sandbox,
-            "tp_legal_form": ebims_settings.taxpayers_legal_form,
-            "tp_activity_sector": ebims_settings.taxpayers_sector_of_activity,
-            "system_identification_given_by_obr": ebims_settings.system_identification_given_by_obr,
-            "the_taxpayers_commercial_register_number": ebims_settings.the_taxpayers_commercial_register_number,
-            "the_taxpayers_tax_center": ebims_settings.the_taxpayers_tax_center,
-            "type_of_taxpayer": ebims_settings.type_of_taxpayer,
-            "subject_to_consumption_tax": ebims_settings.subject_to_consumption_tax,
-            "subject_to_flatrate_withholding_tax": ebims_settings.subject_to_flatrate_withholding_tax,
-            "subject_to_vat":ebims_settings.subject_to_vat,
-            "allow_obr_to_track_sales":ebims_settings.allow_obr_to_track_sales,
-            "allow_obr_to_track_stock_movement":ebims_settings.allow_obr_to_track_stock_movement,
-            
-        }
-        return auth_details
-
+        try:
+            ebims_settings=frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))
+        
+            auth_details = {
+                "username": ebims_settings.username,
+                "password": ebims_settings.get_password(fieldname="password", raise_exception=False),
+                "sandbox": ebims_settings.sandbox,
+                "tp_legal_form": ebims_settings.taxpayers_legal_form,
+                "tp_activity_sector": ebims_settings.taxpayers_sector_of_activity,
+                "system_identification_given_by_obr": ebims_settings.system_identification_given_by_obr,
+                "the_taxpayers_commercial_register_number": ebims_settings.the_taxpayers_commercial_register_number,
+                "the_taxpayers_tax_center": ebims_settings.the_taxpayers_tax_center,
+                "type_of_taxpayer": ebims_settings.type_of_taxpayer,
+                "subject_to_consumption_tax": ebims_settings.subject_to_consumption_tax,
+                "subject_to_flatrate_withholding_tax": ebims_settings.subject_to_flatrate_withholding_tax,
+                "subject_to_vat":ebims_settings.subject_to_vat,
+                "allow_obr_to_track_sales":ebims_settings.allow_obr_to_track_sales,
+                "allow_obr_to_track_stock_movement":ebims_settings.allow_obr_to_track_stock_movement,
+                
+            }
+            return auth_details
+        except frappe.DoesNotExistError:
+            frappe.throw(_("Kindly create 'eBMS Settings' in the system"))
  
     def get_api_from_ebims_settings(self, method_name):
         ebims_settings = frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))

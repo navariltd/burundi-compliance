@@ -11,11 +11,7 @@ import time
 
 
 def on_update(doc, method=None):
-    pass
-
-    
-   
-                
+    pass                
                 
 def send_data(doc):
     data = get_stock_ledger_data(doc)

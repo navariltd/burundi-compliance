@@ -31,7 +31,7 @@ def get_stock_ledger_data(doc):
     item_designation=create_item_designation(specified_doc, item_code)
     
     data = {
-            # "system_or_device_id": get_system_tax_id(),
+            "system_or_device_id": get_system_tax_id(),
             "item_code": doc.item_code,
             "item_designation": item_designation,
             "item_quantity": abs(float(quantity_difference)) if voucher_type == "Stock Reconciliation" else abs(float(doc.actual_qty)),

@@ -80,7 +80,6 @@ class TestAuthentication(FrappeTestCase):
             }
             self.assertDictEqual(auth_details, expected_auth_details)
             
-    #Failed this test checkout why :TODO revisit this
     def test_authentication_non_json_response(self):
         with patch.object(requests, 'post') as mock_post:
             mock_post.return_value.json.side_effect=ValueError("No JSON object could be decoded")
@@ -92,7 +91,6 @@ class TestAuthentication(FrappeTestCase):
             result=OBRAPIBase().authenticate()
             self.assertFalse(result)
     
-    #Check on this test also
     def test_missing_ebms_settings(self):
         frappe.delete_doc("eBMS Settings", "Test Company", force=True)
         with self.assertRaises(frappe.DoesNotExistError):
