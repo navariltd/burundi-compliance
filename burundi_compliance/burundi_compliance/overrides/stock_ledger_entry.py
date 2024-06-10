@@ -12,8 +12,9 @@ import time
 
 def on_update(doc, method=None):
     pass
-    # obr_integration_base.authenticate()
-    # send_data(doc)
+
+    
+   
                 
                 
 def send_data(doc):

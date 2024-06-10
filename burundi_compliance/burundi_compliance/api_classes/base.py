@@ -13,7 +13,7 @@ class OBRAPIBase:
             try:
                 return self.authenticate_with_retry()
             except AuthenticationError as auth_error:
-                time.sleep(5)
+                pass
                 
     def authenticate_with_retry(self):
         auth_details = self.get_auth_details()
@@ -29,14 +29,17 @@ class OBRAPIBase:
             if result.get("success"):
                 return result["result"]["token"]
             else:
+                frappe.msgprint("Authentication Problem with OBR server, Job queued")
                 raise AuthenticationError(result["msg"])
 
         except requests.exceptions.RequestException as e:
+            frappe.msgprint("Authentication Problem with OBR server, Job queued")
             error_message = f"Error during authentication: {str(e)}"
             frappe.log_error(error_message, "OBRAPIBase Authentication Error")
+            
             self.enqueue_retry_task()
-            time.sleep(5)
-            frappe.msgprint("Authentication Problem with OBR server, Job queued")
+            time.sleep(10)
+            
 
     def get_auth_details(self):        
         ebims_settings=frappe.get_doc("eBMS Settings", frappe.defaults.get_user_default("Company"))
@@ -93,10 +96,10 @@ class OBRAPIBase:
     def enqueue_retry_task(self):
         job_id = frappe.enqueue(
             "burundi_compliance.burundi_compliance.utils.background_jobs.retry_authentication",
-            queue="long",
-            timeout=600,
+            queue="short",
+            timeout=5,
             is_async=True,
         at_front=True,
         )
         return job_id
-    
+   
