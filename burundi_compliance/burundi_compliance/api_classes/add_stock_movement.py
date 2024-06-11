@@ -44,22 +44,27 @@ class TrackStockMovement:
         }
 
     def post_stock_movement(self, stock_movement_data, doc):
-        doc_=frappe.get_doc("Stock Ledger Entry", doc.name)
+        doc_ = frappe.get_doc("Stock Ledger Entry", doc.name)
         try:
-            #make_post_request(self.BASE_TRACK_STOCK_MOVEMENT_API_URL, stock_movement_data, headers=self._get_headers())
-            #I am against this method because it does not allow me to handle the response
             response = requests.post(self.BASE_TRACK_STOCK_MOVEMENT_API_URL, json=stock_movement_data, headers=self._get_headers())
-            response_data = response.json()
-            if response_data.get("success")==False:
+            try:
+                response_data = response.json()
+            except ValueError:
+                error_message = f"Error during API request: No JSON object could be detected in response: {response.text}"
+                frappe.log_error(error_message, "Add Stock Movement Request Error")
+                raise StockMovementError("No JSON object could be detected")
+            if response_data.get("success") == False:
                 try:
-                    self._update_integration_request(response_data, stock_movement_data,doc, status="Failed")
+                    self._update_integration_request(response_data, stock_movement_data, doc, status="Failed")
                 except Exception as e:
                     frappe.log_error(f"Error while creating Integration Request: {str(e)}")
+                raise requests.exceptions.RequestException("API request failed")  # Raise RequestException here
             else:
-                return self._handle_response(response_data,stock_movement_data, doc_)
+                return self._handle_response(response_data, stock_movement_data, doc_)
         except requests.exceptions.RequestException as e:
             error_message = f"Error during API request: {str(e)}"
-            frappe.log_error(error_message, f"Add Stock Movement Request Error {response.text}")
+            frappe.log_error(error_message, f"Add Stock Movement Request Error")
+            raise StockMovementError(f"API request failed: {str(e)}")
            
 
     def check_if_integration_request_exist(self, doc):
