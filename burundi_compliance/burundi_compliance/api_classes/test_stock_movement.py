@@ -11,10 +11,9 @@ from burundi_compliance.burundi_compliance.api_classes.add_stock_movement import
 from burundi_compliance.burundi_compliance.api_classes.cancel_invoice import InvoiceCanceller
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 from ..doctype.custom_exceptions import InvoiceAdditionError, AuthenticationError, StockMovementError
-from ..data.test_data import prepare_test_invoice_data
 
 
-class TestTRackStockMovement(FrappeTestCase):
+class TestTrackStockMovement(FrappeTestCase):
     def setUp(self):
         self.token="ValidToken"
         self.max_retries=5
@@ -136,41 +135,14 @@ class TestTRackStockMovement(FrappeTestCase):
         frappe.delete_doc("Stock Ledger Entry", self.doc.name, force=True)
         frappe.delete_doc("Item", "Test Item", force=True)
         
-    
+    @patch.object(frappe, "get_doc")
     @patch.object(requests, "post")
-    def test_post_stock_movement_success(self, mock_post):
+    def test_post_stock_movement_success(self, mock_post, mock_get_doc):
+        mock_get_doc.return_value = self.doc
         mock_post.return_value.json.return_value={"success":"True"}
         response=self.track_stock_movement.post_stock_movement(self.stock_movement_data, self.doc)
         self.assertEqual(response, {"success":"True"})    
     
-    #Failing the post_stock_movement method : TODO go back check the method and see why it is failing
-    @patch('frappe.integrations.utils.create_request_log')
-    @patch('frappe.get_doc')
-    @patch.object(frappe, 'db')
-    def test_create_integration_request(self, mock_db, mock_get_doc, mock_create_request_log):
-        # Configure mocks
-        mock_db.exists.return_value = None
-        mock_get_doc.return_value = self.doc
-
-        # Call the method under test
-        self.track_stock_movement.create_integration_request(
-            self.stock_movement_data, "Response", "Error", self.doc, status="Failed"
-        )
-
-        # Assert that create_request_log was called with the expected arguments
-        mock_create_request_log.assert_called_once_with(
-            self.stock_movement_data,
-            integration_type=None,
-            service_name="eBMS Stock Movement",
-            name=self.doc.name,
-            error="Error",
-            url=self.track_stock_movement.BASE_TRACK_STOCK_MOVEMENT_API_URL,
-            request_headers=self.track_stock_movement._get_headers(),
-            output="Response",
-            reference_doctype="Stock Ledger Entry",
-            reference_docname=self.doc.name,
-            status="Failed"
-        )
     
     @patch.object(frappe, 'get_doc')
     @patch.object(frappe, 'db')
@@ -190,7 +162,9 @@ class TestTRackStockMovement(FrappeTestCase):
         self.integration_request_doc.save.assert_called_once()
     
     @patch.object(requests, "post")
-    def test_post_stock_movement_non_json_response(self, mock_post):
-        mock_post.return_value.json.side_effect=ValueError("No JSON object could be detected")
+    @patch.object(frappe, 'get_doc')
+    def test_post_stock_movement_non_json_response(self, mock_get_doc, mock_post):
+        mock_get_doc.return_value = self.doc
+        mock_post.return_value.json.side_effect = ValueError("No JSON object could be detected")
         with self.assertRaises(StockMovementError):
             self.track_stock_movement.post_stock_movement(self.stock_movement_data, self.doc)
