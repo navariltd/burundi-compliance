@@ -86,11 +86,10 @@ jobs:
         run: |
           bench get-app erpnext --branch v15.27.2
 
-      - name: Get LENDING APP
+      - name: Get and Install apps
         working-directory: /home/runner/frappe-bench
         run: |
-          bench get-app lending --branch version-15
-          
+          bench get-app lending --branch develop
 
       - name: Install
         working-directory: /home/runner/frappe-bench
