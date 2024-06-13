@@ -49,7 +49,7 @@ class TestAuthentication(FrappeTestCase):
     def tearDown(self):
         super().tearDown()
         frappe.delete_doc("eBMS Settings", "Test Company_1", force=True)
-            
+        
         
     def test_authenticate_success(self):
         with patch.object(requests, 'post') as mock_post:
