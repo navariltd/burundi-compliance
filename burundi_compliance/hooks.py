@@ -192,7 +192,7 @@ doc_events = {
 scheduler_events = {
 
  "cron":{
-      "0 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
+      "*/5 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
         "* * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"], 
  },
  

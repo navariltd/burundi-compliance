@@ -57,8 +57,8 @@ def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
         invoice_data=invoice_data,
       
         doc=doc_name,
-        queue="long",
-        timeout=300,
+        queue="short",
+        timeout=30,
         is_async=True,
         at_front=False,
     )
