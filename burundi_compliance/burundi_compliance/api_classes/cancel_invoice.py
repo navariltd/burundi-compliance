@@ -28,6 +28,7 @@ class InvoiceCanceller:
         success = response.get("success")
         if success:
             self._create_integration_request(response, data, status="Completed")
+            self.update_invoice(data)
         else:
             self._create_integration_request(response, data, status="Failed")
         return response
@@ -51,10 +52,13 @@ class InvoiceCanceller:
             frappe.log_error(f"Error during API request: {str(e)}")
 
     def get_invoice(self, data):
-        invoice_identifier= data.get('invoice_identifier')
-        get_invoices=frappe.get_all('Sales Invoice', filters={'custom_invoice_identifier': invoice_identifier}, fields=['name'])
-        for get_invoice in get_invoices:
-            doc=frappe.get_doc('Sales Invoice', get_invoice.get('name'))
+        invoice_identifier= data.get('invoice_signature')
+        _invoices=frappe.get_all('Sales Invoice', filters={'custom_invoice_identifier': invoice_identifier}, fields=['name'])
+        for _invoice in _invoices:
+            doc=frappe.get_doc('Sales Invoice', _invoice.get('name'))
             return doc
         
-    
+    def update_invoice(self, data):
+        doc=self.get_invoice(data)
+        frappe.db.set_value('Sales Invoice', doc.name, 'custom_ebms_invoice_cancelled',1)
+        frappe.db.commit()

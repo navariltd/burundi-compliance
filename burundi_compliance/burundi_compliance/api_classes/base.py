@@ -29,8 +29,8 @@ class OBRAPIBase:
             except ValueError as e:
                 frappe.msgprint("Received non-JSON response from OBR server")
                 frappe.log_error(f"Error decoding JSON response: {str(e)}", "OBRAPIBase Authentication Error")
-                self.enqueue_retry_task()
-                time.sleep(10)
+                # self.enqueue_retry_task()
+                # time.sleep(10)
                 return False
 
             if result.get("success"):
@@ -43,8 +43,8 @@ class OBRAPIBase:
             frappe.msgprint("Authentication Problem with OBR server, Job queued")
             error_message = f"Error during authentication: {str(e)}"
             frappe.log_error(error_message, "OBRAPIBase Authentication Error")
-            self.enqueue_retry_task()
-            time.sleep(10)
+            # self.enqueue_retry_task()
+            # time.sleep(10)
             return False
 
             
@@ -106,7 +106,7 @@ class OBRAPIBase:
     def enqueue_retry_task(self):
         job_id = frappe.enqueue(
             "burundi_compliance.burundi_compliance.utils.background_jobs.retry_authentication",
-            queue="short",
+            queue="default",
             timeout=5,
             is_async=True,
         at_front=True,

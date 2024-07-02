@@ -193,9 +193,10 @@ scheduler_events = {
 
  "cron":{
       "*/5 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
-        "* * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"], 
-         "*/9 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"], 
-        
+        "*/2 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"], 
+         "*/7 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"],
+         "*/6 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_submitted_invoice_which_were_cancelled"],
+         "0 0 * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_invoice_from_integration_request"]    
  },
  
 }

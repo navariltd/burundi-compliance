@@ -113,7 +113,7 @@ def retry_cancel_invoice(invoice_data, doc):
         try:
             invoice_canceller = InvoiceCanceller(token)
             response = invoice_canceller.cancel_invoice(invoice_data)
-            frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
+            # frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
             frappe.publish_realtime("msgprint", f"Invoice cancelled successful!{response}", user=frappe.session.user)
             return
         except Exception as e:
@@ -133,7 +133,7 @@ def retry_cancel_invoice(invoice_data, doc):
         frappe.msgprint(f"Error sending emails: {str(e)}")
         
 def enqueue_cancel_invoice(invoice_data, doc):
-    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_cancel_invoice', invoice_data=invoice_data,doc=doc, queue='long', is_async=True)
+    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_cancel_invoice', invoice_data=invoice_data,doc=doc,queue='short',timeout=10, is_async=True)
     
     
 #######################################################################################################
