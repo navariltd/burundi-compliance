@@ -194,6 +194,8 @@ scheduler_events = {
  "cron":{
       "*/5 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"],
         "* * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"], 
+         "*/9 * * * *":["burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"], 
+        
  },
  
 }

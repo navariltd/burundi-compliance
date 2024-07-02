@@ -4,6 +4,7 @@ import frappe
 from burundi_compliance.burundi_compliance.overrides.stock_ledger_entry import send_data
 from burundi_compliance.burundi_compliance.overrides.sales_invoice import submit_invoice_request
 import time
+from burundi_compliance.burundi_compliance.overrides.cancel_invoice import cancel_invoice
 
 def check_and_send_pending_stock_ledger_entry():
     '''
@@ -42,3 +43,17 @@ def check_and_send_pending_sales_invoices():
             frappe.log_error(frappe.get_traceback(), "Error in sending sales invoice {0}".format(sales_invoice.name))
             continue
         
+        
+def check_and_send_pending_cancelled_sales_invoices():
+    '''
+    Check and send pending cancelled sales invoices
+    '''
+    cancelled_sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 2, "custom_submitted_to_obr": 1, "is_consolidated":0,"custom_ebms_invoice_cancelled":0}, fields=["name"])
+    
+    for sales_invoice in cancelled_sales_invoices:
+        try:
+            sales_invoice_doc = frappe.get_doc("Sales Invoice", sales_invoice.name)
+            cancel_invoice(sales_invoice_doc)
+        except Exception as e:
+            frappe.log_error(frappe.get_traceback(), "Error in sending sales invoice {0}".format(sales_invoice.name))
+            continue
