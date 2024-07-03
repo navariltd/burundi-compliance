@@ -81,7 +81,7 @@ def check_and_send_pending_cancelled_invoice_from_integration_request():
     for integration_request in integration_requests:
         try:
             sales_invoice_doc = frappe.get_doc("Sales Invoice", integration_request.reference_docname)
-            if sales_invoice_doc.docstatus == 2 and sales_invoice_doc.custom_submitted_to_obr == 1 and sales_invoice_doc.custom_ebms_invoice_cancelled == 0:
+            if sales_invoice_doc.docstatus == 2 and sales_invoice_doc.custom_submitted_to_obr == 0 and sales_invoice_doc.custom_ebms_invoice_cancelled == 0:
                 cancel_invoice(sales_invoice_doc)
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Error in sending sales invoice {0}".format(integration_request.reference_docname))
