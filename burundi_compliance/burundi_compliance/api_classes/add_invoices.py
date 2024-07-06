@@ -100,17 +100,17 @@ class SalesInvoicePoster:
 
             # Check the doctype directly
             invoice=self.get_doc({"invoice_number": invoice_number})
+             # Update Sales Invoice fields directly using frappe.db.set_value
+            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_einvoice_signatures", electronic_signature)
+            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_invoice_registered_no", invoice_registered_no)
+            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_invoice_registered_date", invoice_registered_date)
+            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_submitted_to_obr", 1)
 
-            # Update Sales Invoice fields
-            invoice.custom_einvoice_signatures = electronic_signature
-            invoice.custom_invoice_registered_no = invoice_registered_no
-            invoice.custom_invoice_registered_date = invoice_registered_date
-            invoice.custom_submitted_to_obr = 1
-
-            # Save the Sales Invoice
-            invoice.save()
+            # Commit the changes
             frappe.db.commit()
-            frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=frappe.session.user)
+            frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=invoice.owner)
+            invoice.reload()
+
         except Exception as e:
             # Log the error
             frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
