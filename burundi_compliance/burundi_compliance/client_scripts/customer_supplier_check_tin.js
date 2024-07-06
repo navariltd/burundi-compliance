@@ -10,9 +10,9 @@ function get_tin(frm){
         },
         callback: function(response) {
             if (response.message) {
-                showInvoiceDetailsDialog(response.message.result);
+                showInvoiceDetailsDialog(response.message.result, frm.doc.doctype);
             } else {
-                frappe.msgprint("Failed to confirm Details");
+                frappe.msgprint("The TIN is not registered in the Burundi Revenue Authority system. Please verify the TIN and try again or contact the Burundi Revenue Authority for more detail");
             }
         }
     });
@@ -20,11 +20,11 @@ function get_tin(frm){
 
 }
 
-function showInvoiceDetailsDialog(result) {
+function showInvoiceDetailsDialog(result, doctype) {
     let details = result.taxpayer[0];
 
     let dialog = new frappe.ui.Dialog({
-        title: __('The Supplier is registered'),
+        title: __(`The ${doctype} is registered`),
         fields: [
             {
                 label: __('TaxPayer Name'),
@@ -34,7 +34,6 @@ function showInvoiceDetailsDialog(result) {
                 read_only: true
             }
            
-          
            
         ]
     });

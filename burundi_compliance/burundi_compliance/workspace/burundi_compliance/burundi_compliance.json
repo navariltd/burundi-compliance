@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
+ "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xS8zxMKXit\",\"type\":\"card\",\"data\":{\"card_name\":\"Setups\",\"col\":4}},{\"id\":\"KzR2ci9mJ_\",\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"id\":\"jbnHVN_eEh\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Docs\",\"col\":4}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
  "creation": "2024-03-06 21:09:27.172909",
  "custom_blocks": [],
  "docstatus": 0,
@@ -90,9 +90,166 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setups",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "eBMS Settings",
+   "link_count": 0,
+   "link_to": "eBMS Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "eBMS API Methods",
+   "link_count": 0,
+   "link_to": "eBMS API Methods",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "eBMS Endpoint URLs",
+   "link_count": 0,
+   "link_to": "eBMS Endpoint URLs",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Logs",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Integration Request",
+   "link_count": 0,
+   "link_to": "Integration Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Error Logs",
+   "link_count": 0,
+   "link_to": "Error Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Background Jobs",
+   "link_count": 0,
+   "link_to": "RQ Job",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Schedulers",
+   "link_count": 0,
+   "link_to": "Scheduled Job Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Other Docs",
+   "link_count": 5,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier",
+   "link_count": 0,
+   "link_to": "Supplier",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Entry",
+   "link_count": 0,
+   "link_to": "Stock Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Reconciliation",
+   "link_count": 0,
+   "link_to": "Stock Reconciliation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-04-07 09:45:31.514215",
+ "modified": "2024-06-21 08:03:13.277565",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "Burundi Compliance",

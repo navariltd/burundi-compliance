@@ -70,23 +70,25 @@ class SalesInvoicePoster:
 
     def post_invoice(self, invoice_data) -> dict:
         try:
-            #make_post_request doesn't seem to work well here
-            #It doesn't give me the freedom to handle the response
+            # Make the POST request
             response = requests.post(
                 self.BASE_ADD_INVOICE_API_URL,
                 json=invoice_data,
                 headers=self._get_headers()
             )
             
-            response_data = json.loads(response.text)
-            success=response_data.get("success")      
-                   
-            if success==True:
+            response_data = response.json()
+            success = response_data.get("success")      
+                
+            if success:
                 return self._handle_response(response_data, invoice_data)
             else:
-                 self._create_or_update_integration_request(response_data, invoice_data)
+                self._create_or_update_integration_request(response_data, invoice_data)
+                return response_data
         except Exception as e:
             frappe.log_error(f"Error during API request: {str(e)}")
+            return {"success": False, "error": str(e)}
+
         
 
     def update_sales_invoice(self, response):
@@ -98,23 +100,23 @@ class SalesInvoicePoster:
 
             # Check the doctype directly
             invoice=self.get_doc({"invoice_number": invoice_number})
+             # Update Sales Invoice fields directly using frappe.db.set_value
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_einvoice_signatures", electronic_signature)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_invoice_registered_no", invoice_registered_no)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_invoice_registered_date", invoice_registered_date)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_submitted_to_obr", 1)
 
-            # Update Sales Invoice fields
-            invoice.custom_einvoice_signatures = electronic_signature
-            invoice.custom_invoice_registered_no = invoice_registered_no
-            invoice.custom_invoice_registered_date = invoice_registered_date
-            invoice.custom_submitted_to_obr = 1
-
-            # Save the Sales Invoice
-            invoice.save()
+            # Commit the changes
             frappe.db.commit()
-            frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=frappe.session.user)
+            frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=invoice.owner)
+            invoice.reload()
+
         except Exception as e:
             # Log the error
             frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
 
             # Create Integration Request document for failure
-            self.create_integration_request(response, False, str(e))
+            self._create_or_update_integration_request(response, {"invoice_number": invoice_number})
 
 
     def get_doc(self, invoice_data):

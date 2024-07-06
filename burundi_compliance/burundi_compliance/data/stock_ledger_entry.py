@@ -3,7 +3,7 @@ from ..utils.system_tax_id import get_system_tax_id
 import frappe
 from ..utils.format_date_and_time import date_time_format
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
-
+import time
 auth=OBRAPIBase()
 
 def get_stock_ledger_data(doc):
@@ -26,11 +26,14 @@ def get_stock_ledger_data(doc):
     formatted_date = date[0]
     
     item_movement_invoice_ref=get_invoice_reference_number(voucher_type, voucher_no)
-        
+    
+    
+    item_designation=create_item_designation(specified_doc, item_code)
+    
     data = {
             "system_or_device_id": get_system_tax_id(),
             "item_code": doc.item_code,
-            "item_designation": doc.item_code,
+            "item_designation": item_designation,
             "item_quantity": abs(float(quantity_difference)) if voucher_type == "Stock Reconciliation" else abs(float(doc.actual_qty)),
             "item_measurement_unit": doc.stock_uom,
             "item_purchase_or_sale_price": int(valuation_rate),
@@ -40,7 +43,6 @@ def get_stock_ledger_data(doc):
             "item_movement_description":movement_description,
             "item_movement_date": formatted_date,
         }
-    
     return data
 
 def get_voucher_doc_details(stock_ledger_entry_doc, voucher_type, voucher_no, item_code):
@@ -162,6 +164,7 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
     '''
     Get the movement type for stock reconciliation
     '''
+    has_batch=check_if_item_has_batches(item_code)
     warehouse=stock_ledger_entry_doc.warehouse
     if doc.purpose == "Opening Stock":
         for item in doc.items:
@@ -172,16 +175,25 @@ def get_stock_recon_movement_type(stock_ledger_entry_doc,doc, item_code):
         else:
             movement_type="SAU"
     
-    elif doc.purpose=="Stock Reconciliation":
+    elif doc.purpose == "Stock Reconciliation":
         for item in doc.items:
-            if item.item_code==item_code and item.warehouse==warehouse:
-                quantity_difference=item.quantity_difference
-                if stock_ledger_entry_doc.is_cancelled==0:
+            item_batch = None
+            if has_batch:
+                item_batch = get_specified_batch(stock_ledger_entry_doc)
+            
+            # Check if item matches the criteria
+            if (item.item_code == item_code and item.warehouse == warehouse and 
+                (not has_batch or item.batch_no == item_batch)):
+                
+                quantity_difference = item.quantity_difference
+                is_cancelled = stock_ledger_entry_doc.is_cancelled
+                
+                if is_cancelled == 0:
                     if float(quantity_difference) > 0.0:
                         movement_type = "EAJ"
                     elif float(quantity_difference) < 0.0:
                         movement_type = "SAJ"
-                elif stock_ledger_entry_doc.is_cancelled==1:
+                elif is_cancelled == 1:
                     if float(quantity_difference) > 0.0:
                         movement_type = "SAJ"
                     elif float(quantity_difference) < 0.0:
@@ -281,3 +293,37 @@ def get_invoice_reference_number(voucher_type, voucher_no):
         item_invoice_ref=sales_doc.name
     return item_invoice_ref
 
+
+def create_item_designation(specified_doc, item_code):
+    items=specified_doc.items
+    for item in items:
+        if item.item_code==item_code:
+            if item.batch_no:
+                return item.item_code + " - "+item.batch_no
+            else:
+                return item.item_code
+            
+def get_specified_batch(specified_doc):
+    # Get the serial and batch bundle linked to the specified document
+    serial_and_batch = specified_doc.serial_and_batch_bundle
+    
+    # Fetch the Serial and Batch Bundle document
+    serial_and_batch_doc = frappe.get_doc("Serial and Batch Bundle", serial_and_batch)
+    
+    # Get the list of entries (batches) from the Serial and Batch Bundle document
+    batches = serial_and_batch_doc.entries
+    
+    # Pick the first entry's batch number
+    if batches:
+        first_batch_no = batches[0].batch_no
+        return first_batch_no
+    else:
+        frappe.throw("No batches found in the specified Serial and Batch Bundle.")
+
+    
+def check_if_item_has_batches(item_code):
+    '''
+    Check if the item has batches
+    '''
+    item_doc=frappe.get_doc("Item", item_code)
+    return item_doc.has_batch_no

@@ -7,13 +7,11 @@ obr_integration_base = OBRAPIBase()
 
 auth_details=obr_integration_base.get_auth_details()
 allow_obr_to_track_stock_movement=auth_details["allow_obr_to_track_stock_movement"]
-
+import time
 
 
 def on_update(doc, method=None):
-    obr_integration_base.authenticate()
-    send_data(doc)
-                
+    pass                
                 
 def send_data(doc):
     data = get_stock_ledger_data(doc)

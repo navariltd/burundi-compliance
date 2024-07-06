@@ -57,8 +57,8 @@ def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
         invoice_data=invoice_data,
       
         doc=doc_name,
-        queue="long",
-        timeout=300,
+        queue="short",
+        timeout=30,
         is_async=True,
         at_front=False,
     )
@@ -83,16 +83,23 @@ def retry_stock_movement(data, doc):
                 frappe.db.set_value(doc.doctype, doc.name, 'custom_etracker', 1)
                 if doc.doctype == "Stock Ledger Entry":
                     frappe.db.set_value(doc.voucher_type, doc.voucher_no, 'custom_etracker', 1)
-                return 
+                return
+            else:
+                frappe.db.set_value(doc.doctype, doc.name, 'custom_queued', 0)
+                frappe.db.commit()
+
         except Exception as e:
             frappe.log_error(f"Error during retry ({retries + 1}/{max_retries}): {str(e)}", reference_doctype=doc.doctype, reference_name=doc.name)
+            frappe.db.set_value("Stock Ledger Entry", doc.name, 'custom_queued', 0)
+            frappe.db.commit()
+             
             retries += 1
             time.sleep(retry_delay_seconds)
             continue
     frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
 
 def enqueue_stock_movement(data, doc):
-    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_stock_movement', data=data, doc=doc, queue='long', is_async=True)
+    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_stock_movement', data=data, doc=doc, queue='short',timeout=10, is_async=True)
     
 
 ######################################################################################################
@@ -106,7 +113,7 @@ def retry_cancel_invoice(invoice_data, doc):
         try:
             invoice_canceller = InvoiceCanceller(token)
             response = invoice_canceller.cancel_invoice(invoice_data)
-            frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
+            # frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
             frappe.publish_realtime("msgprint", f"Invoice cancelled successful!{response}", user=frappe.session.user)
             return
         except Exception as e:
@@ -126,7 +133,7 @@ def retry_cancel_invoice(invoice_data, doc):
         frappe.msgprint(f"Error sending emails: {str(e)}")
         
 def enqueue_cancel_invoice(invoice_data, doc):
-    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_cancel_invoice', invoice_data=invoice_data,doc=doc, queue='long', is_async=True)
+    frappe.enqueue('burundi_compliance.burundi_compliance.utils.background_jobs.retry_cancel_invoice', invoice_data=invoice_data,doc=doc,queue='short',timeout=10, is_async=True)
     
     
 #######################################################################################################
@@ -227,4 +234,3 @@ def get_user_email(doc):
     user=frappe.get_doc("User", doc_owner)
     email=user.email
     return email
-
