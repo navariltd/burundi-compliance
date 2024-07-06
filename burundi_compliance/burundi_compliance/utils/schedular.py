@@ -53,9 +53,11 @@ def check_and_send_pending_cancelled_sales_invoices():
     for sales_invoice in cancelled_sales_invoices:
         try:
             sales_invoice_doc = frappe.get_doc("Sales Invoice", sales_invoice.name)
-            integration_request=frappe.db.get_doc("Integration Request", {"reference_doctype": "Sales Invoice", "reference_docname": sales_invoice.name, "service": "eBMS Invoice Cancellation"})
-            if integration_request:
-                cancel_invoice(sales_invoice_doc)
+            integration_requests=frappe.db.get_all("Integration Request", {"reference_doctype": "Sales Invoice", "reference_docname": sales_invoice.name, "integration_request_service": "eBMS Invoice Cancellation"})
+            for integration_request in integration_requests:
+                if integration_request:
+                    cancel_invoice(sales_invoice_doc)
+           
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Error in sending sales invoice {0}".format(sales_invoice.name))
             continue

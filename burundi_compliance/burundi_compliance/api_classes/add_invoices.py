@@ -101,10 +101,10 @@ class SalesInvoicePoster:
             # Check the doctype directly
             invoice=self.get_doc({"invoice_number": invoice_number})
              # Update Sales Invoice fields directly using frappe.db.set_value
-            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_einvoice_signatures", electronic_signature)
-            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_invoice_registered_no", invoice_registered_no)
-            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_invoice_registered_date", invoice_registered_date)
-            frappe.db.set_value("Sales Invoice", {"invoice_number": invoice_number}, "custom_submitted_to_obr", 1)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_einvoice_signatures", electronic_signature)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_invoice_registered_no", invoice_registered_no)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_invoice_registered_date", invoice_registered_date)
+            frappe.db.set_value("Sales Invoice", invoice_number, "custom_submitted_to_obr", 1)
 
             # Commit the changes
             frappe.db.commit()
