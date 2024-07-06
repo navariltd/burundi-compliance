@@ -18,7 +18,7 @@ def single_stock_data(doc, method=None):
     stock_movement_data=[]
     for item in purchase_invoice_items:
         item_doc = frappe.get_doc("Item", item.item_code)
-        check_br_permission=item_doc.custom_allow_obr_to_track_purchase
+        check_br_permission=item_doc.custom_allow_obr_to_track_stock_movement
         if not check_br_permission:
             continue
         
