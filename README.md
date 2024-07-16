@@ -20,7 +20,7 @@ Developed on the robust Frappe Framework and ERPNext platform, it streamlines re
 3. **Supplier Registration Verification:** 
    - Automatically verify supplier registration status, ensuring that only registered members are engaged in business transactions, thereby mitigating risks associated with non-compliant suppliers.
 
-4. **Real-Time TIN Verification:** 
+4. **Real-Time Customer TIN Verification:** 
    - Verify Tax Identification Numbers (TINs) of registered customers in real-time, validating their authenticity and promoting compliance with tax regulations.
 
 5. **Automated Compliance Checks:** 
@@ -58,7 +58,7 @@ Streamlined Integration: ERPNext Communicating with OBR Server and Database
 
   
 
-Once the user logs into the system, among teh modules, there is Burundi Compliance.
+Once the user logs into the system, among the modules, there is Burundi Compliance.
   
 
 It has a workspace with three shortcuts to various custom doctypes.
@@ -232,20 +232,18 @@ This doctype will only have two transactions: sandbox and production.
 
 #### <a id="item"></a> iv. Item
 
-  ![re_item_tests](https://github.com/navariltd/burundi-compliance/assets/60258622/5ae687d7-8b10-4999-b052-5debb4a371d7)
+![image (2)](https://github.com/user-attachments/assets/20cf3b08-3adc-45cf-9db0-95ed52f1008a)
 
 
 To ensure accurate tracking by OBR, it's essential to set up the system properly. If an item falls under the classification of goods that OBR monitors, it's important to enable this feature upon creation.
 
   
 
-This configuration involves ticking the **Allow OBR to track...** checkbox, which can be found in three tabs:
+This configuration involves ticking the **Allow OBR to track...** checkbox, which can be found in two tabs:
 
   
 
 -  **Inventory**: This option enables OBR to track stock movements for items, recording any incoming or outgoing movements.
-
--  **Purchase**: Enabling this option allows OBR to track items' movement during purchase transactions.
 
 -  **Sales**: By default, this option is already ticked. It permits OBR to monitor any sales involving the item.
 
@@ -612,7 +610,7 @@ Print the sales invoice; it will contain the Invoice Identifier (created even wh
 
 **Differ Submission to OBR**
 
-In case the user doesn't want to send the sales invoice to OBR at the time of submission, simply tick the *Differ Submission to OBR* checkbox (circled in the sales invoice image).
+In case the user doesn't want to send the sales invoice to OBR at the time of submission, simply tick the *Differ Submission to OBR* checkbox (circled in the sales invoice image - <span style="color:red">Not allowed by OBR</span>).
 
 Later, one can untick the checkbox and use the *Re-submit* button to send the invoice to OBR.
 
