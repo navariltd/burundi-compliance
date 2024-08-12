@@ -14,7 +14,7 @@
 
 We process your information to:
 
--   **Provide and Manage Services:** Facilitate account creation, authenticate users, and provide you with our compliance services.
+-   **Provide and Manage Services:** We provide you with our compliance services.
 -   **Compliance and Legal Requirements:** Ensure adherence to tax regulations by processing and transmitting data to OBR.
 
 **3. Information Sharing**
@@ -22,16 +22,16 @@ We process your information to:
 We may share your information:
 
 -   **With OBR:** To fulfill the legal requirements of tax compliance, such as sending sales invoices and tracking stock movements.
--   **With Third-Party Service Providers:** For services such as server maintenance or data analytics. These providers are bound by confidentiality agreements and are not permitted to use your information for any purpose other than providing services to us.
+-   **With Third-Party Service Providers:** For services such as server maintenance. These providers are bound by confidentiality agreements and are not permitted to use your information for any purpose other than providing services to us.
 -   **In Case of Business Transfers:** If Navari Limited is involved in a merger, sale, or acquisition, your information may be transferred as part of that transaction.
 
 **4. Data Retention**
 
-We retain your personal information for as long as necessary to fulfill the purposes outlined in this privacy policy unless a longer retention period is required or permitted by law. Once the retention period expires, your data will be deleted or anonymized.
+We retain your personal information for as long as necessary to fulfil the purposes outlined in this privacy policy unless a longer retention period is required or permitted by law. Once the retention period expires, your data will be deleted or anonymized.
 
 **5. Security of Your Information**
 
-We implement organizational and technical security measures to protect your data. However, no method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee the absolute security of your information.
+We implement organizational and technical security measures to protect your data. However, no method of transmission over the Internet or electronic storage is 100% secure. We cannot guarantee the absolute security of your information.
 
 **6. Minors**
 
