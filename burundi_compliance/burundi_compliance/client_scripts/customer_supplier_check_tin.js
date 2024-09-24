@@ -46,19 +46,52 @@ function showInvoiceDetailsDialog(result, doctype) {
     dialog.show();
 }
 
+
+function set_gst_category_query(frm) {
+    if (frm.doc.customer_type||frm.doc.supplier_type === 'Company') {
+        frm.set_query('custom_gst_category', function() {
+            return {
+                filters: {
+                    'name': ['!=', 'Unregistered']
+                }
+            };
+        });
+    } else {
+        frm.set_query('custom_gst_category', function() {
+            return {
+                filters: {
+                    'name': ['!=', 'UN']
+                }
+            };
+        });
+    }
+}
+
 frappe.ui.form.on('Customer', {
-    refresh: function(frm){
-        get_tin(frm)
-    }})
+    refresh: function(frm) {
+        get_tin(frm);
+        set_gst_category_query(frm);
+    },
+    customer_type: function(frm) {
+        set_gst_category_query(frm);
+    }
+});
 
 frappe.ui.form.on('Supplier', {
    
         refresh: function(frm){
             get_tin(frm)
-        }})
+            set_gst_category_query(frm);
+        },
+        supplier_type: function(frm) {
+            set_gst_category_query(frm);
+        }
+    
+    })
 
 frappe.ui.form.on('Company', {
 
     refresh: function(frm){
         get_tin(frm)
     }})
+

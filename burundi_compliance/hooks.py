@@ -9,6 +9,7 @@ required_apps = ["frappe/erpnext"]
 
 fixtures=[
    "eBMS API Methods",
+   "GST Category",
 ]
 
 # Includes in <head>
@@ -46,7 +47,7 @@ doctype_js = {
     "Purchase Receipt":"burundi_compliance/client_scripts/add_stock_movement.js",
     "Delivery Note":"burundi_compliance/client_scripts/add_stock_movement.js",
     "Stock Entry":"burundi_compliance/client_scripts/add_stock_movement.js",
-    "doctype" : "public/js/doctype.js"}
+    }
 
 
 doctype_list_js = {

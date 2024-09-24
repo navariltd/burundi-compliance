@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "GST Category",
+  "gst_category": "Unregistered",
+  "modified": "2024-07-06 15:54:54.581273",
+  "name": "Unregistered"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "GST Category",
+  "gst_category": "Registered",
+  "modified": "2024-07-06 15:55:21.776417",
+  "name": "Registered"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "GST Category",
+  "gst_category": "Oversees",
+  "modified": "2024-07-06 15:55:47.515360",
+  "name": "Oversees"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "GST Category",
+  "gst_category": "Deemed Export",
+  "modified": "2024-07-06 15:56:34.986571",
+  "name": "Deemed Export"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "GST Category",
+  "gst_category": "UIN Holders",
+  "modified": "2024-07-06 15:56:53.817946",
+  "name": "UIN Holders"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "GST Category",
+  "gst_category": "Tax Deductors",
+  "modified": "2024-07-06 15:57:41.592325",
+  "name": "Tax Deductors"
+ }
+]
