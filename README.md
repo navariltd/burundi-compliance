@@ -770,7 +770,7 @@ Replace `{branch-name}` with the desired branch name from the repository. Ensure
 
 ```sh
 
-$  bench  --site  {sitename}  install-app  burundi-compliance
+$  bench  --site  {sitename}  install-app  burundi_compliance
 
 ```
 
