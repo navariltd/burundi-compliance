@@ -142,7 +142,8 @@
                     <div><strong>Nom du contribuable:</strong> {{doc.company}}</div>
                     <div><strong>Secteur d'activité: </strong>{{ebms_settings.taxpayers_sector_of_activity}}</div>
                     <div><strong>Registre de commerce:</strong> {{ebms_settings.the_taxpayers_commercial_register_number}}</div>
-                        
+                    {% set company_nif =  frappe.db.get_value("Company", doc.company, "tax_id") %}
+                    <p><strong>NIF :</strong> {{ company_nif if company_nif else "N/A"  }}</p>
                     {% else %}
                         <div>No eBMS Settings found for company: {{ doc.company }}</div>
                     {% endif %}
