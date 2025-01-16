@@ -147,7 +147,7 @@
                     {% else %}
                         <div>No eBMS Settings found for company: {{ doc.company }}</div>
                     {% endif %}
-                    <div><strong>Personne physique:</strong> Société</div>
+                    <div><strong>Type de contribuable:</strong> Société</div>
                     <div><strong>Centre Fiscal:</strong> {{ebms_settings.the_taxpayers_tax_center}}</div>
                    
      
@@ -171,6 +171,10 @@
                         <p>No electronic signature available.</p>
                     {%- endif %} -->
                     <!--===============================================End of QR code =============================================================================-->
+                    <div class="mt-2" style="margin-top: 0px;">
+                      <h3>FACTURE</h3>
+                      <h4>{{ doc.name }}</h4>
+                  </div>
                     <div>
                         <div><strong>Assujetti a la TVA: </strong>
                             {%if ebms_settings.subject_to_vat == 0%}
@@ -186,9 +190,6 @@
                         </div>
                         <div><strong>Assujetti a la TC:</strong> {% if ebms_settings.subject_to_consumption_tax==0 %}
                             <span>NON</span>
-                            {% else %}
-                            <span>OUI</span>
-                            {% endif %}
                         </div>
                         <div><strong>Assujetti au PF: </strong>{% if ebms_settings.assujetti_au_pf ==0%}
                             <span>NON</span>
@@ -210,10 +211,7 @@
                         {% else %}
                             <div>No address found for the company.</div>
                         {% endif %}</div>
-                    <div class="mt-2" style="margin-top: 0px;">
-                        <h3>FACTURE</h3>
-                        <h4>{{ doc.name }}</h4>
-                    </div>
+                    
                     <!-- <p class="mb-1">Facture OBR n°: {{ doc.custom_invoice_registered_no }}</p> -->
                     <div class="qrcode-image overflow-auto"><p>{{doc.custom_invoice_identifier}}</p></div>
                    
@@ -229,7 +227,7 @@
 <div class="row" style="display:flex">
     <div class="col-md-6">
         <h4>  Le client</h4>
-        <p><strong>Personne physique:</strong> {%set customer_doc=frappe.get_doc("Customer", doc.customer_name)%}
+        <p><strong>Type de contribuable:</strong> {%set customer_doc=frappe.get_doc("Customer", doc.customer_name)%}
         {% if customer_doc %}
             {% if customer_doc.customer_type=="Company" %}
                 <span>Société</span>
@@ -300,7 +298,7 @@
                 <tr><td colspan="2"></td></tr>
                 <!-- VAT Row -->
                 <tr>
-                    <td>TVA</td>
+                    <td>TVA(0%)</td>
                     <td class="td-line text-center">Fr. <strong>{{ '{:,.0f}'.format(doc.base_total_taxes_and_charges | round) }}</strong></td>
                 </tr>
                
