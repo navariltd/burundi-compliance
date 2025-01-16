@@ -171,6 +171,10 @@
                         <p>No electronic signature available.</p>
                     {%- endif %} -->
                     <!--===============================================End of QR code =============================================================================-->
+                    <div class="mt-2" style="margin-top: 0px;">
+                      <h3>FACTURE</h3>
+                      <h4>{{ doc.name }}</h4>
+                  </div>
                     <div>
                         <div><strong>Assujetti a la TVA: </strong>
                             {%if ebms_settings.subject_to_vat == 0%}
@@ -186,9 +190,6 @@
                         </div>
                         <div><strong>Assujetti a la TC:</strong> {% if ebms_settings.subject_to_consumption_tax==0 %}
                             <span>NON</span>
-                            {% else %}
-                            <span>OUI</span>
-                            {% endif %}
                         </div>
                         <div><strong>Assujetti au PF: </strong>{% if ebms_settings.assujetti_au_pf ==0%}
                             <span>NON</span>
@@ -210,10 +211,7 @@
                         {% else %}
                             <div>No address found for the company.</div>
                         {% endif %}</div>
-                    <div class="mt-2" style="margin-top: 0px;">
-                        <h3>FACTURE</h3>
-                        <h4>{{ doc.name }}</h4>
-                    </div>
+                    
                     <!-- <p class="mb-1">Facture OBR n°: {{ doc.custom_invoice_registered_no }}</p> -->
                     <div class="qrcode-image overflow-auto"><p>{{doc.custom_invoice_identifier}}</p></div>
                    
