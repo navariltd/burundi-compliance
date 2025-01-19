@@ -191,7 +191,7 @@
                         <div><strong>Assujetti a la TC:</strong> {% if ebms_settings.subject_to_consumption_tax==0 %}
                             <span>NON</span>
                             {% else %}
-                            <span>NON</span>
+                            <span>OUI</span>
                             {% endif %}
                         </div>
                         <div><strong>Assujetti au PF: </strong>{% if ebms_settings.assujetti_au_pf ==0%}
@@ -251,8 +251,9 @@
           </p>        
     </div>
     <div class="col-md-6" style="margin-left: 150px;">
-        <p><b>Posting Date:</b> {{ doc.posting_date }} <b>Posting Time:</b>{{ doc.posting_time[:5] }}</p>
-        <p><b>Payment Due Date:</b> {{ doc.due_date }}</p>
+        <p><b>Posting Date:</b> {{ doc.get_formatted("posting_date") }}</p>
+        <p><b>Posting Time:</b> {{ doc.get_formatted("posting_time") }}</p>
+        <p><b>Payment Due Date:</b> {{ doc.get_formatted("due_date") }}</p>
     </div>
 </div>
 
