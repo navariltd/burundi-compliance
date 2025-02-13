@@ -19,13 +19,16 @@ auth_details = base.get_auth_details()
 
 
 def cancel_invoice(doc, method=None):
-    posting_date = ""
-    if isinstance(doc.posting_date, str):
-        posting_date = datetime.datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
-    else:
-        posting_date = doc.posting_date
+    posting_date = doc.posting_date
+    start_date = auth_details.get("start_date")
 
-    if posting_date < auth_details.get("start_date"):
+    if isinstance(posting_date, str):
+        posting_date = datetime.datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
+
+    if isinstance(start_date, str):
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+
+    if posting_date < start_date:
         return
 
     invoice_data = get_invoice_data(doc)
