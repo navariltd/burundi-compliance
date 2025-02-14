@@ -18,15 +18,6 @@ allow_obr_to_track_stock_movement = auth_details["allow_obr_to_track_stock_movem
 def on_submit(doc, method=None):
     obr_integration_base.authenticate()
 
-    posting_date = ""
-    if isinstance(doc.posting_date, str):
-        posting_date = datetime.datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
-    else:
-        posting_date = doc.posting_date
-
-    if posting_date < auth_details.get("start_date"):
-        return
-
     if doc.doctype == "Sales Invoice" and doc.is_consolidated == 0:
         submit_invoice_request(doc)
     elif doc.doctype == "POS Invoice":
@@ -37,6 +28,18 @@ def on_submit(doc, method=None):
 
 
 def submit_invoice_request(doc):
+    posting_date = doc.posting_date
+    start_date = auth_details.get("start_date")
+
+    if isinstance(posting_date, str):
+        posting_date = datetime.datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
+
+    if isinstance(start_date, str):
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+
+    if posting_date < start_date:
+        return
+
     if allow_obr_to_track_sales == 1:
         sales_invoice_data_processor = InvoiceDataProcessor(doc)
 
