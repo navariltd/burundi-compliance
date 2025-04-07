@@ -16,6 +16,8 @@ allow_obr_to_track_stock_movement = auth_details["allow_obr_to_track_stock_movem
 
 
 def on_submit(doc, method=None):
+    if doc.is_opening=="Yes":
+        return
     obr_integration_base.authenticate()
 
     if doc.doctype == "Sales Invoice" and doc.is_consolidated == 0:

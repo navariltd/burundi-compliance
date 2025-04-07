@@ -33,7 +33,7 @@ def check_and_send_pending_sales_invoices():
     '''
     Check and send pending sales invoices
     '''
-    sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "custom_submitted_to_obr": 0, "is_consolidated":0}, fields=["name"])
+    sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "custom_submitted_to_obr": 0, "is_consolidated":0, "is_opening":"No"}, fields=["name"])
     
     for sales_invoice in sales_invoices:
         try:
@@ -48,7 +48,7 @@ def check_and_send_pending_cancelled_sales_invoices():
     '''
     Check and send pending cancelled sales invoices
     '''
-    cancelled_sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 2, "custom_submitted_to_obr": 1, "is_consolidated":0,"custom_ebms_invoice_cancelled":0}, fields=["name"])
+    cancelled_sales_invoices = frappe.get_all("Sales Invoice", filters={"docstatus": 2, "custom_submitted_to_obr": 1, "is_consolidated":0,"custom_ebms_invoice_cancelled":0, "is_opening":"No"}, fields=["name"])
     
     for sales_invoice in cancelled_sales_invoices:
         try:
