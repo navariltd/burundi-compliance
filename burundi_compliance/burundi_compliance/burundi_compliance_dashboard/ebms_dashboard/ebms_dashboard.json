@@ -1,0 +1,57 @@
+{
+ "cards": [
+  {
+   "card": "Queued Requests"
+  },
+  {
+   "card": "Signed Invoices"
+  },
+  {
+   "card": "Successful Credit Notes"
+  },
+  {
+   "card": "Cancelled Invoice"
+  },
+  {
+   "card": "Failed Invoices"
+  },
+  {
+   "card": "Failed Credit Note"
+  },
+  {
+   "card": "Verified Customers"
+  },
+  {
+   "card": "Unverified Customers"
+  },
+  {
+   "card": "Verified Supplier"
+  },
+  {
+   "card": "Unverified Suppliers"
+  },
+  {
+   "card": "Total Failed Requests"
+  },
+  {
+   "card": "Sucessful Stock Submitted"
+  }
+ ],
+ "charts": [
+  {
+   "width": "Half"
+  }
+ ],
+ "creation": "2025-04-10 14:48:31.516943",
+ "dashboard_name": "eBMS Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-04-10 15:42:08.916278",
+ "modified_by": "Administrator",
+ "module": "Burundi Compliance",
+ "name": "eBMS Dashboard",
+ "owner": "Administrator"
+}

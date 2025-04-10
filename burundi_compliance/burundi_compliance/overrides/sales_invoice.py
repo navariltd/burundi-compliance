@@ -28,7 +28,6 @@ def on_submit(doc, method=None):
     doc.submit()
     doc.reload()
 
-
 def submit_invoice_request(doc):
     posting_date = doc.posting_date
     start_date = auth_details.get("start_date")
