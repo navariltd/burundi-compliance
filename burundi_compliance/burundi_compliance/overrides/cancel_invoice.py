@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 from burundi_compliance.burundi_compliance.data.sale_invoice_data import (
     InvoiceDataProcessor,
@@ -31,9 +32,11 @@ def cancel_invoice(doc, method=None):
     if posting_date < start_date:
         return
 
+    if not doc.custom_submitted_to_obr:
+        return
+
     invoice_data = get_invoice_data(doc)
     base.authenticate()
-    if doc.custom_reason_for_creditcancel is None:
-        frappe.throw("Please provide a reason for cancelling the invoice")
+
     enqueue_cancel_invoice(invoice_data, doc)
-    frappe.msgprint("Invoice cancellation job queued successfully!", alert=True)
+    frappe.msgprint(_("Invoice cancellation job queued successfully!"), alert=True)
