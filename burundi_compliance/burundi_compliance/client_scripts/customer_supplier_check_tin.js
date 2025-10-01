@@ -13,9 +13,13 @@ function get_tin(frm) {
         if (response.message) {
           showInvoiceDetailsDialog(response.message.result, frm.doc.doctype);
         } else {
-          frappe.msgprint(
-            "The TIN is not registered in the Burundi Revenue Authority system. Please verify the TIN and try again or contact the Burundi Revenue Authority for more detail"
-          );
+          frappe.msgprint({
+            title: __("Notification"),
+            indicator: "red",
+            message: __(
+              "The TIN is not registered in the Burundi Revenue Authority system. Please verify the TIN and try again or contact the Burundi Revenue Authority for more detail"
+            ),
+          });
         }
       },
     });
