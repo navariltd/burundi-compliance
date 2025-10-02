@@ -115,10 +115,14 @@ def retry_stock_movement(data, doc):
             else:
                 frappe.db.set_value(doc.doctype, doc.name, "custom_queued", 0)
                 frappe.db.commit()
+                retries += 1
+                time.sleep(retry_delay_seconds)
+                continue
 
         except Exception as e:
             frappe.log_error(
-                f"Error during retry ({retries + 1}/{max_retries}): {str(e)}",
+                f"Error while resending stock movement data",
+                str(e),
                 reference_doctype=doc.doctype,
                 reference_name=doc.name,
             )
@@ -128,7 +132,8 @@ def retry_stock_movement(data, doc):
             retries += 1
             time.sleep(retry_delay_seconds)
             continue
-    frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
+
+    frappe.log_error(f"Max retries reached. Unable to stock movement data to OBR.")
 
 
 def enqueue_stock_movement(data, doc):
