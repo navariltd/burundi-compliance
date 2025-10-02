@@ -46,6 +46,7 @@ doctype_js = {
     "Purchase Receipt": "burundi_compliance/client_scripts/add_stock_movement.js",
     "Delivery Note": "burundi_compliance/client_scripts/add_stock_movement.js",
     "Stock Entry": "burundi_compliance/client_scripts/add_stock_movement.js",
+    "Stock Reconciliation": "burundi_compliance/client_scripts/add_stock_movement.js",
 }
 
 
