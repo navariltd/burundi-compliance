@@ -1,5 +1,6 @@
 import requests
 import frappe
+from frappe import _
 from .base import OBRAPIBase
 from frappe.integrations.utils import make_post_request
 
@@ -40,11 +41,13 @@ class InvoiceVerifier:
 
         except requests.exceptions.RequestException as e:
             # Handle request exceptions (e.g., network issues)
-            error_message = f"Error during API request: {str(e)}"
+            title = _("Get Invoice Request Error")
+            err_msg = f"Error during API request: {str(e)}"
             frappe.log_error(
-                "Get Invoice Request Error",
-                error_message,
+                title,
+                err_msg,
             )
+
             return {"success": False, "msg": f"Request error: {str(e)}"}
 
 
@@ -58,5 +61,5 @@ def confirm_invoice():
     data = {"invoice_identifier": f"{invoice_identifier}"}
 
     invoice_verifier = InvoiceVerifier(token)
-    results = invoice_verifier.get_invoice(data)
-    frappe.response["message"] = results
+    result = invoice_verifier.get_invoice(data)
+    frappe.response["message"] = result
