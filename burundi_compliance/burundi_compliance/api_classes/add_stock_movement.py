@@ -60,7 +60,6 @@ class TrackStockMovement:
 
     def post_stock_movement(self, stock_movement_data, doc):
         doc_ = frappe.get_doc("Stock Ledger Entry", doc.name)
-        stock_movement_data = {}
 
         try:
             response = requests.post(

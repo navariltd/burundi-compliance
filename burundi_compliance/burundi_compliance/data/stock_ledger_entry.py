@@ -42,8 +42,8 @@ def get_stock_ledger_data(doc):
             else abs(float(doc.actual_qty))
         ),
         "item_measurement_unit": doc.stock_uom,
-        "item_purchase_or_sale_price": int(valuation_rate),
-        "item_purchase_or_sale_currency": frappe.get_value(
+        "item_cost_price": int(valuation_rate),
+        "item_cost_price_currency": frappe.get_value(
             "Company", doc.company, "default_currency"
         ),
         "item_movement_type": movement_type,

@@ -42,6 +42,7 @@ function addInvoiceButtons(frm, invoiceType) {
   }
 }
 
+// TODO: Display correct Message when an Invoice is resubmitted
 function callBackendFunction(frm, invoiceType, method) {
   frappe.call({
     method: `burundi_compliance.burundi_compliance.${method}`,
