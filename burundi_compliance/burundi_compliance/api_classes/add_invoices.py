@@ -1,62 +1,73 @@
 import requests
-from ..doctype.custom_exceptions import InvoiceAdditionError
-import json
 import frappe
-from frappe.integrations.utils import make_post_request, make_get_request, create_request_log
+from frappe import _
+from frappe.integrations.utils import (
+    create_request_log,
+)
 from .base import OBRAPIBase
 
-class SalesInvoicePoster:
 
+class SalesInvoicePoster:
     def __init__(self, token: str):
         obr_base = OBRAPIBase()
-        self.BASE_ADD_INVOICE_API_URL = obr_base.get_api_from_ebims_settings("add_invoice")
+        self.BASE_ADD_INVOICE_API_URL = obr_base.get_api_from_ebims_settings(
+            "add_invoice"
+        )
         self.token = token
-        
+
     def _create_or_update_integration_request(self, response, invoice_data):
         success = response.get("success")
-        status="Failed"
-        if success:
-            status="Completed"
+        status = "Completed" if success else "Failed"
+
         integration_req = self.check_if_integration_request_exist(invoice_data)
-        doc=self.get_doc(invoice_data)
+
+        doc = self.get_doc(invoice_data)
         if integration_req:
             try:
-                doc = frappe.get_doc("Integration Request", invoice_data.get('invoice_number'))
+                doc = frappe.get_doc(
+                    "Integration Request", invoice_data.get("invoice_number")
+                )
                 doc.status = status
                 doc.output = str(response)
                 doc.error = ""
                 doc.save()
 
             except Exception as e:
-                frappe.log_error(f"Error saving Integration Request: {str(e)}")
+                title = _("Error saving Integration Request")
+                err_msg = _(str(e))
+                frappe.log_error(title, err_msg)
         else:
-            create_request_log(invoice_data,
-                                integration_type=None,
-                                service_name="eBMS Invoice",
-                                error="",
-                                name=invoice_data.get("invoice_number"),
-                                request_headers=self._get_headers(),
-                                output=response,
-                                reference_doctype=doc.doctype,
-                                reference_docname=invoice_data.get("invoice_number"),
-                                status=status,
-                                url=self.BASE_ADD_INVOICE_API_URL
-                                )
+            create_request_log(
+                invoice_data,
+                integration_type=None,
+                service_name="eBMS Invoice",
+                error="",
+                name=invoice_data.get("invoice_number"),
+                request_headers=self._get_headers(),
+                output=response,
+                reference_doctype=doc.doctype,
+                reference_docname=invoice_data.get("invoice_number"),
+                status=status,
+                url=self.BASE_ADD_INVOICE_API_URL,
+            )
 
     def _handle_response(self, response, invoice_data):
         success = response.get("success")
         if success:
             self.update_sales_invoice(response)
             self._create_or_update_integration_request(response, invoice_data)
-        
+
         return response
-    
+
     def check_if_integration_request_exist(self, invoice_data):
-        doc=self.get_doc(invoice_data)
-        integration_request = frappe.db.exists("Integration Request", {
-            "reference_doctype": doc.doctype,
-            "reference_docname": invoice_data.get("invoice_number")
-        })
+        doc = self.get_doc(invoice_data)
+        integration_request = frappe.db.exists(
+            "Integration Request",
+            {
+                "reference_doctype": doc.doctype,
+                "reference_docname": invoice_data.get("invoice_number"),
+            },
+        )
         if integration_request:
             return True
         else:
@@ -65,7 +76,7 @@ class SalesInvoicePoster:
     def _get_headers(self) -> dict:
         return {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.token}"
+            "Authorization": f"Bearer {self.token}",
         }
 
     def post_invoice(self, invoice_data) -> dict:
@@ -74,12 +85,12 @@ class SalesInvoicePoster:
             response = requests.post(
                 self.BASE_ADD_INVOICE_API_URL,
                 json=invoice_data,
-                headers=self._get_headers()
+                headers=self._get_headers(),
             )
-            
+
             response_data = response.json()
-            success = response_data.get("success")      
-                
+            success = response_data.get("success")
+
             if success:
                 return self._handle_response(response_data, invoice_data)
             else:
@@ -89,26 +100,36 @@ class SalesInvoicePoster:
             frappe.log_error(f"Error during API request: {str(e)}")
             return {"success": False, "error": str(e)}
 
-        
-
     def update_sales_invoice(self, response):
         try:
             invoice_number = response.get("result", {}).get("invoice_number")
             electronic_signature = response.get("electronic_signature")
-            invoice_registered_no = response.get("result", {}).get("invoice_registered_number")
-            invoice_registered_date = response.get("result", {}).get("invoice_registered_date")
+            invoice_registered_no = response.get("result", {}).get(
+                "invoice_registered_number"
+            )
+            invoice_registered_date = response.get("result", {}).get(
+                "invoice_registered_date"
+            )
 
             # Check the doctype directly
-            invoice=self.get_doc({"invoice_number": invoice_number})
-             # Update Sales Invoice fields directly using frappe.db.set_value
-            frappe.db.set_value("Sales Invoice", invoice_number, "custom_einvoice_signatures", electronic_signature)
-            frappe.db.set_value("Sales Invoice", invoice_number, "custom_invoice_registered_no", invoice_registered_no)
-            frappe.db.set_value("Sales Invoice", invoice_number, "custom_invoice_registered_date", invoice_registered_date)
-            frappe.db.set_value("Sales Invoice", invoice_number, "custom_submitted_to_obr", 1)
+            invoice = self.get_doc({"invoice_number": invoice_number})
+            # Update Sales Invoice fields directly using frappe.db.set_value
+            data_to_update = {
+                "custom_einvoice_signatures": electronic_signature,
+                "custom_invoice_registered_no": invoice_registered_no,
+                "custom_invoice_registered_date": invoice_registered_date,
+                "custom_submitted_to_obr": 1,
+            }
+
+            frappe.db.set_value("Sales Invoice", invoice_number, data_to_update)
 
             # Commit the changes
             frappe.db.commit()
-            frappe.publish_realtime("msgprint", f"Sales Invoice {invoice_number} sent successfully", user=invoice.owner)
+            frappe.publish_realtime(
+                "msgprint",
+                f"Sales Invoice {invoice_number} sent successfully",
+                user=invoice.owner,
+            )
             invoice.reload()
 
         except Exception as e:
@@ -116,10 +137,15 @@ class SalesInvoicePoster:
             frappe.log_error(f"Error updating Sales Invoice {invoice_number}: {str(e)}")
 
             # Create Integration Request document for failure
-            self._create_or_update_integration_request(response, {"invoice_number": invoice_number})
-
+            self._create_or_update_integration_request(
+                response, {"invoice_number": invoice_number}
+            )
 
     def get_doc(self, invoice_data):
-        invoice_type = "POS Invoice" if frappe.db.exists("POS Invoice", invoice_data.get("invoice_number")) else "Sales Invoice"
+        invoice_type = (
+            "POS Invoice"
+            if frappe.db.exists("POS Invoice", invoice_data.get("invoice_number"))
+            else "Sales Invoice"
+        )
         doc = frappe.get_doc(invoice_type, invoice_data.get("invoice_number"))
         return doc

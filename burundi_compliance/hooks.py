@@ -169,9 +169,6 @@ doc_events = {
         # use similar function with customer_check_tin
         "before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
     },
-    "Stock Ledger Entry": {
-        "on_update": "burundi_compliance.burundi_compliance.overrides.stock_ledger_entry.on_update"
-    },
 }
 
 # Scheduled Tasks minor changes

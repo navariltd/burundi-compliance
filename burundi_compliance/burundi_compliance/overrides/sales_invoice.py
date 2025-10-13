@@ -3,8 +3,6 @@ from ..utils.background_jobs import enqueue_retry_posting_sales_invoice
 import frappe
 from ..data.sale_invoice_data import InvoiceDataProcessor
 from frappe import _
-from ..utils.background_jobs import enqueue_stock_movement
-from burundi_compliance.burundi_compliance.utils.get_stock_items import get_items
 
 import datetime
 
@@ -16,17 +14,18 @@ allow_obr_to_track_stock_movement = auth_details["allow_obr_to_track_stock_movem
 
 
 def on_submit(doc, method=None):
-    if doc.is_opening=="Yes":
+    if doc.is_opening == "Yes":
         return
     obr_integration_base.authenticate()
 
-    if doc.doctype == "Sales Invoice" and doc.is_consolidated == 0:
+    if doc.doctype == "Sales Invoice" and not doc.is_consolidated:
         submit_invoice_request(doc)
     elif doc.doctype == "POS Invoice":
         submit_invoice_request(doc)
 
     doc.submit()
     doc.reload()
+
 
 def submit_invoice_request(doc):
     posting_date = doc.posting_date
@@ -61,6 +60,6 @@ def submit_invoice_request(doc):
         if doc.custom_differ_submission_to_obr == 0:
             job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
             if job_id:
-                frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
+                frappe.msgprint(_("Sending data to OBR. Job queued"), alert=True)
             else:
-                frappe.msgprint("Job enqueue failed.")
+                frappe.msgprint(_("Job enqueue failed."))

@@ -6,7 +6,7 @@ function addRetrySendingButton(frm, doc_type) {
         __("Re-Submit"),
         function () {
           frappe.msgprint(
-            "Re-submitting data to OBR. Please wait...",
+            __("Re-submitting data to OBR. Please wait..."),
             __("E-Tracking")
           );
           frappe.call({
@@ -18,9 +18,17 @@ function addRetrySendingButton(frm, doc_type) {
             },
             callback: function (response) {
               if (response.message) {
-                frappe.msgprint("Invoice sent successfully");
+                frappe.msgprint(
+                  __(
+                    `${frm.doc.doctype} Stock Movement Information sent successfully`
+                  )
+                );
               } else {
-                frappe.msgprint("Failed to send invoice");
+                frappe.msgprint(
+                  __(
+                    `Failed to send ${frm.doc.doctype} Stock Movement Information`
+                  )
+                );
               }
             },
           });

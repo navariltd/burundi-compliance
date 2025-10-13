@@ -4,8 +4,6 @@ from frappe import _
 from ..doctype.custom_exceptions import StockMovementError
 from .base import OBRAPIBase
 from frappe.integrations.utils import (
-    make_post_request,
-    make_get_request,
     create_request_log,
 )
 
@@ -41,7 +39,6 @@ class TrackStockMovement:
         integration_req = self.check_if_integration_request_exist(doc)
 
         if integration_req:
-
             try:
                 doc = frappe.get_doc("Integration Request", doc.name)
                 doc.status = status
@@ -75,28 +72,33 @@ class TrackStockMovement:
 
             except ValueError:
                 error_message = f"Error during API request: No JSON object could be detected in response: {response.text}"
-                frappe.log_error(error_message, "Add Stock Movement Request Error")
+                frappe.log_error("Add Stock Movement Request Error", error_message)
                 raise StockMovementError("No JSON object could be detected")
 
-            if response_data.get("success") == False:
+            if not response_data.get("success"):
                 try:
                     self._update_integration_request(
                         response_data, stock_movement_data, doc, status="Failed"
                     )
+                    title = _("Error while posting stock movement")
+                    frappe.log_error(title, response_data)
                 except Exception as e:
-                    frappe.log_error(
-                        f"Error while creating Integration Request", str(e)
-                    )
+                    title = _("Error while creating Integration Request")
+                    frappe.log_error(title, str(e))
+
+                err_msg = _("API request failed")
                 raise requests.exceptions.RequestException(
-                    "API request failed"
+                    err_msg
                 )  # Raise RequestException here
             else:
                 return self._handle_response(response_data, stock_movement_data, doc_)
 
         except requests.exceptions.RequestException as e:
-            error_message = _(f"Error during API request: {str(e)}")
-            frappe.log_error(_(f"Add Stock Movement Request Error", error_message))
-            raise StockMovementError(_(f"API request failed", str(e)))
+            msg = _(f"Error during API request: {str(e)}")
+            title = _("Add Stock Movement Request Error")
+            frappe.log_error(title, msg)
+            err_msg = _("API request failed", str(e))
+            raise StockMovementError(err_msg)
 
     def check_if_integration_request_exist(self, doc):
         integration_request = frappe.db.exists(
