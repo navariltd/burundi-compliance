@@ -1,4 +1,4 @@
-
+from frappe import _
 from burundi_compliance.burundi_compliance.utils.background_jobs import enqueue_retry_posting_sales_invoice
 from burundi_compliance.burundi_compliance.data.sale_invoice_data import InvoiceDataProcessor
 # from burundi_compliance.burundi_compliance.overrides.sales_invoice import on_submit_update_stock
@@ -21,7 +21,7 @@ def bulk_invoice_submission():
 		try:
 			doc=frappe.get_doc(doctype, invoice)
 		except Exception as e:
-			frappe.msgprint("No document found for the selected invoice")
+			frappe.msgprint(_("No document found for the selected invoice"))
 			continue
 
 		sales_invoice_data_processor = InvoiceDataProcessor(doc)
@@ -52,14 +52,14 @@ def bulk_stock_submission():
 	stock_docs = frappe.form_dict.get("stock_details")
 	stock_docs_list = ast.literal_eval(stock_docs)
 	doctype=frappe.form_dict.get("doctype")
-	frappe.msgprint("Updating stock for selected invoices", alert=True)
+	frappe.msgprint(_("Updating stock for selected invoices"), alert=True)
 
 	for stock_doc in stock_docs_list:
 		try:
 			doc=frappe.get_doc(doctype, stock_doc)
 
 		except Exception as e:
-			frappe.msgprint("No document found for the selected stock")
+			frappe.msgprint(_("No document found for the selected stock"))
 			continue
 		get_items(doc)
 		doc.reload()
