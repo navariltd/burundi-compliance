@@ -37,9 +37,9 @@ def bulk_invoice_submission():
 		if doc.custom_differ_submission_to_obr == 0:
 			job_id = enqueue_retry_posting_sales_invoice(invoice_data, doc)
 			if job_id:
-				frappe.msgprint(f"Sending data to OBR. Job queued", alert=True)
+				frappe.msgprint(_("Sending data to OBR. Job queued"), alert=True)
 			else:
-				frappe.msgprint("Job enqueue failed.")
+				frappe.msgprint(_("Job enqueue failed."))
   
 
 @frappe.whitelist(allow_guest=True)

@@ -126,7 +126,7 @@ class SalesInvoicePoster:
             # Commit the changes
             frappe.db.commit()
             frappe.msgprint(
-                f"Sales Invoice {invoice_number} sent successfully"
+                (_("Sales Invoice {0} sent successfully")).format(invoice_number)
             )
             invoice.reload()
 

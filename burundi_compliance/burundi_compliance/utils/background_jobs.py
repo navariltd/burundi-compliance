@@ -66,7 +66,7 @@ def retry_sales_invoice_post(invoice_data, doc):
         )
         send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
     except Exception as e:
-        frappe.msgprint(f"Error sending emails: {str(e)}")
+        frappe.msgprint(_("Error sending emails: {0}").format(str(e)))
 
 
 def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
