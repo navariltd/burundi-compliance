@@ -125,10 +125,8 @@ class SalesInvoicePoster:
 
             # Commit the changes
             frappe.db.commit()
-            frappe.publish_realtime(
-                "msgprint",
-                f"Sales Invoice {invoice_number} sent successfully",
-                user=invoice.owner,
+            frappe.msgprint(
+                (_("Sales Invoice {0} sent successfully")).format(invoice_number)
             )
             invoice.reload()
 

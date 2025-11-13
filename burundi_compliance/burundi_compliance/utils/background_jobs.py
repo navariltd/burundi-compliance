@@ -33,9 +33,7 @@ def retry_sales_invoice_post(invoice_data, doc):
             result = sales_invoice_poster.post_invoice(invoice_data)
 
             if result.get("success") == True:
-                frappe.publish_realtime(
-                    "msgprint", f"Invoice sent to OBR", user=doc.owner
-                )
+                frappe.msgprint(_("Invoice sent to OBR"))
                 return
 
             result = frappe._dict(result)
@@ -58,11 +56,7 @@ def retry_sales_invoice_post(invoice_data, doc):
         time.sleep(retry_delay_seconds)
 
     frappe.log_error(f"Max retries reached. Unable to send invoice data to OBR.")
-    frappe.publish_realtime(
-        "msgprint",
-        "Max retries reached. Unable to send invoice data to OBR.",
-        user=doc.owner,
-    )
+    frappe.msgprint("Max retries reached. Unable to send invoice data to OBR.")
 
     """send email to sales manager if max retries reached"""
     try:
@@ -72,7 +66,7 @@ def retry_sales_invoice_post(invoice_data, doc):
         )
         send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
     except Exception as e:
-        frappe.msgprint(f"Error sending emails: {str(e)}")
+        frappe.msgprint(_("Error sending emails: {0}").format(str(e)))
 
 
 def enqueue_retry_posting_sales_invoice(invoice_data, doc_name):
@@ -160,10 +154,8 @@ def retry_cancel_invoice(invoice_data, doc):
             invoice_canceller = InvoiceCanceller(token)
             response = invoice_canceller.cancel_invoice(invoice_data)
             # frappe.db.set_value(doc.doctype, doc.name, 'custom_ebms_invoice_cancelled', 1)
-            frappe.publish_realtime(
-                "msgprint",
-                f"Invoice cancelled successful!{response}",
-                user=frappe.session.user,
+            frappe.msgprint(
+                _("Invoice cancelled successful!{0}").format(response)
             )
             return
         except Exception as e:
@@ -186,7 +178,7 @@ def retry_cancel_invoice(invoice_data, doc):
         )
         send_max_retries_email(get_user_email(doc), subject, message, as_markdown=False)
     except Exception as e:
-        frappe.msgprint(f"Error sending emails: {str(e)}")
+        frappe.msgprint(_("Error sending emails: {0}").format(str(e)))
 
 
 def enqueue_cancel_invoice(invoice_data, doc):
@@ -229,7 +221,7 @@ def retry_authentication(
             "mania@navari.co.ke", subject, message, as_markdown=False
         )
     except Exception as e:
-        frappe.msgprint(f"Error sending emails: {str(e)}")
+        frappe.msgprint(_("Error sending emails: {0}").format(str(e)))
 
 
 ########################Send email to sales manager if max retries reached################################
@@ -243,9 +235,9 @@ def send_max_retries_email(recipient, subject, message, as_markdown=True):
             as_markdown=as_markdown,
             args=None,
         )
-        frappe.msgprint("Email sent successfully!")
+        frappe.msgprint(_("Email sent successfully!"))
     except Exception as e:
-        frappe.msgprint(f"Error sending email: {str(e)}")
+        frappe.msgprint(_("Error sending email: {0}").format(str(e)))
 
 
 ######################################################################################################################
@@ -298,7 +290,7 @@ def retry_stock_movement_after_failure(doc_type, doc_name):
     doc = frappe.get_doc(doc_type, doc_name)
 
     frappe.msgprint(
-        f"Retrying sending stock movement data to OBR for {doc.name}", alert=True
+        (_("Retrying sending stock movement data to OBR for {0}")).format(doc.name), alert=True
     )
 
     if doc.custom_etracker == 0:

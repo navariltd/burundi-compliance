@@ -21,10 +21,8 @@ class TrackStockMovement:
 
     def _handle_response(self, response, stock_movement_data, doc):
         if response.get("success"):
-            frappe.publish_realtime(
-                "msgprint",
-                f"Stock Movement for {stock_movement_data.get('item_code')} sent to OBR",
-                user=frappe.session.user,
+            frappe.msgprint(
+                _("Stock Movement for {0} sent to OBR").format(stock_movement_data.get("item_code"))
             )
             self._update_integration_request(
                 response, stock_movement_data, doc, status="Completed"
