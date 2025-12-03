@@ -79,6 +79,14 @@ class OBRAPI:
     def error_callback_handler(self, handler: Callable) -> None:
         self._error_callback_handler = handler
 
+    @property
+    def service(self) -> str | None:
+        return self._service
+
+    @service.setter
+    def service(self, service: str) -> None:
+        self._service = service
+
     @staticmethod
     def decode_jwt_token(token: str) -> dict:
         """Decode a JWT token without verification and return its payload as a dictionary."""
@@ -117,12 +125,13 @@ class OBRAPI:
         doctype: Document | str | None = None,
         document_name: str | None = None,
         retrying: bool = False,
+        require_handler: bool = True,
     ) -> str | None:
         """Handles communication to OBR servers"""
         if (
             self._url is None
             or self._method is None
-            or self.success_callback_handler is None
+            or (self._success_callback_handler is None and require_handler)
         ):
             frappe.throw(
                 _(
@@ -132,20 +141,12 @@ class OBRAPI:
                 is_minimizable=True,
             )
 
-        if not self._settings.is_active:
-            frappe.log_error(
-                title="Inactive OBR Settings",
-                message="API call aborted",
-                reference_doctype=doctype,
-                reference_name=document_name,
-            )
-            return
-
         if not retrying:
             try:
                 self.integration_request = create_request_log(
                     data=self._payload,
                     is_remote_request=True,
+                    service_name=self._service,
                     request_headers=self._headers,
                     url=self._url,
                     reference_doctype=doctype,
@@ -155,6 +156,7 @@ class OBRAPI:
                 self.integration_request = create_request_log(
                     data=self._payload,
                     is_remote_request=True,
+                    service_name=self._service,
                     request_headers=self._headers,
                     url=self._url,
                     reference_doctype=doctype,
@@ -165,6 +167,7 @@ class OBRAPI:
                 response = requests.post(
                     self._url, json=self._payload, headers=self._headers
                 )
+
             elif self.method == "GET":
                 response = requests.get(
                     self._url, headers=self._headers, params=self._payload
@@ -173,16 +176,20 @@ class OBRAPI:
             response_data = get_response_data(response)
 
             if response.status_code in [200, 201]:
-                self._success_callback_handler(
-                    response=response_data, document_name=document_name, doctype=doctype
-                )
-
                 update_integration_request(
                     self.integration_request.name,
                     status="Completed",
                     output=str(response_data),
                     request_description="Request completed successfully.",
                 )
+
+                if not require_handler:
+                    return response_data
+
+                self._success_callback_handler(
+                    response=response_data, document_name=document_name, doctype=doctype
+                )
+
             else:
                 if isinstance(response_data, str):
                     error = response_data
@@ -204,7 +211,10 @@ class OBRAPI:
                         document_name=document_name,
                         doctype=doctype,
                     )
-
+            frappe.log_error(
+                title="OBR API Response",
+                message=f"Response from OBR API: {response_data}",
+            )
             return response_data
 
         except Exception as e:
@@ -218,7 +228,7 @@ class OBRAPI:
 def get_response_data(response: requests.Response) -> Optional[Union[dict, str, bytes]]:
     content_type = response.headers.get("Content-Type", "").lower()
 
-    if "application/json" in content_type:
+    if "application/json" in content_type or content_type == "application/json":
         return response.json()
     elif "text/plain" in content_type or "text/html" in content_type:
         return response.text if response.text.strip() else None
