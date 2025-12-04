@@ -153,13 +153,14 @@ jinja = {
 
 doc_events = {
     "Sales Invoice": {
-        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
-        "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
+        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit_invoice",
+        "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.before_save",
+        "before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
         # "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
     },
     "POS Invoice": {
-        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit",
-        "before_cancel": "burundi_compliance.burundi_compliance.overrides.cancel_invoice.cancel_invoice",
+        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit_invoice",
+        "before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
         # "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
     },
     "Customer": {
@@ -186,15 +187,21 @@ scheduler_events = {
             "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"
         ],
         "*/15 * * * *": [
-            "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"
+            # "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"
         ],
         "*/45 * * * *": [
             "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_submitted_invoice_which_were_cancelled"
         ],
-        "0 * * * *": [
-            "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"
-        ],
+        # "0 * * * *": [
+        #     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"
+        # ],
     },
+    "hourly": [
+        "burundi_compliance.background_tasks.tasks.send_sales_pending_sales_invoices",
+        "burundi_compliance.background_tasks.tasks.send_pending_pos_invoices",
+        "burundi_compliance.background_tasks.tasks.send_pending_cancelled_sales_invoices",
+        "burundi_compliance.background_tasks.tasks.send_pending_cancelled_pos_invoices",
+    ],
 }
 
 # import frappe
