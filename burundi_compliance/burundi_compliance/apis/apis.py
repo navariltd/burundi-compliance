@@ -1,4 +1,5 @@
 import datetime
+import json
 
 import frappe
 from frappe import _
@@ -61,3 +62,33 @@ def resubmit_invoice_to_obr(name: str, invoice_type: str):
     from ..overrides.sales_invoice import on_submit_invoice
 
     on_submit_invoice(doc, method=None)
+
+
+@frappe.whitelist()
+def bulk_submit_invoices_to_obr(doctype: str, invoice_list: str) -> None:
+    invoice_list = json.loads(invoice_list)
+    for invoice in invoice_list:
+        try:
+            from ..overrides.sales_invoice import on_submit_invoice
+
+            doc = frappe.get_doc(doctype, invoice)
+            if doc.custom_submitted_to_obr:
+                continue
+
+            on_submit_invoice(doc, method=None)
+        except Exception as e:
+            frappe.log_error(
+                message=str(e),
+                title=_("Error Submitting Invoice to OBR: {0}").format(invoice),
+            )
+            continue
+
+
+# @frappe.whitelist()
+# def bulk_submit_sales_invoices_to_obr(invoice_list: list[dict]) -> None:
+#     bulk_submit_invoices_to_obr("Sales Invoice", invoice_list)
+
+
+# @frappe.whitelist()
+# def bulk_submit_pos_invoices_to_obr(invoice_list: list[dict]) -> None:
+#     bulk_submit_invoices_to_obr("POS Invoice", invoice_list)

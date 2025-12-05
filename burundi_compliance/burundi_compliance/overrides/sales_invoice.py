@@ -30,6 +30,9 @@ def on_submit_invoice(doc: Document, method: str | None = None) -> None:
     if doc.doctype == "Sales Invoice" and doc.is_consolidated:
         return
 
+    if doc.custom_submitted_to_obr:
+        return
+
     generic_invoice_on_submit_override(doc, doc.doctype)
 
 
@@ -84,6 +87,10 @@ def generic_invoice_on_submit_override(doc: Document, invoice_type: str):
 def on_cancel(doc: Document, method: str | None = None) -> None:
     company_name = doc.company
     settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
+
+    if not settings_doc.is_active:
+        return
+
     posting_date, start_date = doc.posting_date, settings_doc.start_date
 
     if isinstance(posting_date, str):

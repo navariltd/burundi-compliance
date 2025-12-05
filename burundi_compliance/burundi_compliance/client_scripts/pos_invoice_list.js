@@ -1,28 +1,27 @@
-
-frappe.listview_settings['POS Invoice'].onload = function(listview) {
-    listview.page.add_action_item(__("Submit to EBIMS"), function() {
-    	submit_bulk_invoice( listview, "POS Invoice" );
-});
+frappe.listview_settings["POS Invoice"].onload = function (listview) {
+  listview.page.add_action_item(__("Submit to EBMS"), function () {
+    submit_bulk_invoice(listview, "POS Invoice");
+  });
 };
 
+function submit_bulk_invoice(listview, doctype) {
+  let names = [];
+  $.each(listview.get_checked_items(), function (key, value) {
+    names.push(value.name);
+  });
 
-function submit_bulk_invoice( listview, doctype)
-{
-	let names=[];
-	$.each(listview.get_checked_items(), function(key, value) {
-		names.push(value.name);
-	});
+  if (names.length === 0) {
+    frappe.throw(__("No rows selected."));
+  }
 
-   
-	if (names.length === 0) {
-		frappe.throw(__("No rows selected."));
-	}
-			
-	frappe.call({
-        method: "burundi_compliance.burundi_compliance.utils.bulk_transaction.bulk_invoice_submission",
-        args: {
-            "sales_invoices": names,
-            "doctype":doctype
-        },
-    })
+  frappe.call({
+    method:
+      "burundi_compliance.burundi_compliance.utils.bulk_transaction.bulk_invoice_submission",
+    args: {
+      doctype: doctype,
+      invoice_list: names,
+    },
+    freeze: true,
+    freeze_message: __("Submitting invoices to EBMS..."),
+  });
 }

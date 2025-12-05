@@ -211,10 +211,7 @@ class OBRAPI:
                         document_name=document_name,
                         doctype=doctype,
                     )
-            frappe.log_error(
-                title="OBR API Response",
-                message=f"Response from OBR API: {response_data}",
-            )
+
             return response_data
 
         except Exception as e:
