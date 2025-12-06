@@ -47,7 +47,7 @@ def send_pending_pos_invoices() -> None:
 def send_pending_cancelled_sales_invoices() -> None:
     all_cancelled_sales_invoices: list[Document] = frappe.get_all(
         "Sales Invoice",
-        {"docstatus": 2, "custom_submitted_to_obr": 0, "is_opening": "No"},
+        {"docstatus": 2, "custom_submitted_to_obr": 1, "is_opening": "No"},
         ["name"],
     )
 
@@ -64,8 +64,8 @@ def send_pending_cancelled_sales_invoices() -> None:
 
 def send_pending_cancelled_pos_invoices() -> None:
     all_cancelled_pos_invoices: list[Document] = frappe.get_all(
-        "Sales Invoice",
-        {"docstatus": 2, "custom_submitted_to_obr": 0, "is_opening": "No"},
+        "POS Invoice",
+        {"docstatus": 2, "custom_submitted_to_obr": 1, "is_opening": "No"},
         ["name"],
     )
 
