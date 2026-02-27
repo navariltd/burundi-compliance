@@ -141,11 +141,8 @@ class InvoiceDataProcessor:
                     total_vat = 0
             else:
                 total_vat = 0
-            item_designation = (
-                item.item_code + "-" + item.batch_no
-                if item.batch_no
-                else item.item_code
-            )
+            # Use description as designation
+            item_designation = item.description if item.description else item.item_code + "-" + item.batch_no if item.batch_no else item.item_code
             items.append(
                 {
                     "item_code": item.item_code,
