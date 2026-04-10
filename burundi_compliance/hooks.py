@@ -2,15 +2,15 @@ app_name = "burundi_compliance"
 app_title = "Burundi Compliance"
 app_publisher = "Navari Limited"
 app_description = (
-    "Burundian Revenue Authority (OBR) Integration with ERPNext by Navari Ltd"
+	"Burundian Revenue Authority (OBR) Integration with ERPNext by Navari Ltd"
 )
 app_email = "mania@navari.co.ke"
 app_license = "GNU Affero General Public License v3.0"
 required_apps = ["frappe/erpnext"]
 
 fixtures = [
-    "eBMS API Methods",
-    "GST Category",
+	"eBMS API Methods",
+	"GST Category",
 ]
 
 # Includes in <head>
@@ -37,25 +37,25 @@ app_include_js = ["burundi_compliance/public/js/taxes_and_totals.js"]
 # include js in doctype views
 
 doctype_js = {
-    "Sales Invoice": "burundi_compliance/client_scripts/e_invoicing.js",
-    "POS Invoice": "burundi_compliance/client_scripts/e_invoicing.js",
-    "Company": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
-    "Customer": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
-    "Supplier": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
-    "Purchase Invoice": "burundi_compliance/client_scripts/add_stock_movement.js",
-    "Purchase Receipt": "burundi_compliance/client_scripts/add_stock_movement.js",
-    "Delivery Note": "burundi_compliance/client_scripts/add_stock_movement.js",
-    "Stock Entry": "burundi_compliance/client_scripts/add_stock_movement.js",
-    "Stock Reconciliation": "burundi_compliance/client_scripts/add_stock_movement.js",
+	"Sales Invoice": "burundi_compliance/client_scripts/e_invoicing.js",
+	"POS Invoice": "burundi_compliance/client_scripts/e_invoicing.js",
+	"Company": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+	"Customer": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+	"Supplier": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+	"Purchase Invoice": "burundi_compliance/client_scripts/add_stock_movement.js",
+	"Purchase Receipt": "burundi_compliance/client_scripts/add_stock_movement.js",
+	"Delivery Note": "burundi_compliance/client_scripts/add_stock_movement.js",
+	"Stock Entry": "burundi_compliance/client_scripts/add_stock_movement.js",
+	"Stock Reconciliation": "burundi_compliance/client_scripts/add_stock_movement.js",
 }
 
 
 doctype_list_js = {
-    "Sales Invoice": "burundi_compliance/client_scripts/sales_invoice_list.js",
-    "POS Invoice": "burundi_compliance/client_scripts/pos_invoice_list.js",
-    "Stock Ledger Entry": "burundi_compliance/client_scripts/stock_list.js",
-    "Stock Entry": "burundi_compliance/client_scripts/stock_list.js",
-    "Stock Reconciliation": "burundi_compliance/client_scripts/stock_recon_list.js",
+	"Sales Invoice": "burundi_compliance/client_scripts/sales_invoice_list.js",
+	"POS Invoice": "burundi_compliance/client_scripts/pos_invoice_list.js",
+	"Stock Ledger Entry": "burundi_compliance/client_scripts/stock_list.js",
+	"Stock Entry": "burundi_compliance/client_scripts/stock_list.js",
+	"Stock Reconciliation": "burundi_compliance/client_scripts/stock_recon_list.js",
 }
 
 
@@ -89,8 +89,8 @@ doctype_list_js = {
 
 # add methods and filters to jinja environment
 jinja = {
-    "methods": "burundi_compliance.burundi_compliance.utils.qr_code_generator.get_qr_code",
-    # "filters": "burundi_compliance.utils.jinja_filters"
+	"methods": "burundi_compliance.burundi_compliance.utils.qr_code_generator.get_qr_code",
+	# "filters": "burundi_compliance.utils.jinja_filters"
 }
 
 # Installation
@@ -152,24 +152,24 @@ jinja = {
 # Hook on document methods and events
 
 doc_events = {
-    "Sales Invoice": {
-        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit_invoice",
-        "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.before_save",
-        "before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
-        # "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
-    },
-    "POS Invoice": {
-        "on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit_invoice",
-        "before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
-        # "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
-    },
-    "Customer": {
-        "before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
-    },
-    "Supplier": {
-        # use similar function with customer_check_tin
-        "before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
-    },
+	"Sales Invoice": {
+		"on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit_invoice",
+		"before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.before_save",
+		"before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
+		# "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+	},
+	"POS Invoice": {
+		"on_submit": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_submit_invoice",  # NOTE: UPDATE THIS PART
+		"before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
+		# "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
+	},
+	"Customer": {
+		"before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
+	},
+	"Supplier": {
+		# use similar function with customer_check_tin
+		"before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
+	},
 }
 
 # Scheduled Tasks minor changes
@@ -182,26 +182,26 @@ doc_events = {
 # invoice_frequency, stock_movement_frequency = get_event_frequency()
 
 scheduler_events = {
-    "cron": {
-        "*/5 * * * *": [
-            "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"
-        ],
-        # "*/15 * * * *": [
-        #     # "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"
-        # ],
-        # "*/45 * * * *": [
-        #     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_submitted_invoice_which_were_cancelled"
-        # ],
-        # "0 * * * *": [
-        #     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"
-        # ],
-    },
-    "hourly": [
-        "burundi_compliance.burundi_compliance.background_tasks.tasks.send_sales_pending_sales_invoices",
-        "burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_pos_invoices",
-        "burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_sales_invoices",
-        "burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_pos_invoices",
-    ],
+	"cron": {
+		"*/5 * * * *": [
+			"burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"
+		],
+		# "*/15 * * * *": [
+		#     # "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"
+		# ],
+		# "*/45 * * * *": [
+		#     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_submitted_invoice_which_were_cancelled"
+		# ],
+		# "0 * * * *": [
+		#     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"
+		# ],
+	},
+	"hourly": [
+		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_sales_pending_sales_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_pos_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_sales_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_pos_invoices",
+	],
 }
 
 # import frappe
