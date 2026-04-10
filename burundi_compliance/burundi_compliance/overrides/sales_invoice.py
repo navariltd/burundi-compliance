@@ -15,8 +15,8 @@ from ..apis.utils.build_headers import build_headers
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
 from ..apis.utils.build_invoice_payload import build_invoice_payload
 from ..handlers.sales_invoice import (
-    handle_sales_invoice_submission,
-    handle_sales_invoice_cancellation,
+	handle_sales_invoice_submission,
+	handle_sales_invoice_cancellation,
 )
 
 
@@ -24,145 +24,149 @@ obr_api = OBRAPI()
 
 
 def on_submit_invoice(doc: Document, method: str | None = None) -> None:
-    if doc.is_opening == "Yes":
-        return
+	if doc.is_opening == "Yes":
+		return
 
-    if doc.doctype == "Sales Invoice" and doc.is_consolidated:
-        return
+	if doc.doctype == "Sales Invoice" and doc.is_consolidated:
+		return
 
-    if doc.custom_submitted_to_obr:
-        return
+	if doc.custom_submitted_to_obr:
+		return
 
-    generic_invoice_on_submit_override(doc, doc.doctype)
+	generic_invoice_on_submit_override(doc, doc.doctype)
 
 
 def generic_invoice_on_submit_override(doc: Document, invoice_type: str):
-    company_name = doc.company
-    settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
+	company_name = doc.company
+	if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company_name):
+		return
 
-    if not settings_doc.is_active:
-        return
+	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
 
-    if not settings_doc.allow_obr_to_track_sales:
-        return
+	if not settings_doc.is_active:
+		return
 
-    posting_date, start_date = doc.posting_date, settings_doc.start_date
-    if isinstance(posting_date, str):
-        posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
+	if not settings_doc.allow_obr_to_track_sales:
+		return
 
-    if isinstance(start_date, str):
-        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+	posting_date, start_date = doc.posting_date, settings_doc.start_date
+	if isinstance(posting_date, str):
+		posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
 
-    if posting_date < start_date:
-        return
+	if isinstance(start_date, str):
+		start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
 
-    environment = "sandbox" if settings_doc.sandbox else "production"
-    headers = build_headers(company_name)
+	if posting_date < start_date:
+		return
 
-    request_url, server_url = get_urls(environment, "add_invoice")
+	environment = "sandbox" if settings_doc.sandbox else "production"
+	headers = build_headers(company_name)
 
-    if headers and server_url and request_url:
-        url = f"{server_url}/{request_url}"
-        payload = build_invoice_payload(doc, settings_doc)
+	request_url, server_url = get_urls(environment, "add_invoice")
 
-        obr_api.headers = headers
-        obr_api.url = url
-        obr_api.method = "POST"
-        obr_api.payload = payload
-        obr_api.service = "AddCreditNote" if doc.is_return else "AddInvoice"
-        obr_api.success_callback_handler = handle_sales_invoice_submission
-        # obr_api.error_callback_handler = handler
+	if headers and server_url and request_url:
+		url = f"{server_url}/{request_url}"
+		payload = build_invoice_payload(doc, settings_doc)
 
-        frappe.enqueue(
-            obr_api.make_remote_request,
-            is_async=True,
-            queue="default",
-            timeout=600,
-            job_name=f"obr_invoice_submission_{doc.name}",
-            doctype=invoice_type,
-            document_name=doc.name,
-        )
+		obr_api.headers = headers
+		obr_api.url = url
+		obr_api.method = "POST"
+		obr_api.payload = payload
+		obr_api.service = "AddCreditNote" if doc.is_return else "AddInvoice"
+		obr_api.success_callback_handler = handle_sales_invoice_submission
+		# obr_api.error_callback_handler = handler
+
+		frappe.enqueue(
+			obr_api.make_remote_request,
+			is_async=True,
+			queue="default",
+			timeout=600,
+			job_name=f"obr_invoice_submission_{doc.name}",
+			doctype=invoice_type,
+			document_name=doc.name,
+		)
 
 
 def on_cancel(doc: Document, method: str | None = None) -> None:
-    company_name = doc.company
-    settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
+	company_name = doc.company
+	if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company_name):
+		return
 
-    if not settings_doc.is_active:
-        return
+	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
 
-    posting_date, start_date = doc.posting_date, settings_doc.start_date
+	if not settings_doc.is_active:
+		return
 
-    if isinstance(posting_date, str):
-        posting_date = datetime.datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
+	posting_date, start_date = doc.posting_date, settings_doc.start_date
 
-    if isinstance(start_date, str):
-        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+	if isinstance(posting_date, str):
+		posting_date = datetime.datetime.strptime(doc.posting_date, "%Y-%m-%d").date()
 
-    if posting_date < start_date:
-        return
+	if isinstance(start_date, str):
+		start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
 
-    if not doc.custom_submitted_to_obr:
-        return
+	if posting_date < start_date:
+		return
 
-    if not doc.custom_reason_for_creditcancel:
-        frappe.throw(
-            _(
-                "Please provide a reason for invoice cancellation before cancelling the invoice."
-            )
-        )
+	if not doc.custom_submitted_to_obr:
+		return
 
-    soup = BeautifulSoup(doc.custom_reason_for_creditcancel, "html.parser")
-    ct_motif = soup.get_text()
+	if not doc.custom_reason_for_creditcancel:
+		frappe.throw(
+			_("Please provide a reason for invoice cancellation before cancelling the invoice.")
+		)
 
-    invoice_identifier = doc.custom_invoice_identifier
-    if not invoice_identifier:
-        return
-    invoice_data = {
-        "invoice_signature": f"{invoice_identifier}",
-        "cn_motif": ct_motif,
-    }
+	soup = BeautifulSoup(doc.custom_reason_for_creditcancel, "html.parser")
+	ct_motif = soup.get_text()
 
-    environment = "sandbox" if settings_doc.sandbox else "production"
-    headers = build_headers(company_name)
+	invoice_identifier = doc.custom_invoice_identifier
+	if not invoice_identifier:
+		return
+	invoice_data = {
+		"invoice_signature": f"{invoice_identifier}",
+		"cn_motif": ct_motif,
+	}
 
-    request_url, server_url = get_urls(environment, "cancel_invoice")
+	environment = "sandbox" if settings_doc.sandbox else "production"
+	headers = build_headers(company_name)
 
-    if headers and server_url and request_url:
-        url = f"{server_url}/{request_url}"
-        payload = invoice_data
+	request_url, server_url = get_urls(environment, "cancel_invoice")
 
-        obr_api.headers = headers
-        obr_api.url = url
-        obr_api.method = "POST"
-        obr_api.payload = payload
-        obr_api.service = "CancelInvoice"
-        obr_api.success_callback_handler = handle_sales_invoice_cancellation
-        # obr_api.error_callback_handler = handler
+	if headers and server_url and request_url:
+		url = f"{server_url}/{request_url}"
+		payload = invoice_data
 
-        frappe.enqueue(
-            obr_api.make_remote_request,
-            is_async=True,
-            queue="default",
-            timeout=600,
-            job_name=f"obr_invoice_cancellation_{doc.name}",
-            doctype=doc.doctype,
-            document_name=doc.name,
-        )
+		obr_api.headers = headers
+		obr_api.url = url
+		obr_api.method = "POST"
+		obr_api.payload = payload
+		obr_api.service = "CancelInvoice"
+		obr_api.success_callback_handler = handle_sales_invoice_cancellation
+		# obr_api.error_callback_handler = handler
+
+		frappe.enqueue(
+			obr_api.make_remote_request,
+			is_async=True,
+			queue="default",
+			timeout=600,
+			job_name=f"obr_invoice_cancellation_{doc.name}",
+			doctype=doc.doctype,
+			document_name=doc.name,
+		)
 
 
 def handler(response, document_name, doctype):
-    pass
+	pass
 
 
 def before_save(doc: Document, method: str | None = None) -> None:
-    if doc.is_return:
-        data_to_update = {
-            "custom_einvoice_signatures": "",
-            "custom_invoice_registered_no": "",
-            "custom_invoice_registered_date": "",
-            "custom_submitted_to_obr": 0,
-        }
+	if doc.is_return:
+		data_to_update = {
+			"custom_einvoice_signatures": "",
+			"custom_invoice_registered_no": "",
+			"custom_invoice_registered_date": "",
+			"custom_submitted_to_obr": 0,
+		}
 
-        frappe.db.set_value(doc.doctype, doc.name, data_to_update)
-        frappe.db.commit()
+		frappe.db.set_value(doc.doctype, doc.name, data_to_update)
+		frappe.db.commit()
