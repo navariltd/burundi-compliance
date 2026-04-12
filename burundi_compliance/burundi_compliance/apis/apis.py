@@ -8,6 +8,7 @@ from ..apis.api_builder import OBRAPI
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
 from ..apis.utils.build_headers import build_headers
 from ..apis.utils.utils import get_urls
+from ..background_tasks.tasks import send_stock_movement_to_obr
 
 
 @frappe.whitelist()
@@ -20,14 +21,24 @@ def get_invoice_from_obr(name: str, invoice_type: str):
 		return
 
 	company_name = si_doc.company
+	if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company_name):
+		frappe.throw(
+			_(
+				f"eBMS Settings not found for company {company_name}. Please set up the settings to fetch invoice details from OBR."
+			),
+			title=_("Settings Not Found"),
+		)
+
 	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
 
 	if not settings_doc.is_active:
-		return
+		frappe.throw(
+			_(f"Please activate eBMS Settings for company {company_name}"),
+			title=_("Integration Inactive"),
+		)
 
 	posting_date, start_date = si_doc.posting_date, settings_doc.start_date
 
-	posting_date, start_date = si_doc.posting_date, settings_doc.start_date
 	if isinstance(posting_date, str):
 		posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
 
@@ -84,17 +95,61 @@ def bulk_submit_invoices_to_obr(doctype: str, invoice_list: str) -> None:
 			continue
 
 
-# @frappe.whitelist()
-# def bulk_submit_sales_invoices_to_obr(invoice_list: list[dict]) -> None:
-#     bulk_submit_invoices_to_obr("Sales Invoice", invoice_list)
-
-
-# @frappe.whitelist()
-# def bulk_submit_pos_invoices_to_obr(invoice_list: list[dict]) -> None:
-#     bulk_submit_invoices_to_obr("POS Invoice", invoice_list)
-
-
-# ADD STOCK MOVEMENT HERE
 @frappe.whitelist()
-def send_stock_movement_to_obr(name: str):
-	pass
+def trigger_stock_movement_to_obr() -> None:
+	send_stock_movement_to_obr()
+
+
+@frappe.whitelist()
+def confirm_tin(company: str, tin: str, doctype: str, docname: str):
+	if not company or not tin:
+		frappe.throw(_("Company and TIN must be provided"), title=_("Missing Information"))
+
+	if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company):
+		frappe.throw(
+			_(
+				f"eBMS settings not found for company {company}. Please set up the settings to check TIN with OBR."
+			),
+			title=_("Settings Not Found"),
+		)
+
+	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company)
+
+	if not settings_doc.is_active:
+		frappe.throw(
+			_(f"Please activate eBMS settings for company {company}"),
+			title=_("Integration Inactive"),
+		)
+
+	posting_date, start_date = frappe.utils.getdate(), settings_doc.start_date
+
+	if isinstance(posting_date, str):
+		posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
+
+	if isinstance(start_date, str):
+		start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+
+	if posting_date < start_date:
+		frappe.throw(
+			_(f"Current date is before the start date for OBR integration: {start_date}"),
+			title=_("Invalid Start Date"),
+		)
+		return
+
+	environment = "sandbox" if settings_doc.sandbox else "production"
+	headers = build_headers(company)
+
+	request_url, server_url = get_urls(environment, "check_TIN")
+	if headers and server_url and request_url:
+		payload = {"tp_TIN": tin}
+		url = f"{server_url}/{request_url}"
+		obr_api = OBRAPI()
+		obr_api.headers = headers
+		obr_api.url = url
+		obr_api.method = "POST"
+		obr_api.payload = payload
+		obr_api.service = "CheckTIN"
+		response = obr_api.make_remote_request(doctype, docname, require_handler=False)
+		return response
+
+	return None

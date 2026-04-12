@@ -39,9 +39,9 @@ app_include_js = ["burundi_compliance/public/js/taxes_and_totals.js"]
 doctype_js = {
 	"Sales Invoice": "burundi_compliance/client_scripts/e_invoicing.js",
 	"POS Invoice": "burundi_compliance/client_scripts/e_invoicing.js",
-	"Company": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
-	"Customer": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
-	"Supplier": "burundi_compliance/client_scripts/customer_supplier_check_tin.js",
+	"Company": "burundi_compliance/client_scripts/check_tin.js",
+	"Customer": "burundi_compliance/client_scripts/check_tin.js",
+	"Supplier": "burundi_compliance/client_scripts/check_tin.js",
 	"Purchase Invoice": "burundi_compliance/client_scripts/add_stock_movement.js",
 	"Purchase Receipt": "burundi_compliance/client_scripts/add_stock_movement.js",
 	"Delivery Note": "burundi_compliance/client_scripts/add_stock_movement.js",
@@ -163,13 +163,13 @@ doc_events = {
 		"before_cancel": "burundi_compliance.burundi_compliance.overrides.sales_invoice.on_cancel",
 		# "before_save": "burundi_compliance.burundi_compliance.overrides.sales_invoice.after_save",
 	},
-	"Customer": {
-		"before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
-	},
-	"Supplier": {
-		# use similar function with customer_check_tin
-		"before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
-	},
+	# "Customer": {
+	#     "before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
+	# },
+	# "Supplier": {
+	#     # use similar function with customer_check_tin
+	#     "before_save": "burundi_compliance.burundi_compliance.overrides.check_tin.customer_or_supplier_before_save"
+	# },
 }
 
 # Scheduled Tasks minor changes

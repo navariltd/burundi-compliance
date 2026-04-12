@@ -91,7 +91,7 @@ def send_pending_cancelled_pos_invoices() -> None:
 
 
 # Add a function to apis.py that will execute this fn
-def send_stock_movement_to_obr(name: str):
+def send_stock_movement_to_obr() -> None:
 	# Get all stock ledger entries not sent to OBR - use SQL query to join items and check if it's being tracked
 	SLE = frappe.qb.DocType("Stock Ledger Entry")
 	Item = frappe.qb.DocType("Item")
@@ -117,6 +117,10 @@ def send_stock_movement_to_obr(name: str):
 			sle_doc = frappe.get_doc("Stock Ledger Entry", sle.name)
 
 			company = sle_doc.company
+
+			if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company):
+				return
+
 			settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company)
 
 			if not settings_doc.is_active or not settings_doc.allow_obr_to_track_stock_movement:

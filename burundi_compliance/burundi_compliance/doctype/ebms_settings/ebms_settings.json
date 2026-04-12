@@ -15,12 +15,8 @@
   "column_break_kuje",
   "company",
   "sandbox",
-  "tin",
   "is_active",
-  "section_break_vkui",
-  "authorization_token",
-  "column_break_wmdp",
-  "expires_at",
+  "tin",
   "more_details_tab",
   "taxpayers_sector_of_activity",
   "taxpayers_legal_form",
@@ -277,26 +273,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "section_break_vkui",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "authorization_token",
-   "fieldtype": "Small Text",
-   "label": "Authorization Token",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_wmdp",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "expires_at",
-   "fieldtype": "Datetime",
-   "label": "Expires At",
-   "read_only": 1
-  },
-  {
    "default": "1",
    "fieldname": "is_active",
    "fieldtype": "Check",
@@ -305,7 +281,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-03 14:00:31.695419",
+ "modified": "2026-04-10 10:24:03.146217",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
