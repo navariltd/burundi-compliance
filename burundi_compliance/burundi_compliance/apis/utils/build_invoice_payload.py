@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import re
 
 
 import frappe
@@ -149,26 +150,42 @@ def get_payment_method(payment_type: str) -> str:
 
 def get_invoice_items(doc):
 	items = []
-	itemised_tax_data = get_itemised_tax_breakup_data(doc)
+
+	item_wise_tax_details = frappe.get_all(
+		"Item Wise Tax Detail", filters={"parent": doc.name}, fields=["*"]
+	)
+
+	sales_taxes_and_charges = frappe.get_all(
+		"Sales Taxes and Charges",
+		filters={"parent": doc.name},
+		fields=["name", "account_head"],
+	)
+
+	stc_map = {stc.name: stc.account_head for stc in sales_taxes_and_charges}
+
+	tax_breakup_data = []
+	for tax in item_wise_tax_details:
+		account_head = stc_map.get(tax.tax_row)
+
+		if account_head:
+			tax_breakup_data.append({"account_head": account_head, **tax})
 
 	for item in doc.items:
-		tax_data = next(
-			(data for data in itemised_tax_data if data["item"] == item.item_code),
-			None,
-		)
+
+		item_taxes = [
+			tax for tax in tax_breakup_data if str(tax["item_row"]) == str(item.name)
+		]
+
 		total_vat = 0
 
-		if tax_data:
-			# Check if VAT exists, if not, check for other tax details
-			if "VAT" in tax_data:
-				total_vat = tax_data["VAT"]["tax_amount"]
-			else:
-				total_vat = 0
-		else:
-			total_vat = 0
+		for tax in item_taxes:
+			if re.search(r"\bVAT\b", tax.get("account_head", "") or "", re.IGNORECASE):
+				total_vat += tax.get("amount", 0)
+
 		item_designation = (
-			item.item_code + "-" + item.batch_no if item.batch_no else item.item_code
+			f"{item.item_code}-{item.batch_no}" if item.batch_no else item.item_code
 		)
+
 		items.append(
 			{
 				"item_code": item.item_code,
@@ -176,11 +193,71 @@ def get_invoice_items(doc):
 				"item_quantity": abs(item.qty),
 				"item_price": item.rate,
 				"item_total_amount": item.amount,
-				"vat": abs(int(total_vat)),
+				"vat": abs(total_vat),
 				"item_ct": "0",
 				"item_tl": "0",
-				"item_price_nvat": abs(int(item.amount)),
-				"item_price_wvat": abs(int(item.amount + total_vat)),
+				"item_price_nvat": abs(item.amount),
+				"item_price_wvat": abs(item.amount + total_vat),
 			}
 		)
+
 	return items
+
+	# for item in doc.items:
+	#     tax_data = next(
+	#         (data for data in itemised_tax_data if data["item"] == item.item_code),
+	#         None,
+	#     )
+	#     total_vat = 0
+
+	#     if tax_data:
+	#         # Check if VAT exists, if not, check for other tax details
+	#         if "VAT" in tax_data:
+	#             total_vat = tax_data["VAT"]["tax_amount"]
+	#         else:
+	#             total_vat = 0
+	#     else:
+	#         total_vat = 0
+	# item_designation = (
+	#     item.item_code + "-" + item.batch_no if item.batch_no else item.item_code
+	# )
+	# items.append(
+	#     {
+	#         "item_code": item.item_code,
+	#         "item_designation": item_designation,
+	#         "item_quantity": abs(item.qty),
+	#         "item_price": item.rate,
+	#         "item_total_amount": item.amount,
+	#         "vat": abs(int(total_vat)),
+	#         "item_ct": "0",
+	#         "item_tl": "0",
+	#         "item_price_nvat": abs(int(item.amount)),
+	#         "item_price_wvat": abs(int(item.amount + total_vat)),
+	#     }
+	# )
+	# return items
+
+
+# [
+#     {
+#         "account_head": "VAT - MS",
+#         "name": "de76jio985",
+#         "creation": datetime.datetime(2026, 4, 10, 13, 28, 58, 327608),
+#         "modified": datetime.datetime(2026, 4, 10, 13, 28, 58, 327608),
+#         "modified_by": "Administrator",
+#         "owner": "Administrator",
+#         "docstatus": 1,
+#         "idx": 1,
+#         "item_row": "ckl72qon67",
+#         "tax_row": "d9see3b9dc",
+#         "rate": 18.0,
+#         "amount": 180.0,
+#         "taxable_amount": 1000.0,
+#         "parent": "ABC-2026-04-10-00004",
+#         "parentfield": "item_wise_tax_details",
+#         "parenttype": "Sales Invoice",
+#     }
+# ]
+
+
+# wsl400038739100326

@@ -12,7 +12,7 @@ def get_stock_ledger_data(doc):
 	item_code = doc.item_code
 	mov_doc = frappe.get_doc(voucher_type, voucher_no)
 
-	valuation_rate = doc.valuation_rate
+	valuation_rate = get_valuation_rate(voucher_type, mov_doc, item_code)
 
 	if voucher_type == "Stock Reconciliation":
 		mov_type, qty_diff, mov_desc = get_voucher_doc_details(doc)
@@ -38,7 +38,7 @@ def get_stock_ledger_data(doc):
 			else abs(float(doc.actual_qty))
 		),
 		"item_measurement_unit": doc.stock_uom,
-		"item_cost_price": int(valuation_rate),
+		"item_cost_price": abs(float(valuation_rate)),
 		"item_cost_price_currency": frappe.get_value(
 			"Company", doc.company, "default_currency"
 		),
@@ -101,6 +101,7 @@ def get_voucher_doc_details(doc):
 			) = get_item_movement_for_delivery_note_and_sale_invoice_on_submit_and_cancel(
 				doc, voucher_doc
 			)
+			return mov_type, mov_desc
 
 		case "Purchase Invoice":
 			voucher_doc = frappe.get_doc("Purchase Invoice", doc.voucher_no)
@@ -141,7 +142,7 @@ def get_stock_movement_type_for_stock_entry(doc, voucher_doc):
 	Get the stock movement type based on stock entry type and custom movement type
 	"""
 	entry_type = voucher_doc.stock_entry_type
-	custom_mov_type = voucher_doc.custom_movement_type
+	custom_mov_type = voucher_doc.custom_stock_movement_type
 
 	if (doc.actual_qty > 0 and entry_type in ["Material Receipt", "Manufacture"]) or (
 		doc.actual_qty < 0
@@ -266,7 +267,7 @@ def get_item_movement_for_delivery_note_and_sale_invoice_on_submit_and_cancel(
 	doc, voucher_doc
 ):
 	"""
-	Get the movement type for delivery note
+	Get the movement type for delivery note and sales invoice
 	"""
 	movement_description = "Normal Sale of Goods"
 	movement_type = "SN"
@@ -288,16 +289,16 @@ def get_stock_recon_movement_type(doc, voucher_doc):
 	"""
 	has_batch = check_if_item_has_batches(doc.item_code)
 	warehouse = doc.warehouse
-	if doc.purpose == "Opening Stock":
+	if voucher_doc.purpose == "Opening Stock":
 		for item in voucher_doc.items:
 			if item.item_code == doc.item_code and item.warehouse == warehouse:
 				quantity_difference = item.quantity_difference
-		if doc.is_cancelled == 0:
+		if voucher_doc.is_cancelled == 0:
 			movement_type = "EI"  # Opening Stock
 		else:
 			movement_type = "SAU"
 
-	elif doc.purpose == "Stock Reconciliation":
+	elif voucher_doc.purpose == "Stock Reconciliation":
 		for item in voucher_doc.items:
 			item_batch = None
 			if has_batch:

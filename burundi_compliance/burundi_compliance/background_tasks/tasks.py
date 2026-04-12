@@ -16,7 +16,7 @@ from ..handlers.stock_movement import (
 )
 
 
-def send_sales_pending_sales_invoices() -> None:
+def send_pending_sales_invoices() -> None:
 	all_submitted_unsent: list[Document] = frappe.get_all(
 		"Sales Invoice",
 		{"docstatus": 1, "custom_submitted_to_obr": 0, "is_opening": "No"},
@@ -101,8 +101,7 @@ def send_stock_movement_to_obr() -> None:
 		.on(SLE.item_code == Item.item_code)
 		.select(SLE.name)
 		.where(
-			(SLE.custom_sent_to_obr == 0)
-			& (SLE.docstatus == 1)
+			(SLE.docstatus == 1)
 			& (SLE.custom_etracker == 0)
 			& (SLE.custom_queued == 0)
 			& (Item.custom_allow_obr_to_track_stock_movement == 1),
@@ -119,12 +118,12 @@ def send_stock_movement_to_obr() -> None:
 			company = sle_doc.company
 
 			if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company):
-				return
+				continue
 
 			settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company)
 
 			if not settings_doc.is_active or not settings_doc.allow_obr_to_track_stock_movement:
-				return
+				continue
 
 			posting_date, start_date = sle_doc.posting_date, settings_doc.start_date
 			if isinstance(posting_date, str):
@@ -133,7 +132,7 @@ def send_stock_movement_to_obr() -> None:
 				start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
 
 			if posting_date < start_date:
-				return
+				continue
 
 			if sle_doc.custom_queued == 1:
 				continue

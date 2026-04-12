@@ -5,11 +5,9 @@ def handle_stock_ledger_entry_submission(
 	response: dict, document_name: str, doctype: str
 ) -> None:
 	try:
-		data_to_update = {
-			"custom_sent_to_obr": 1,
-		}
+		data_to_update = {}
 		if doctype == "Stock Ledger Entry":
-			data_to_update["custom_etracker"] = 1
+			data_to_update.setdefault("custom_etracker", 1)
 
 		frappe.db.set_value(doctype, document_name, data_to_update)
 		frappe.db.commit()

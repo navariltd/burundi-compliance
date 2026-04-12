@@ -184,7 +184,7 @@ doc_events = {
 scheduler_events = {
 	"cron": {
 		"*/5 * * * *": [
-			"burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_stock_ledger_entry"
+			"burundi_compliance.burundi_compliance.background_tasks.tasks.send_stock_movement_to_obr"
 		],
 		# "*/15 * * * *": [
 		#     # "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"
@@ -197,7 +197,7 @@ scheduler_events = {
 		# ],
 	},
 	"hourly": [
-		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_sales_pending_sales_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_sales_invoices",
 		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_pos_invoices",
 		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_sales_invoices",
 		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_pos_invoices",
