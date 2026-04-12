@@ -155,10 +155,6 @@ def on_cancel(doc: Document, method: str | None = None) -> None:
 		)
 
 
-def handler(response, document_name, doctype):
-	pass
-
-
 def before_save(doc: Document, method: str | None = None) -> None:
 	if doc.is_return:
 		data_to_update = {

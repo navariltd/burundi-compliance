@@ -150,6 +150,12 @@ def confirm_tin(company: str, tin: str, doctype: str, docname: str):
 		obr_api.payload = payload
 		obr_api.service = "CheckTIN"
 		response = obr_api.make_remote_request(doctype, docname, require_handler=False)
+
+		if response and response.get("success") and doctype == "Customer":
+			frappe.db.set_value(
+				doctype, docname, "custom_tin_verified", True, update_modified=False
+			)
+
 		return response
 
 	return None
