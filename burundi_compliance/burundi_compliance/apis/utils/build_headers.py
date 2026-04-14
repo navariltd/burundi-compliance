@@ -10,12 +10,13 @@ def build_headers(company_name: str):
 	if not settings_doc.is_active:
 		frappe.throw(_("eBMS Integration is disabled in settings."))
 
-	# if (
-	#     settings_doc.expires_at
-	#     and settings_doc.expires_at < frappe.utils.now_datetime()
-	# ):
-	# settings_doc = authenticate(company_name)
-	auth_token = authenticate(company_name)
+	if not settings_doc.authorization_token or not settings_doc.expires_at:
+		settings_doc = authenticate(company_name)
+
+	if settings_doc.expires_at and settings_doc.expires_at < frappe.utils.now_datetime():
+		settings_doc = authenticate(company_name)
+
+	auth_token = settings_doc.authorization_token
 
 	if auth_token:
 		headers = {

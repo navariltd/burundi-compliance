@@ -116,7 +116,7 @@ def authenticate(settings_name):
 	)
 	result = frappe._dict(result)
 
-	# settings_doc.authorization_token = result.auth_token
-	# settings_doc.expires_at = datetime.datetime.fromtimestamp(result.exp)
-	# settings_doc.save(ignore_permissions=True)
-	return result.auth_token
+	settings_doc.authorization_token = result.auth_token
+	settings_doc.expires_at = datetime.datetime.fromtimestamp(result.exp)
+	settings_doc.save(ignore_permissions=True)
+	return settings_doc
