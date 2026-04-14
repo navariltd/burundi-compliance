@@ -64,6 +64,7 @@ def get_invoice_from_obr(name: str, invoice_type: str):
 		response = obr_api.make_remote_request(
 			si_doc.doctype, si_doc.name, require_handler=False
 		)
+		frappe.log_error("Get Invoice from OBR Response", response)
 		return response
 
 
@@ -78,12 +79,15 @@ def resubmit_invoice_to_obr(name: str, invoice_type: str):
 @frappe.whitelist()
 def bulk_submit_invoices_to_obr(doctype: str, invoice_list: str) -> None:
 	invoice_list = json.loads(invoice_list)
+
 	for invoice in invoice_list:
 		try:
 			from ..overrides.sales_invoice import on_submit_invoice
 
 			doc = frappe.get_doc(doctype, invoice)
-			if doc.custom_submitted_to_obr:
+			if (
+				doc.custom_submitted_to_obr or doc.docstatus != 1
+			):  # Lock out draft and cancelled invoices
 				continue
 
 			on_submit_invoice(doc, method=None)
@@ -93,6 +97,14 @@ def bulk_submit_invoices_to_obr(doctype: str, invoice_list: str) -> None:
 				title=_("Error Submitting Invoice to OBR: {0}").format(invoice),
 			)
 			continue
+
+
+@frappe.whitelist()
+def cancel_invoice_in_obr(name: str, invoice_type: str):
+	doc = frappe.get_doc(invoice_type, name)
+	from ..overrides.sales_invoice import on_cancel
+
+	on_cancel(doc, method=None)
 
 
 @frappe.whitelist()

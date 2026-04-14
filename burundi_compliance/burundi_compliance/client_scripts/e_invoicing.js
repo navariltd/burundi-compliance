@@ -9,7 +9,10 @@ frappe.ui.form.on('Sales Invoice', {
     }
   },
   refresh: function (frm) {
-    if (frm.doc.docstatus == 1) {
+    if (
+      frm.doc.docstatus == 1 ||
+      (frm.doc.docstatus == 2 && frm.doc.custom_submitted_to_obr)
+    ) {
       addInvoiceButtons(frm, 'Sales Invoice')
     }
   },
@@ -34,7 +37,7 @@ frappe.ui.form.on('POS Invoice', {
 })
 
 function addInvoiceButtons(frm, invoiceType) {
-  if (frm.doc.custom_submitted_to_obr) {
+  if (frm.doc.custom_submitted_to_obr && frm.doc.docstatus == 1) {
     frm.add_custom_button(
       __('Get Invoice'),
       function () {
@@ -65,6 +68,26 @@ function addInvoiceButtons(frm, invoiceType) {
       __('eBIMS Actions')
     )
   }
+
+  if (
+    frm.doc.custom_submitted_to_obr &&
+    frm.doc.docstatus == 2 &&
+    !frm.doc.custom_ebms_invoice_cancelled
+  ) {
+    frm.add_custom_button(
+      __('Cancel Invoice in OBR'),
+      function () {
+        callBackendFunction(
+          frm,
+          'apis.apis.cancel_invoice_in_obr',
+          'POST',
+          __('Cancelling Invoice in OBR...'),
+          invoiceType
+        )
+      },
+      __('eBIMS Actions')
+    )
+  }
 }
 
 // TODO: Display correct Message when an Invoice is resubmitted
@@ -84,7 +107,7 @@ function callBackendFunction(
     callback: function (response) {
       if (response) {
         if (action === 'GET') {
-          if (response.message) {
+          if (response.message.success) {
             showInvoiceDetailsDialog(response.message.result)
           } else {
             frappe.msgprint(__('Failed to Retrieve Invoice details'))
@@ -92,7 +115,11 @@ function callBackendFunction(
         }
 
         if (action === 'POST') {
-          frappe.msgprint(__('Invoice Resubmission has been Queued'))
+          if (frm.doc.docstatus == 1) {
+            frappe.msgprint(__('Invoice Resubmission has been Queued'))
+          } else {
+            frappe.msgprint(__('Invoice Cancellation has been Queued'))
+          }
         }
       }
     },
