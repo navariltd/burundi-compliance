@@ -5,10 +5,10 @@ import frappe
 from frappe.model.document import Document
 
 from ..overrides.sales_invoice import on_submit_invoice, on_cancel
-from ..apis.utils.get_stock_ledger_data import get_stock_ledger_data
+from ..utils.get_stock_ledger_data import get_stock_ledger_data
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
-from ..apis.utils.build_headers import build_headers
-from ..apis.utils.utils import get_urls
+from ..utils.build_headers import build_headers
+from ..utils.utils import get_urls
 from ..apis.api_builder import OBRAPI
 from ..handlers.stock_movement import (
 	handle_stock_ledger_entry_submission,

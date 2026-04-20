@@ -6,11 +6,7 @@ import frappe
 from frappe import _
 from frappe.integrations.utils import create_request_log
 
-
-from burundi_compliance.burundi_compliance.apis.utils.utils import (
-	get_urls,
-	decode_jwt_token,
-)
+from ..utils.utils import get_urls, decode_jwt_token
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
 
 

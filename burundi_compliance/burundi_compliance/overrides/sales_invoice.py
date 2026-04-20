@@ -7,13 +7,11 @@ from frappe.model.document import Document
 
 from ..apis.api_builder import OBRAPI
 
-# from ..api_classes.base import OBRAPIBase
-# from ..utils.background_jobs import enqueue_retry_posting_sales_invoice
-# from ..data.sale_invoice_data import InvoiceDataProcessor
-from ..apis.utils.utils import get_urls
-from ..apis.utils.build_headers import build_headers
+
+from ..utils.utils import get_urls
+from ..utils.build_headers import build_headers
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
-from ..apis.utils.build_invoice_payload import build_invoice_payload
+from ..utils.build_invoice_payload import build_invoice_payload
 from ..handlers.sales_invoice import (
 	handle_sales_invoice_submission,
 	handle_sales_invoice_cancellation,
@@ -25,6 +23,9 @@ obr_api = OBRAPI()
 
 def on_submit_invoice(doc: Document, method: str | None = None) -> None:
 	if doc.is_opening == "Yes":
+		return
+
+	if doc.custom_defer_submission_to_obr:
 		return
 
 	if doc.doctype == "Sales Invoice" and doc.is_consolidated:

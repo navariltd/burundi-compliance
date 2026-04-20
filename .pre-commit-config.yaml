@@ -7,7 +7,7 @@ repos:
     rev: v4.0.1
     hooks:
       - id: trailing-whitespace
-        files: 'education.*'
+        files: 'burundi_compliance.*'
         exclude: '.*json$|.*txt$|.*csv|.*md|.*svg'
       - id: check-yaml
       - id: no-commit-to-branch
@@ -26,8 +26,3 @@ repos:
     hooks:
       - id: prettier
         types_or: [javascript, vue, scss]
-
-ci:
-  autoupdate_schedule: weekly
-  skip: []
-  submodules: false

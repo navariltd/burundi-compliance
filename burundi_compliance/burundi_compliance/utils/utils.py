@@ -5,7 +5,7 @@ import jwt
 
 from frappe import _
 
-from ...doctype.doctype_names_mapping import (
+from ..doctype.doctype_names_mapping import (
 	ENDPOINT_URL_DOCTYPE_NAME,
 )
 
