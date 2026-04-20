@@ -1,8 +1,8 @@
 import frappe
 from frappe import _
 
-from ...doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
-from ..auth import authenticate
+from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
+from ..apis.auth import authenticate
 
 
 def build_headers(company_name: str):

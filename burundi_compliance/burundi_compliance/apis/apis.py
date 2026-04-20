@@ -6,8 +6,8 @@ from frappe import _
 
 from ..apis.api_builder import OBRAPI
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
-from ..apis.utils.build_headers import build_headers
-from ..apis.utils.utils import get_urls
+from ..utils.build_headers import build_headers
+from ..utils.utils import get_urls
 from ..background_tasks.tasks import send_stock_movement_to_obr
 
 

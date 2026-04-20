@@ -3,10 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-from ...api_classes.base import OBRAPIBase
-from burundi_compliance.burundi_compliance.api_classes.base import OBRAPIBase
 
-obr_base=OBRAPIBase()
+
 class eBMSSettings(Document):
 	pass
-

@@ -1,6 +1,8 @@
 import frappe
-from ...utils.format_date_and_time import date_time_format
-from ...doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
+from .format_date_and_time import date_time_format
+from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
+
+from frappe import _
 
 
 def get_stock_ledger_data(doc):
@@ -80,7 +82,9 @@ def get_voucher_doc_details(doc):
 			mov_type = get_item_movement_for_purchase_receipt_and_invoice_on_submit_and_cancel(
 				doc, voucher_doc
 			)
+
 			mov_desc = get_stock_movement_description(voucher_doc)
+
 			return mov_type, mov_desc
 
 		case "Delivery Note":
@@ -269,7 +273,7 @@ def get_item_movement_for_delivery_note_and_sale_invoice_on_submit_and_cancel(
 	"""
 	Get the movement type for delivery note and sales invoice
 	"""
-	movement_description = "Normal Sale of Goods"
+	movement_description = _("Normal Sale of Goods")
 	movement_type = "SN"
 	item_code = doc.item_code
 
@@ -278,7 +282,7 @@ def get_item_movement_for_delivery_note_and_sale_invoice_on_submit_and_cancel(
 			if doc.actual_qty < 0.0:
 				return movement_type, movement_description
 			else:
-				movement_description = "Normal Return of goods"
+				movement_description = _("Normal Return of goods")
 				movement_type = "ER"
 				return movement_type, movement_description
 

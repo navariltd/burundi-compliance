@@ -42,11 +42,6 @@ doctype_js = {
 	"Company": "burundi_compliance/client_scripts/check_tin.js",
 	"Customer": "burundi_compliance/client_scripts/check_tin.js",
 	"Supplier": "burundi_compliance/client_scripts/check_tin.js",
-	"Purchase Invoice": "burundi_compliance/client_scripts/add_stock_movement.js",
-	"Purchase Receipt": "burundi_compliance/client_scripts/add_stock_movement.js",
-	"Delivery Note": "burundi_compliance/client_scripts/add_stock_movement.js",
-	"Stock Entry": "burundi_compliance/client_scripts/add_stock_movement.js",
-	"Stock Reconciliation": "burundi_compliance/client_scripts/add_stock_movement.js",
 }
 
 
