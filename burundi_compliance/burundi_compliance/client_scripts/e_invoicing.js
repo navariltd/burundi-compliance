@@ -43,7 +43,7 @@ function addInvoiceButtons(frm, invoiceType) {
       function () {
         callBackendFunction(
           frm,
-          'apis.apis.get_invoice_from_obr',
+          'apis.sales_invoice.get_invoice_from_obr',
           'GET',
           __('Getting Invoice...'),
           invoiceType
@@ -59,7 +59,7 @@ function addInvoiceButtons(frm, invoiceType) {
       function () {
         callBackendFunction(
           frm,
-          'apis.apis.resubmit_invoice_to_obr',
+          'apis.sales_invoice.resubmit_invoice_to_obr',
           'POST',
           __('Resubmitting Invoice...'),
           invoiceType
@@ -79,7 +79,7 @@ function addInvoiceButtons(frm, invoiceType) {
       function () {
         callBackendFunction(
           frm,
-          'apis.apis.cancel_invoice_in_obr',
+          'apis.sales_invoice.cancel_invoice_in_obr',
           'POST',
           __('Cancelling Invoice in OBR...'),
           invoiceType

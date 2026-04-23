@@ -179,23 +179,14 @@ doc_events = {
 scheduler_events = {
 	"cron": {
 		"*/5 * * * *": [
-			"burundi_compliance.burundi_compliance.background_tasks.tasks.send_stock_movement_to_obr"
+			"burundi_compliance.burundi_compliance.background_tasks.stock_movement.send_stock_movement_to_obr"
 		],
-		# "*/15 * * * *": [
-		#     # "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_sales_invoices"
-		# ],
-		# "*/45 * * * *": [
-		#     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_submitted_invoice_which_were_cancelled"
-		# ],
-		# "0 * * * *": [
-		#     "burundi_compliance.burundi_compliance.utils.schedular.check_and_send_pending_cancelled_sales_invoices"
-		# ],
 	},
 	"hourly": [
-		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_sales_invoices",
-		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_pos_invoices",
-		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_sales_invoices",
-		"burundi_compliance.burundi_compliance.background_tasks.tasks.send_pending_cancelled_pos_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.sales_invoice.send_pending_sales_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.sales_invoice.send_pending_pos_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.sales_invoice.send_pending_cancelled_sales_invoices",
+		"burundi_compliance.burundi_compliance.background_tasks.sales_invoice.send_pending_cancelled_pos_invoices",
 	],
 }
 

@@ -1,10 +1,8 @@
 from datetime import datetime
+
 import frappe
 
-# from frappe import _
-from frappe.model.document import Document
 
-from ..overrides.sales_invoice import on_submit_invoice, on_cancel
 from ..utils.get_stock_ledger_data import get_stock_ledger_data
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
 from ..utils.build_headers import build_headers
@@ -16,81 +14,6 @@ from ..handlers.stock_movement import (
 )
 
 
-def send_pending_sales_invoices() -> None:
-	all_submitted_unsent: list[Document] = frappe.get_all(
-		"Sales Invoice",
-		{"docstatus": 1, "custom_submitted_to_obr": 0, "is_opening": "No"},
-		["name"],
-	)
-
-	if all_submitted_unsent:
-		for sales_invoice in all_submitted_unsent:
-			doc = frappe.get_doc("Sales Invoice", sales_invoice.name, for_update=False)
-
-			try:
-				on_submit_invoice(doc, method=None)
-
-			except TypeError:
-				continue
-
-
-def send_pending_pos_invoices() -> None:
-	all_pending_pos_invoices: list[Document] = frappe.get_all(
-		"POS Invoice", {"docstatus": 1, "custom_submitted_to_obr": 0}, ["name"]
-	)
-
-	if all_pending_pos_invoices:
-		for pos_invoice in all_pending_pos_invoices:
-			doc = frappe.get_doc(
-				"POS Invoice", pos_invoice.name, for_update=False
-			)  # Refetch to get the document representation of the record
-
-			try:
-				on_submit_invoice(
-					doc, method=None
-				)  # Delegate to the on_submit method for sales invoices
-
-			except Exception:
-				continue
-
-
-def send_pending_cancelled_sales_invoices() -> None:
-	all_cancelled_sales_invoices: list[Document] = frappe.get_all(
-		"Sales Invoice",
-		{"docstatus": 2, "custom_submitted_to_obr": 1, "is_opening": "No"},
-		["name"],
-	)
-
-	if all_cancelled_sales_invoices:
-		for sales_invoice in all_cancelled_sales_invoices:
-			doc = frappe.get_doc("Sales Invoice", sales_invoice.name, for_update=False)
-
-			try:
-				on_cancel(doc, method=None)
-
-			except Exception:
-				continue
-
-
-def send_pending_cancelled_pos_invoices() -> None:
-	all_cancelled_pos_invoices: list[Document] = frappe.get_all(
-		"POS Invoice",
-		{"docstatus": 2, "custom_submitted_to_obr": 1, "is_opening": "No"},
-		["name"],
-	)
-
-	if all_cancelled_pos_invoices:
-		for pos_invoice in all_cancelled_pos_invoices:
-			doc = frappe.get_doc("POS Invoice", pos_invoice.name, for_update=False)
-
-			try:
-				on_cancel(doc, method=None)
-
-			except Exception:
-				continue
-
-
-# Add a function to apis.py that will execute this fn
 def send_stock_movement_to_obr() -> None:
 	# Get all stock ledger entries not sent to OBR - use SQL query to join items and check if it's being tracked
 	SLE = frappe.qb.DocType("Stock Ledger Entry")
@@ -193,7 +116,3 @@ def send_stock_movement_to_obr() -> None:
 				"Error in sending stock ledger entry {0}".format(sle.name),
 			)
 			continue
-
-	# loop through each, build payload, headers and make remote request to OBR
-	# Item designation should be the item description, check the revision that was made
-	# when making the request, mark at as queued and remove the queued mark when the response is received
