@@ -15,7 +15,12 @@
   "column_break_kuje",
   "company",
   "sandbox",
+  "is_active",
   "tin",
+  "section_break_yait",
+  "authorization_token",
+  "column_break_cqdq",
+  "expires_at",
   "more_details_tab",
   "taxpayers_sector_of_activity",
   "taxpayers_legal_form",
@@ -270,11 +275,37 @@
    "fieldtype": "Date",
    "label": "Start Date",
    "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "section_break_yait",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "authorization_token",
+   "fieldtype": "Small Text",
+   "label": "Authorization Token",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cqdq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expires_at",
+   "fieldtype": "Datetime",
+   "label": "Expires At",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-23 07:54:53.089237",
+ "modified": "2026-04-14 17:59:47.474070",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
@@ -292,6 +323,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

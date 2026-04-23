@@ -1,7 +1,7 @@
 [project]
 name = "burundi_compliance"
 authors = [
-    { name = "Navari Limited", email = "mania@navari.co.ke"}
+    { name = "Navari Limited", email = "solutions@navari.co.ke"}
 ]
 description = "Burundi OBR Tax Integration"
 requires-python = ">=3.10"
