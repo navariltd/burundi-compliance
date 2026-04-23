@@ -10,7 +10,8 @@ function get_tin(frm) {
     }
 
     frappe.call({
-      method: 'burundi_compliance.burundi_compliance.apis.apis.confirm_tin',
+      method:
+        'burundi_compliance.burundi_compliance.apis.confirm_tin.confirm_tin',
       args: {
         company: company,
         tin: frm.doc.tax_id,
@@ -18,15 +19,13 @@ function get_tin(frm) {
         docname: frm.doc.name,
       },
       callback: function (response) {
-        if (response.message) {
-          showInvoiceDetailsDialog(response.message.result, frm.doc.doctype)
+        if (response.message.success) {
+          showTinDetailsDialog(response.message.result, frm.doc.doctype)
         } else {
           frappe.msgprint({
             title: __('Notification'),
             indicator: 'red',
-            message: __(
-              `The ${frm.doc.doctype}'s TIN is not registered in the Burundi Revenue Authority system. Please verify the TIN and try again or contact the Burundi Revenue Authority for more detail`
-            ),
+            message: __(`${response.message.msg}`),
           })
         }
       },
@@ -36,7 +35,7 @@ function get_tin(frm) {
   })
 }
 
-function showInvoiceDetailsDialog(result, doctype) {
+function showTinDetailsDialog(result, doctype) {
   let details = result.taxpayer[0]
 
   let dialog = new frappe.ui.Dialog({

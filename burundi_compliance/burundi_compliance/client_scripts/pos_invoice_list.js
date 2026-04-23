@@ -16,7 +16,7 @@ function submit_bulk_invoice(listview, doctype) {
 
   frappe.call({
     method:
-      'burundi_compliance.burundi_compliance.apis.apis.bulk_submit_invoices_to_obr',
+      'burundi_compliance.burundi_compliance.apis.sales_invoice.bulk_submit_invoices_to_obr',
     args: {
       doctype: doctype,
       invoice_list: names,

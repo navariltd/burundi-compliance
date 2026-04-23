@@ -348,10 +348,15 @@ def create_item_designation(specified_doc, item_code):
 	items = specified_doc.items
 	for item in items:
 		if item.item_code == item_code:
-			if item.batch_no:
-				return item.item_code + " - " + item.batch_no
-			else:
-				return item.item_code
+			item_designation = (
+				item.description
+				if item.description
+				else (f"{item.item_code}-{item.batch_no}" if item.batch_no else item.item_code)
+			)
+
+		return item_designation
+
+	return item_code
 
 
 def get_specified_batch(specified_doc):
