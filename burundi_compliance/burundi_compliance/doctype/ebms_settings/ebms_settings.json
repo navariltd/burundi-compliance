@@ -37,7 +37,17 @@
   "maximum_attempts",
   "column_break_qtoq",
   "retry_delay_seconds",
-  "schedular_events_section",
+  "obr_posting_schedule_section",
+  "limit_invoice_posting_timeslot",
+  "invoice_start_time",
+  "invoice_end_time",
+  "limits_dont_apply_on_invoice",
+  "column_break_tqil",
+  "limit_stock_posting_timeslot",
+  "stock_start_time",
+  "stock_end_time",
+  "limits_dont_apply_on_stock",
+  "scheduler_events_section",
   "invoice_event_frequency",
   "invoice_cron_format",
   "column_break_ngbk",
@@ -216,11 +226,6 @@
    "label": "Allow OBR to track stock movement"
   },
   {
-   "fieldname": "schedular_events_section",
-   "fieldtype": "Section Break",
-   "label": "Schedular Events"
-  },
-  {
    "fieldname": "column_break_ngbk",
    "fieldtype": "Column Break"
   },
@@ -303,11 +308,73 @@
    "fieldname": "invoice_cron_format",
    "fieldtype": "Data",
    "label": "Invoice Cron Format"
+  },
+  {
+   "fieldname": "scheduler_events_section",
+   "fieldtype": "Section Break",
+   "label": "Scheduler Events"
+  },
+  {
+   "fieldname": "obr_posting_schedule_section",
+   "fieldtype": "Section Break",
+   "label": "OBR Posting Schedule"
+  },
+  {
+   "fieldname": "invoice_start_time",
+   "fieldtype": "Time",
+   "label": "Start Time",
+   "mandatory_depends_on": "eval:doc.limit_timeslot_for_invoice_posting===1;"
+  },
+  {
+   "fieldname": "stock_start_time",
+   "fieldtype": "Time",
+   "label": "Start Time",
+   "mandatory_depends_on": "eval:doc.limit_timeslot_for_stock_posting===1;"
+  },
+  {
+   "fieldname": "invoice_end_time",
+   "fieldtype": "Time",
+   "label": "End Time",
+   "mandatory_depends_on": "eval:doc.limit_timeslot_for_invoice_posting===1;"
+  },
+  {
+   "fieldname": "column_break_tqil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "stock_end_time",
+   "fieldtype": "Time",
+   "label": "End Time",
+   "mandatory_depends_on": "eval:doc.limit_timeslot_for_stock_posting===1;"
+  },
+  {
+   "fieldname": "limits_dont_apply_on_invoice",
+   "fieldtype": "Select",
+   "label": "Limits don't apply on (Invoice)",
+   "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+  },
+  {
+   "fieldname": "limits_dont_apply_on_stock",
+   "fieldtype": "Select",
+   "label": "Limits don't apply on (Stock)",
+   "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+  },
+  {
+   "default": "0",
+   "fieldname": "limit_invoice_posting_timeslot",
+   "fieldtype": "Check",
+   "label": "Limit timeslot for Invoice Posting"
+  },
+  {
+   "default": "0",
+   "fieldname": "limit_stock_posting_timeslot",
+   "fieldtype": "Check",
+   "label": "Limit timeslot for Stock Posting"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-27 18:07:13.883886",
+ "modified": "2026-04-28 20:27:10.375845",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",

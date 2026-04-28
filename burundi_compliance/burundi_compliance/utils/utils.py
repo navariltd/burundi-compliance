@@ -4,6 +4,7 @@ import base64
 import jwt
 
 from frappe import _
+from frappe.utils import get_weekday, nowtime, get_time
 
 from ..doctype.doctype_names_mapping import (
 	ENDPOINT_URL_DOCTYPE_NAME,
@@ -59,3 +60,34 @@ def get_urls(environment: str, request_type: str) -> tuple[str, str]:
 				return url.api, endpoint.server_url.strip("/")
 
 	return None, None
+
+
+def in_configured_timeslot(settings, type):
+	limit = (
+		settings.limit_invoice_posting_timeslot
+		if type == "invoice"
+		else settings.limit_stock_posting_timeslot
+	)
+	if not limit:
+		return True
+
+	if get_weekday() == (
+		settings.limits_dont_apply_on_stock
+		if type == "stock"
+		else settings.limits_dont_apply_on_invoice
+	):
+		return True
+
+	start_time = (
+		settings.stock_start_time if type == "stock" else settings.invoice_start_time
+	)
+	end_time = settings.stock_end_time if type == "stock" else settings.invoice_end_time
+
+	start_time = get_time(start_time)
+	end_time = get_time(end_time)
+	now_time = get_time(nowtime())
+
+	if start_time < end_time:
+		return end_time >= now_time >= start_time
+	else:
+		return now_time >= start_time or now_time <= end_time

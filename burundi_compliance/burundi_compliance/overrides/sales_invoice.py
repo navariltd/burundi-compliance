@@ -1,14 +1,15 @@
-import datetime
+from datetime import datetime
 from bs4 import BeautifulSoup
 
 import frappe
 from frappe import _
 from frappe.model.document import Document
 
+
 from ..apis.api_builder import OBRAPI
 
 
-from ..utils.utils import get_urls
+from ..utils.utils import get_urls, in_configured_timeslot
 from ..utils.build_headers import build_headers
 from ..doctype.doctype_names_mapping import SETTINGS_DOCTYPE_NAME
 from ..utils.build_invoice_payload import build_invoice_payload
@@ -50,12 +51,15 @@ def generic_invoice_on_submit_override(doc: Document, invoice_type: str):
 	if not settings_doc.allow_obr_to_track_sales:
 		return
 
+	if not in_configured_timeslot(settings_doc, "invoice"):
+		return
+
 	posting_date, start_date = doc.posting_date, settings_doc.start_date
 	if isinstance(posting_date, str):
-		posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
+		posting_date = datetime.strptime(posting_date, "%Y-%m-%d").date()
 
 	if isinstance(start_date, str):
-		start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+		start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
 
 	if posting_date < start_date:
 		return
@@ -96,6 +100,9 @@ def on_cancel(doc: Document, method: str | None = None) -> None:
 	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
 
 	if not settings_doc.is_active:
+		return
+
+	if not in_configured_timeslot(settings_doc, "invoice"):
 		return
 
 	posting_date, start_date = doc.posting_date, settings_doc.start_date
