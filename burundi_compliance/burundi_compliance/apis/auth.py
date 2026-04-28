@@ -1,9 +1,11 @@
 import json
 import requests
-import datetime
+from datetime import datetime, timezone
+
 
 import frappe
 from frappe import _
+from frappe.utils import convert_utc_to_system_timezone
 from frappe.integrations.utils import create_request_log
 
 from ..utils.utils import get_urls, decode_jwt_token
@@ -100,6 +102,7 @@ class OBRAuthService:
 @frappe.whitelist()
 def authenticate(settings_name):
 	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, settings_name)
+	system_settings = frappe.db.get_singles_dict("System Settings")
 	request_url, auth_server_url = get_urls(
 		"sandbox" if settings_doc.sandbox else "production", "login"
 	)
@@ -113,6 +116,13 @@ def authenticate(settings_name):
 	result = frappe._dict(result)
 
 	settings_doc.authorization_token = result.auth_token
-	settings_doc.expires_at = datetime.datetime.fromtimestamp(result.exp)
+	settings_doc.expires_at = get_expiry_datetime(result.exp)
 	settings_doc.save(ignore_permissions=True)
 	return settings_doc
+
+
+def get_expiry_datetime(unix_timestamp):
+	utc_dt = datetime.fromtimestamp(unix_timestamp, tz=timezone.utc)
+	system_dt = convert_utc_to_system_timezone(utc_dt)
+
+	return system_dt.replace(tzinfo=None)

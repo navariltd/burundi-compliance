@@ -1,6 +1,7 @@
 import frappe
 
-from ..background_tasks.tasks import send_stock_movement_to_obr
+
+from ..background_tasks.stock_movement import send_stock_movement_to_obr
 
 
 @frappe.whitelist()
