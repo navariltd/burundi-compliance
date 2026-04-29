@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
-import re
-
 
 import frappe
 from frappe import _
 from frappe.model.document import Document
+
+from erpnext.controllers.taxes_and_totals import get_itemised_tax_breakup_data
 
 
 from .format_date_and_time import date_time_format
@@ -18,17 +18,21 @@ def build_invoice_payload(doc: Document, settings_doc: Document) -> dict:
 	tp_phone_no = company.phone_no
 	tp_email = company.email
 	formatted_date_data = date_time_format(doc)
-	invoice_signature = create_invoice_signature(
-		doc, settings_doc.system_identification_given_by_obr
-	)
 
-	frappe.db.set_value(
-		doc.doctype,
-		doc.name,
-		"custom_invoice_identifier",
-		invoice_signature,
-		update_modified=False,
-	)
+	if not doc.custom_invoice_identifier:
+		invoice_signature = create_invoice_signature(
+			doc, settings_doc.system_identification_given_by_obr
+		)
+		frappe.db.set_value(
+			doc.doctype,
+			doc.name,
+			"custom_invoice_identifier",
+			invoice_signature,
+			update_modified=False,
+		)
+
+	else:
+		invoice_signature = doc.custom_invoice_identifier
 
 	confirm_tin_verified(doc.customer)
 	if doc.doctype == "POS Invoice":
@@ -150,43 +154,29 @@ def get_payment_method(payment_type: str) -> str:
 
 def get_invoice_items(doc):
 	items = []
-
-	item_wise_tax_details = frappe.get_all(
-		"Item Wise Tax Detail", filters={"parent": doc.name}, fields=["*"]
-	)
-
-	sales_taxes_and_charges = frappe.get_all(
-		"Sales Taxes and Charges",
-		filters={"parent": doc.name},
-		fields=["name", "account_head"],
-	)
-
-	stc_map = {stc.name: stc.account_head for stc in sales_taxes_and_charges}
-
-	tax_breakup_data = []
-	for tax in item_wise_tax_details:
-		account_head = stc_map.get(tax.tax_row)
-
-		if account_head:
-			tax_breakup_data.append({"account_head": account_head, **tax})
+	itemised_tax_data = get_itemised_tax_breakup_data(doc)
 
 	for item in doc.items:
 
-		item_taxes = [
-			tax for tax in tax_breakup_data if str(tax["item_row"]) == str(item.name)
-		]
-
+		tax_data = next(
+			(data for data in itemised_tax_data if data["item"] == item.item_code),
+			None,
+		)
 		total_vat = 0
 
-		for tax in item_taxes:
-			if re.search(r"\bVAT\b", tax.get("account_head", "") or "", re.IGNORECASE):
-				total_vat += tax.get("amount", 0)
+		if tax_data:
+			for name, tax_info in tax_data.items():
+				if isinstance(tax_info, dict):
+					if tax_info.get("tax_rate") > 0:
+						total_vat += tax_info.get("tax_amount", 0)
 
 		item_designation = (
 			item.description
 			if item.description
 			else (f"{item.item_code}-{item.batch_no}" if item.batch_no else item.item_code)
 		)
+		total_vat = abs(total_vat)
+		item_amount = abs(item.amount)
 
 		items.append(
 			{
@@ -194,12 +184,12 @@ def get_invoice_items(doc):
 				"item_designation": item_designation,
 				"item_quantity": abs(item.qty),
 				"item_price": item.rate,
-				"item_total_amount": item.amount,
-				"vat": abs(total_vat),
+				"item_total_amount": item_amount,
+				"vat": total_vat,
 				"item_ct": "0",
 				"item_tl": "0",
-				"item_price_nvat": abs(item.amount),
-				"item_price_wvat": abs(item.amount + total_vat),
+				"item_price_nvat": item_amount,
+				"item_price_wvat": item_amount + total_vat,
 			}
 		)
 
