@@ -323,19 +323,19 @@
    "fieldname": "invoice_start_time",
    "fieldtype": "Time",
    "label": "Start Time",
-   "mandatory_depends_on": "eval:doc.limit_timeslot_for_invoice_posting===1;"
+   "mandatory_depends_on": "eval:doc.limit_invoice_posting_timeslot===1;"
   },
   {
    "fieldname": "stock_start_time",
    "fieldtype": "Time",
    "label": "Start Time",
-   "mandatory_depends_on": "eval:doc.limit_timeslot_for_stock_posting===1;"
+   "mandatory_depends_on": "eval:doc.limit_stock_posting_timeslot===1;"
   },
   {
    "fieldname": "invoice_end_time",
    "fieldtype": "Time",
    "label": "End Time",
-   "mandatory_depends_on": "eval:doc.limit_timeslot_for_invoice_posting===1;"
+   "mandatory_depends_on": "eval:doc.limit_invoice_posting_timeslot===1;"
   },
   {
    "fieldname": "column_break_tqil",
@@ -345,7 +345,7 @@
    "fieldname": "stock_end_time",
    "fieldtype": "Time",
    "label": "End Time",
-   "mandatory_depends_on": "eval:doc.limit_timeslot_for_stock_posting===1;"
+   "mandatory_depends_on": "eval:doc.limit_stock_posting_timeslot===1;"
   },
   {
    "fieldname": "limits_dont_apply_on_invoice",
@@ -374,7 +374,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-28 20:27:10.375845",
+ "modified": "2026-04-29 17:23:37.144493",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "eBMS Settings",
