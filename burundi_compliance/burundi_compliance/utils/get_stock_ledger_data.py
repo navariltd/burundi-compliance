@@ -293,6 +293,9 @@ def get_stock_recon_movement_type(doc, voucher_doc):
 	"""
 	has_batch = check_if_item_has_batches(doc.item_code)
 	warehouse = doc.warehouse
+	movement_type = ""
+	quantity_difference = 0
+
 	if voucher_doc.purpose == "Opening Stock":
 		for item in voucher_doc.items:
 			if item.item_code == doc.item_code and item.warehouse == warehouse:
@@ -347,6 +350,7 @@ def get_invoice_reference_number(doc):
 def create_item_designation(specified_doc, item_code):
 	items = specified_doc.items
 	for item in items:
+		item_designation = ""
 		if item.item_code == item_code:
 			item_designation = (
 				item.description
