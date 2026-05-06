@@ -5,7 +5,9 @@ def handle_stock_ledger_entry_submission(
 	response: dict, document_name: str, doctype: str
 ) -> None:
 	try:
-		data_to_update = {}
+		data_to_update = {
+			"custom_queued": 1,
+		}
 		if doctype == "Stock Ledger Entry":
 			data_to_update.setdefault("custom_etracker", 1)
 
