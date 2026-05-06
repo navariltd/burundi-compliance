@@ -357,8 +357,7 @@ def create_item_designation(specified_doc, item_code):
 				if item.description
 				else (f"{item.item_code}-{item.batch_no}" if item.batch_no else item.item_code)
 			)
-
-		return item_designation
+			return item_designation
 
 	return item_code
 
