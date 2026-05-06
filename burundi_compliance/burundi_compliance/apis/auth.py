@@ -29,7 +29,7 @@ class OBRAuthService:
 			data=json.dumps(payload),
 			request_description="OBR Authentication Request",
 			is_remote_request=1,
-			service_name="OBR Authentication",
+			service_name="OBRAuthentication",
 			url=AUTH_URL,
 			reference_doctype=SETTINGS_DOCTYPE_NAME,
 			reference_docname=docname,
@@ -102,7 +102,6 @@ class OBRAuthService:
 @frappe.whitelist()
 def authenticate(settings_name):
 	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, settings_name)
-	system_settings = frappe.db.get_singles_dict("System Settings")
 	request_url, auth_server_url = get_urls(
 		"sandbox" if settings_doc.sandbox else "production", "login"
 	)
