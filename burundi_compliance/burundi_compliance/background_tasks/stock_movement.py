@@ -78,23 +78,11 @@ def send_stock_movement_to_obr() -> None:
                 if sle_doc.custom_queued == 1:
                     continue
 
-                # Check if it's a material transfer, if yes, skip
-                # if (
-                #     sle_doc.voucher_type == "Stock Entry"
-                #     and frappe.get_doc(
-                #         "Stock Entry", sle_doc.voucher_no
-                #     ).stock_entry_type
-                #     == "Material Transfer"
-                # ):
                 if (
                     sle_doc.voucher_type == "Stock Entry"
                     and frappe.db.get_value(
-                        "Stock Entry Type",
-                        frappe.db.get_value(
-                            "Stock Entry",
-                            sle_doc.voucher_no,
-                            "stock_entry_type",
-                        ),
+                        "Stock Entry",
+                        sle_doc.voucher_no,
                         "purpose",
                     )
                     == "Material Transfer"
