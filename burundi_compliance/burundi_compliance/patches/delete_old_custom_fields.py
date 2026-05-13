@@ -1,5 +1,4 @@
 import frappe
-from frappe.custom.doctype.custom_field.custom_field import delete_custom_fields
 
 FIELDS_TO_DELETE = {
     "Sales Invoice": [
@@ -27,17 +26,16 @@ FIELDS_TO_DELETE = {
 
 def execute():
     for doctype, fields in FIELDS_TO_DELETE.items():
-        existing_fields = [
-            field
-            for field in fields
-            if frappe.db.exists(
-                "Custom Field",
-                {
-                    "dt": doctype,
-                    "fieldname": field,
-                },
-            )
-        ]
+        for fieldname in fields:
+            try:
+                if frappe.db.exists(
+                    "Custom Field", {"dt": doctype, "fieldname": fieldname}
+                ):
+                    frappe.delete_doc("Custom Field", fieldname, force=True)
+                    frappe.db.commit()
 
-        if existing_fields:
-            delete_custom_fields(doctype, existing_fields)
+            except Exception as e:
+                frappe.log_error("Error deleting custom field", e)
+                frappe.db.rollback()
+
+    frappe.db.commit()
