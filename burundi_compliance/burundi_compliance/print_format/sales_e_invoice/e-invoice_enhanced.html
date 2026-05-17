@@ -32,16 +32,16 @@
     size: 21.6cm 27.9cm portrait;
 }
 /* US Letter PORTRAIT page size ENDS */
-       
+
         body {
             font-family: Arial, sans-serif;
-            
+
         }
 
         .invoice-container {
             max-width: 900px;
             padding: 2px;
-            
+
         }
 
         .head-row {
@@ -53,13 +53,13 @@
         }
 
         .head-col {
-            max-width: 400px; 
+            max-width: 400px;
             margin-bottom: 15px;
-            
+
         }
 
         .letterhead {
-            max-height: 50px; 
+            max-height: 50px;
             width: 100%;
             margin-bottom: 20px;
         }
@@ -67,17 +67,17 @@
         .qrcode {
             height: auto;
             max-height: auto;
-            max-width: 300px; 
+            max-width: 300px;
             padding-top: 50px;
         }
         .qrcode-image {
             height: auto;
-           
+
             word-wrap: break-word;
 
-            
+
             padding-right: 20px;
-                      
+
         }
 
 
@@ -94,9 +94,9 @@
             margin-left:-40px;
             margin-top: 50px;
         }
-    
+
         .t-table td {
-            
+
             text-align: left;
             font-size: 12px;
         }
@@ -104,7 +104,7 @@
             border-bottom: #0f0f0f solid 1px;
             text-align: left;
             font-size: 12px;
-            
+
         }
         .t-table hr {
             border: 0;
@@ -120,7 +120,7 @@
         .thead-dark th{
             color: black;
         }
-    
+
     </style>
     <title>Sales Invoice</title>
 </head>
@@ -129,11 +129,12 @@
         <!-- Letter Head and QR Code Row -->
         <div class="head-row">
           <!-- Letter Head -->
-            {%- set letter_head = frappe.get_doc("Letter Head", "Default") %}
-            {%- if letter_head and letter_head.content %}
-              <div class="letterhead">
-                {{ letter_head.content | safe }}
-              </div>
+            {%- set letter_head = frappe.db.get_value("Letter Head", "Default") %}
+            {%- if letter_head %}
+              {% set letter_head_doc = frappe.get_doc("Letter Head", "Default") %}
+                <div class="letterhead">
+                    {{ letter_head_doc.content | safe }}
+                </div>
             {%- endif %}
             <div class="head-col">
                 <div class="head_adon" style="margin-top:70px">
@@ -149,15 +150,15 @@
                     {% endif %}
                     <div><strong>Type de contribuable:</strong> Société</div>
                     <div><strong>Centre Fiscal:</strong> {{ebms_settings.the_taxpayers_tax_center}}</div>
-                   
-     
+
+
 
                 </div>
-                
+
 
 
             </div>
-            
+
 
             <!-- QR Code Image -->
             <div class="head-col">
@@ -206,21 +207,20 @@
                         {% if links %}
                             {% set address = frappe.get_doc("Address", links[0].parent) %}
                             {% if address %}
-                        
-                                <div><strong>Commune:</strong> {{ address.custom_commune }}</div>
-                                <div><strong>Avenue:</strong> {{ address.custom_avenue }}</div>
-                                <div><strong>Numero:</strong> {{ address.custom_numéro }}</div>
+                                <div><strong>Commune:</strong> {{ address.custom_commune or "N/A" }}</div>
+                                <div><strong>Avenue:</strong> {{ address.custom_avenue or "N/A" }}</div>
+                                <div><strong>Numero:</strong> {{ address.custom_numero or "N/A" }}</div>
                             {% endif %}
                         {% else %}
                             <div>No address found for the company.</div>
                         {% endif %}</div>
-                    
+
                     <!-- <p class="mb-1">Facture OBR n°: {{ doc.custom_invoice_registered_no }}</p> -->
                     <div class="qrcode-image overflow-auto"><p>{{doc.custom_invoice_identifier}}</p></div>
-                   
+
                 </div>
-               
-                
+
+
             </div>
         </div>
 
@@ -248,7 +248,7 @@
             {% else %}
             OUI
             {% endif %}
-          </p>        
+          </p>
     </div>
     <div class="col-md-6" style="margin-left: 150px;">
         <p><b>Posting Date:</b> {{ doc.get_formatted("posting_date") }}</p>
@@ -260,7 +260,7 @@
         <!-- Items Table -->
         <div class="row t-table">
             <div class="col mr-5 ml-5">
-                
+
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
@@ -278,7 +278,7 @@
                                 <td>{{ item.qty }}</td>
                                 <td>{{ '{:,.0f}'.format(item.rate) }}</td>
                                 <td>{{ '{:,.0f}'.format(item.amount) }}</td>
-                                
+
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -290,7 +290,7 @@
 <div class="container-fluid p-3 align-items-end">
     <div class="row">
         <div class="row justify-content-end ml-auto w-50" style="align-items: right; width:400px;">
-        <div class="col-md-6"> 
+        <div class="col-md-6">
             <table class="t-table text-align-center">
                 <!-- Total Row -->
                 <tr>
@@ -300,7 +300,7 @@
                           $
                       {% elif doc.currency == "BIF" %}
                           Fr.
-                      {% endif %} 
+                      {% endif %}
                       <b>{{ '{:,.0f}'.format(doc.total | round) }}</b>
                     </td>
                 </tr>
@@ -319,7 +319,7 @@
                       <strong>{{ '{:,.0f}'.format(doc.total_taxes_and_charges | round) }}</strong>
                     </td>
                 </tr>
-               
+
                 <!-- HR -->
                 <tr><td colspan="2"></td></tr>
                 <!-- Net Total Row -->
