@@ -10,9 +10,8 @@
  "idx": 0,
  "is_standard": "Yes",
  "json": "{}",
- "letter_head": "SOTB Default",
- "letterhead": null,
- "modified": "2025-04-10 15:37:46.969936",
+ "letter_head": null,
+ "modified": "2026-05-16 12:08:03.654094",
  "modified_by": "Administrator",
  "module": "Burundi Compliance",
  "name": "Document Submission Status Report",
@@ -23,34 +22,13 @@
  "report_type": "Report Builder",
  "roles": [
   {
-   "role": "Item Manager"
-  },
-  {
-   "role": "Purchase User"
-  },
-  {
-   "role": "Manufacturing User"
-  },
-  {
    "role": "Sales User"
-  },
-  {
-   "role": "Maintenance User"
-  },
-  {
-   "role": "Stock User"
-  },
-  {
-   "role": "Stock Manager"
   },
   {
    "role": "Accounts User"
   },
   {
-   "role": "Desk User"
-  },
-  {
-   "role": "Employee Self Service"
+   "role": "Accounts Manager"
   }
  ],
  "timeout": 0
