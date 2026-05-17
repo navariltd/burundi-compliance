@@ -3,12 +3,16 @@ from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import (
     get_accounting_dimensions,
 )
 from erpnext.assets.doctype.asset_repair.asset_repair import AssetRepair
+from frappe import _
 
 
 class CustomAssetRepair(AssetRepair):
     def decrease_stock_quantity(self):
         if not self.get("stock_items"):
             return
+
+        if not self.custom_stock_movement_description:
+            frappe.throw(_("Please set Stock Movement Description"))
 
         stock_entry = frappe.get_doc(
             {
