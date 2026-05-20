@@ -2,11 +2,11 @@ import frappe
 from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import (
     get_accounting_dimensions,
 )
-from erpnext.assets.doctype.asset_repair.asset_repair import AssetRepair
 from frappe import _
+from frappe.model.document import Document
 
 
-class CustomAssetRepair(AssetRepair):
+class CustomAssetRepair(Document):
     def decrease_stock_quantity(self):
         if not self.get("stock_items"):
             return

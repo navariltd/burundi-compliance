@@ -138,8 +138,11 @@ jinja = {
 # ---------------
 # Override standard doctype classes
 
-override_doctype_class = {
-    "Asset Repair": "burundi_compliance.burundi_compliance.overrides.asset_repair.CustomAssetRepair"
+
+extend_doctype_class = {
+    "Asset Repair": [
+        "burundi_compliance.burundi_compliance.extensions.asset_repair.CustomAssetRepair"
+    ],
 }
 
 # Document Events
