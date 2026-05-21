@@ -26,7 +26,8 @@ def send_stock_movement_to_obr() -> None:
             (SLE.docstatus == 1)
             & (SLE.custom_etracker == 0)
             & (SLE.custom_queued == 0)
-            & (Item.custom_allow_obr_to_track_stock_movement == 1),
+            & (Item.custom_allow_obr_to_track_stock_movement == 1)
+            & (Item.is_stock_item == 1),
         )
     )
 
