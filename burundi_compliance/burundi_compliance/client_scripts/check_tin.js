@@ -9,6 +9,10 @@ function get_tin(frm) {
       company = frm.doc.name
     }
 
+    if (!frm.doc.tax_id) {
+      frappe.throw(__('Please enter the TIN/Tax ID to check its validity'))
+    }
+
     frappe.call({
       method:
         'burundi_compliance.burundi_compliance.apis.confirm_tin.confirm_tin',
@@ -20,6 +24,7 @@ function get_tin(frm) {
       },
       callback: function (response) {
         if (response.message.success) {
+          frm.refresh_field('custom_tin_verified')
           showTinDetailsDialog(response.message.result, frm.doc.doctype)
         } else {
           frappe.msgprint({
@@ -116,7 +121,10 @@ function showSettingsSelectorDialog(frm, resolve) {
 
 frappe.ui.form.on('Customer', {
   refresh: function (frm) {
-    get_tin(frm)
+    if (!frm.doc.custom_tin_verified) {
+      get_tin(frm)
+    }
+
     set_gst_category_query(frm)
   },
   customer_type: function (frm) {
@@ -126,7 +134,9 @@ frappe.ui.form.on('Customer', {
 
 frappe.ui.form.on('Supplier', {
   refresh: function (frm) {
-    get_tin(frm)
+    if (!frm.doc.custom_tin_verified) {
+      get_tin(frm)
+    }
     set_gst_category_query(frm)
   },
   supplier_type: function (frm) {
