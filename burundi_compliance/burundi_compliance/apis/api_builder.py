@@ -129,10 +129,10 @@ class OBRAPI:
 
 		try:
 			if self._method == "POST":
-				response = requests.post(self._url, json=self._payload, headers=self._headers)
+				response = requests.post(self._url, json=self._payload, headers=self._headers, verify=False)
 
 			elif self.method == "GET":
-				response = requests.get(self._url, headers=self._headers, params=self._payload)
+				response = requests.get(self._url, headers=self._headers, params=self._payload, verify=False)
 
 			response_data = get_response_data(response)
 
