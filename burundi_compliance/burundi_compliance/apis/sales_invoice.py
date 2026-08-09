@@ -1,7 +1,6 @@
 import datetime
 import json
 
-
 import frappe
 from frappe import _
 
@@ -13,95 +12,98 @@ from ..utils.utils import get_urls
 
 @frappe.whitelist()
 def get_invoice_from_obr(name: str, invoice_type: str):
-	si_doc = frappe.get_doc(invoice_type, name)
-	if si_doc.is_opening == "Yes":
-		return
+    si_doc = frappe.get_doc(invoice_type, name)
+    if si_doc.is_opening == "Yes":
+        return
 
-	if si_doc.doctype == "Sales Invoice" and si_doc.is_consolidated:
-		return
+    if si_doc.doctype == "Sales Invoice" and si_doc.is_consolidated:
+        return
 
-	company_name = si_doc.company
-	if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company_name):
-		frappe.throw(
-			_(
-				f"eBMS Settings not found for company {company_name}. Please set up the settings to fetch invoice details from OBR."
-			),
-			title=_("Settings Not Found"),
-		)
+    company_name = si_doc.company
+    if not frappe.db.exists(SETTINGS_DOCTYPE_NAME, company_name):
+        frappe.throw(
+            _(
+                f"eBMS Settings not found for company {company_name}. Please set up the settings to fetch invoice details from OBR."
+            ),
+            title=_("Settings Not Found"),
+        )
 
-	settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
+    settings_doc = frappe.get_doc(SETTINGS_DOCTYPE_NAME, company_name)
 
-	if not settings_doc.is_active:
-		frappe.throw(
-			_(f"Please activate eBMS Settings for company {company_name}"),
-			title=_("Integration Inactive"),
-		)
+    if not settings_doc.is_active:
+        frappe.throw(
+            _(f"Please activate eBMS Settings for company {company_name}"),
+            title=_("Integration Inactive"),
+        )
 
-	posting_date, start_date = si_doc.posting_date, settings_doc.start_date
+    posting_date, start_date = si_doc.posting_date, settings_doc.start_date
 
-	if isinstance(posting_date, str):
-		posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
+    if isinstance(posting_date, str):
+        posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d").date()
 
-	if isinstance(start_date, str):
-		start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+    if isinstance(start_date, str):
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
 
-	if posting_date < start_date:
-		return
+    if posting_date < start_date:
+        return
 
-	environment = "sandbox" if settings_doc.sandbox else "production"
-	headers = build_headers(company_name)
+    environment = "sandbox" if settings_doc.sandbox else "production"
+    headers = build_headers(company_name)
 
-	request_url, server_url = get_urls(environment, "get_invoice")
-	if headers and server_url and request_url:
-		payload = {"invoice_identifier": si_doc.custom_invoice_identifier}
-		url = f"{server_url}/{request_url}"
-		obr_api = OBRAPI()
-		obr_api.headers = headers
-		obr_api.url = url
-		obr_api.method = "POST"
-		obr_api.payload = payload
-		obr_api.service = "GetInvoice"
-		response = obr_api.make_remote_request(
-			si_doc.doctype, si_doc.name, require_handler=False
-		)
-		frappe.log_error("Get Invoice from OBR Response", response)
-		return response
+    request_url, server_url = get_urls(environment, "get_invoice")
+    if headers and server_url and request_url:
+        payload = {"invoice_identifier": si_doc.custom_invoice_identifier}
+        url = f"{server_url}/{request_url}"
+        obr_api = OBRAPI()
+        obr_api.headers = headers
+        obr_api.url = url
+        obr_api.method = "POST"
+        obr_api.payload = payload
+        obr_api.service = "GetInvoice"
+        response = obr_api.make_remote_request(
+            si_doc.doctype,
+            si_doc.name,
+            require_handler=False,
+            verify_ssl=bool(settings_doc.verify_ssl),
+        )
+        frappe.log_error("Get Invoice from OBR Response", response)
+        return response
 
 
 @frappe.whitelist()
 def resubmit_invoice_to_obr(name: str, invoice_type: str):
-	doc = frappe.get_doc(invoice_type, name)
-	from ..overrides.sales_invoice import on_submit_invoice
+    doc = frappe.get_doc(invoice_type, name)
+    from ..overrides.sales_invoice import on_submit_invoice
 
-	on_submit_invoice(doc, method=None)
+    on_submit_invoice(doc, method=None)
 
 
 @frappe.whitelist()
 def bulk_submit_invoices_to_obr(doctype: str, invoice_list: str) -> None:
-	invoice_list = json.loads(invoice_list)
+    invoice_list = json.loads(invoice_list)
 
-	for invoice in invoice_list:
-		try:
-			from ..overrides.sales_invoice import on_submit_invoice
+    for invoice in invoice_list:
+        try:
+            from ..overrides.sales_invoice import on_submit_invoice
 
-			doc = frappe.get_doc(doctype, invoice)
-			if (
-				doc.custom_submitted_to_obr or doc.docstatus != 1
-			):  # Lock out draft and cancelled invoices
-				continue
+            doc = frappe.get_doc(doctype, invoice)
+            if (
+                doc.custom_submitted_to_obr or doc.docstatus != 1
+            ):  # Lock out draft and cancelled invoices
+                continue
 
-			on_submit_invoice(doc, method=None)
-		except Exception as e:
-			frappe.log_error(
-				message=str(e),
-				title=_("Error Submitting Invoice to OBR: {0}").format(invoice),
-			)
-			continue
+            on_submit_invoice(doc, method=None)
+        except Exception as e:
+            frappe.log_error(
+                message=str(e),
+                title=_("Error Submitting Invoice to OBR: {0}").format(invoice),
+            )
+            continue
 
 
 @frappe.whitelist()
 def cancel_invoice_in_obr(name: str, invoice_type: str):
-	doc = frappe.get_doc(invoice_type, name)
-	from ..overrides.sales_invoice import on_cancel
+    doc = frappe.get_doc(invoice_type, name)
+    from ..overrides.sales_invoice import on_cancel
 
-	on_cancel(doc, method=None)
+    on_cancel(doc, method=None)

@@ -18,6 +18,7 @@ class OBRAuthService:
         request_url: str,
         username: str,
         password: str,
+        verify_ssl: bool = True,
         docname: str | None = None,
     ) -> dict:
         AUTH_URL = f"{auth_server_url}/{request_url}"
@@ -39,6 +40,7 @@ class OBRAuthService:
                 AUTH_URL,
                 data=json.dumps(payload, ensure_ascii=False),
                 headers=headers,
+                verify=verify_ssl,
                 timeout=30,
             )
 
@@ -52,7 +54,6 @@ class OBRAuthService:
                         "output": json.dumps(data, ensure_ascii=False),
                         "status": "Completed",
                     },
-                    update_modified=False,
                 )
 
                 token = data.get("result").get("token")
@@ -64,6 +65,19 @@ class OBRAuthService:
                 decoded_token = decode_jwt_token(token)
                 return {**decoded_token, "auth_token": token}
 
+            else:
+                frappe.db.set_value(
+                    "Integration Request",
+                    integration_request.name,
+                    {
+                        "output": response.text,
+                        "status": "Failed",
+                    },
+                )
+                frappe.throw(
+                    _("Authentication failed. Please check the logs for details."),
+                )
+
         except requests.exceptions.RequestException as e:
             frappe.db.set_value(
                 "Integration Request",
@@ -72,7 +86,6 @@ class OBRAuthService:
                     "output": str(e),
                     "status": "Failed",
                 },
-                update_modified=False,
             )
             frappe.log_error(
                 _("OBR Authentication Error"),
@@ -90,7 +103,6 @@ class OBRAuthService:
                     "output": str(e),
                     "status": "Failed",
                 },
-                update_modified=False,
             )
             frappe.log_error(
                 _("OBR Authentication Error"),
@@ -112,6 +124,7 @@ def authenticate(settings_name):
         request_url=request_url,
         username=settings_doc.username,
         password=settings_doc.get_password(fieldname="password"),
+        verify_ssl=bool(settings_doc.verify_ssl),
         docname=settings_name,
     )
     result = frappe._dict(result)

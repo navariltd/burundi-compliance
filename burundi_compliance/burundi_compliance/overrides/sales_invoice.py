@@ -85,6 +85,7 @@ def generic_invoice_on_submit_override(doc: Document, invoice_type: str):
             job_name=f"obr_invoice_submission_{doc.name}",
             doctype=invoice_type,
             document_name=doc.name,
+            verify_ssl=bool(settings_doc.verify_ssl),
         )
 
 
