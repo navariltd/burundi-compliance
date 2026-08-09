@@ -1,399 +1,407 @@
 {
- "actions": [],
- "allow_rename": 1,
- "autoname": "field:company",
- "creation": "2024-02-24 09:28:35.402496",
- "default_view": "List",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "username_and_password_are_provided_by_obr_section",
-  "column_break_xbtx",
-  "username",
-  "password",
-  "start_date",
-  "column_break_kuje",
-  "company",
-  "sandbox",
-  "is_active",
-  "tin",
-  "section_break_yait",
-  "authorization_token",
-  "column_break_cqdq",
-  "expires_at",
-  "more_details_tab",
-  "taxpayers_sector_of_activity",
-  "taxpayers_legal_form",
-  "the_taxpayers_commercial_register_number",
-  "the_taxpayers_tax_center",
-  "subject_to_vat",
-  "column_break_xego",
-  "system_identification_given_by_obr",
-  "type_of_taxpayer",
-  "subject_to_consumption_tax",
-  "subject_to_flatrate_withholding_tax",
-  "assujetti_au_pf",
-  "more_info_tab",
-  "maximum_attempts",
-  "column_break_qtoq",
-  "retry_delay_seconds",
-  "obr_posting_schedule_section",
-  "limit_invoice_posting_timeslot",
-  "invoice_start_time",
-  "invoice_end_time",
-  "limits_dont_apply_on_invoice",
-  "column_break_tqil",
-  "limit_stock_posting_timeslot",
-  "stock_start_time",
-  "stock_end_time",
-  "limits_dont_apply_on_stock",
-  "scheduler_events_section",
-  "invoice_event_frequency",
-  "invoice_cron_format",
-  "column_break_ngbk",
-  "stock_movement_event_frequency",
-  "stock_movement_cron_format",
-  "permisions_section",
-  "allow_obr_to_track_sales",
-  "column_break_ssmv",
-  "allow_obr_to_track_stock_movement"
- ],
- "fields": [
-  {
-   "fieldname": "username_and_password_are_provided_by_obr_section",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_xbtx",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "default": "0",
-   "description": "Tick if its testing",
-   "fieldname": "sandbox",
-   "fieldtype": "Check",
-   "in_list_view": 1,
-   "label": "Sandbox",
-   "options": "\n",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_kuje",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "username",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Username",
-   "reqd": 1
-  },
-  {
-   "description": "Username and Password provided by OBR",
-   "fieldname": "password",
-   "fieldtype": "Password",
-   "label": "Password",
-   "reqd": 1
-  },
-  {
-   "fieldname": "more_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "Tax Details"
-  },
-  {
-   "fieldname": "taxpayers_sector_of_activity",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Taxpayer's Sector of Activity",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "fieldname": "taxpayers_legal_form",
-   "fieldtype": "Data",
-   "label": "Taxpayer's Legal Form",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "description": "Le num\u00e9ro du registre de commerce du contribuable",
-   "fieldname": "the_taxpayers_commercial_register_number",
-   "fieldtype": "Int",
-   "label": "The taxpayer's commercial register number",
-   "reqd": 1
-  },
-  {
-   "fieldname": "the_taxpayers_tax_center",
-   "fieldtype": "Select",
-   "label": "The taxpayer's Tax Center/ Le centre fiscal du contribuable",
-   "options": "\nDGC\nDMC\nDPMC",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "fieldname": "column_break_xego",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "system_identification_given_by_obr",
-   "fieldtype": "Data",
-   "label": "System Identification(given by OBR)",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "default": "pour personne morale",
-   "description": "Valeur \u00ab\u00a01\u00a0\u00bb pour personne physique et \u00ab\u00a02\u00a0\u00bb pour personne morale",
-   "fieldname": "type_of_taxpayer",
-   "fieldtype": "Select",
-   "label": "Type of Taxpayer/ Type de contribuable.",
-   "options": "\npour personne physique et\npour personne morale",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "default": "pour un non assujetti ou",
-   "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
-   "fieldname": "subject_to_consumption_tax",
-   "fieldtype": "Select",
-   "label": "Subject to Consumption Tax/ Assujetti \u00e0 la taxe de consommation",
-   "options": "\npour un non assujetti ou\npour un assujetti",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "default": "pour un non assujetti ou",
-   "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
-   "fieldname": "subject_to_flatrate_withholding_tax",
-   "fieldtype": "Select",
-   "label": "Subject to FlatRate Withholding/ Assujetti au pr\u00e9l\u00e8vement forfaitaire lib\u00e9ratoire Tax",
-   "options": "\npour un non assujetti ou\npour un assujetti",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "fieldname": "more_info_tab",
-   "fieldtype": "Tab Break",
-   "label": "More Info"
-  },
-  {
-   "default": "1440",
-   "fieldname": "maximum_attempts",
-   "fieldtype": "Data",
-   "label": "Maximum Attempts",
-   "translatable": 1
-  },
-  {
-   "default": "60",
-   "fieldname": "retry_delay_seconds",
-   "fieldtype": "Data",
-   "label": "Retry Delay (Seconds)",
-   "translatable": 1
-  },
-  {
-   "default": "pour un assujetti",
-   "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
-   "fieldname": "subject_to_vat",
-   "fieldtype": "Select",
-   "label": "Subject to VAT/Assujetti \u00e0 la TVA",
-   "options": "\npour un non assujetti ou\npour un assujetti",
-   "reqd": 1,
-   "translatable": 1
-  },
-  {
-   "fieldname": "permisions_section",
-   "fieldtype": "Section Break",
-   "label": "eBMS Permissions"
-  },
-  {
-   "default": "0",
-   "fieldname": "allow_obr_to_track_sales",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track sales"
-  },
-  {
-   "default": "0",
-   "fieldname": "allow_obr_to_track_stock_movement",
-   "fieldtype": "Check",
-   "label": "Allow OBR to track stock movement"
-  },
-  {
-   "fieldname": "column_break_ngbk",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_qtoq",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_ssmv",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "Hourly",
-   "fieldname": "stock_movement_event_frequency",
-   "fieldtype": "Select",
-   "label": "Stock Movement Event Frequency",
-   "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
-  },
-  {
-   "depends_on": "eval:doc.stock_movement_event_frequency==='Cron'",
-   "description": "<pre>*  *  *  *  *\n\u252c  \u252c  \u252c  \u252c  \u252c\n\u2502  \u2502  \u2502  \u2502  \u2502\n\u2502  \u2502  \u2502  \u2502  \u2514 day of week (0 - 6) (0 is Sunday)\n\u2502  \u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500 month (1 - 12)\n\u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 day of month (1 - 31)\n\u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 hour (0 - 23)\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 minute (0 - 59)\n\n---\n\n* - Any value\n/ - Step values\n</pre>\n",
-   "fieldname": "stock_movement_cron_format",
-   "fieldtype": "Data",
-   "label": "Stock Movement Cron Format"
-  },
-  {
-   "default": "0",
-   "fieldname": "assujetti_au_pf",
-   "fieldtype": "Check",
-   "label": "Assujetti au PF"
-  },
-  {
-   "fetch_from": "company.tax_id",
-   "fieldname": "tin",
-   "fieldtype": "Data",
-   "label": "TIN"
-  },
-  {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "label": "Start Date",
-   "reqd": 1
-  },
-  {
-   "default": "1",
-   "fieldname": "is_active",
-   "fieldtype": "Check",
-   "label": "Is Active"
-  },
-  {
-   "fieldname": "section_break_yait",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "authorization_token",
-   "fieldtype": "Small Text",
-   "label": "Authorization Token",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_cqdq",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "expires_at",
-   "fieldtype": "Datetime",
-   "label": "Expires At",
-   "read_only": 1
-  },
-  {
-   "default": "Daily",
-   "fieldname": "invoice_event_frequency",
-   "fieldtype": "Select",
-   "label": "Invoice Event Frequency",
-   "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
-  },
-  {
-   "depends_on": "eval:doc.invoice_event_frequency==='Cron'",
-   "description": "<pre>*  *  *  *  *\n\u252c  \u252c  \u252c  \u252c  \u252c\n\u2502  \u2502  \u2502  \u2502  \u2502\n\u2502  \u2502  \u2502  \u2502  \u2514 day of week (0 - 6) (0 is Sunday)\n\u2502  \u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500 month (1 - 12)\n\u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 day of month (1 - 31)\n\u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 hour (0 - 23)\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 minute (0 - 59)\n\n---\n\n* - Any value\n/ - Step values\n</pre>\n",
-   "fieldname": "invoice_cron_format",
-   "fieldtype": "Data",
-   "label": "Invoice Cron Format"
-  },
-  {
-   "fieldname": "scheduler_events_section",
-   "fieldtype": "Section Break",
-   "label": "Scheduler Events"
-  },
-  {
-   "fieldname": "obr_posting_schedule_section",
-   "fieldtype": "Section Break",
-   "label": "OBR Posting Schedule"
-  },
-  {
-   "fieldname": "invoice_start_time",
-   "fieldtype": "Time",
-   "label": "Start Time",
-   "mandatory_depends_on": "eval:doc.limit_invoice_posting_timeslot===1;"
-  },
-  {
-   "fieldname": "stock_start_time",
-   "fieldtype": "Time",
-   "label": "Start Time",
-   "mandatory_depends_on": "eval:doc.limit_stock_posting_timeslot===1;"
-  },
-  {
-   "fieldname": "invoice_end_time",
-   "fieldtype": "Time",
-   "label": "End Time",
-   "mandatory_depends_on": "eval:doc.limit_invoice_posting_timeslot===1;"
-  },
-  {
-   "fieldname": "column_break_tqil",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "stock_end_time",
-   "fieldtype": "Time",
-   "label": "End Time",
-   "mandatory_depends_on": "eval:doc.limit_stock_posting_timeslot===1;"
-  },
-  {
-   "fieldname": "limits_dont_apply_on_invoice",
-   "fieldtype": "Select",
-   "label": "Limits don't apply on (Invoice)",
-   "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
-  },
-  {
-   "fieldname": "limits_dont_apply_on_stock",
-   "fieldtype": "Select",
-   "label": "Limits don't apply on (Stock)",
-   "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
-  },
-  {
-   "default": "0",
-   "fieldname": "limit_invoice_posting_timeslot",
-   "fieldtype": "Check",
-   "label": "Limit timeslot for Invoice Posting"
-  },
-  {
-   "default": "0",
-   "fieldname": "limit_stock_posting_timeslot",
-   "fieldtype": "Check",
-   "label": "Limit timeslot for Stock Posting"
-  }
- ],
- "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-04-29 15:17:17.350642",
- "modified_by": "Administrator",
- "module": "Burundi Compliance",
- "name": "eBMS Settings",
- "naming_rule": "By fieldname",
- "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "print": 1,
-   "read": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
- "row_format": "Dynamic",
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+  "actions": [],
+  "allow_bulk_edit": 1,
+  "allow_rename": 1,
+  "autoname": "field:company",
+  "creation": "2024-02-24 09:28:35.402496",
+  "default_view": "List",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "username_and_password_are_provided_by_obr_section",
+    "column_break_xbtx",
+    "username",
+    "password",
+    "start_date",
+    "column_break_kuje",
+    "company",
+    "tin",
+    "sandbox",
+    "is_active",
+    "verify_ssl",
+    "section_break_yait",
+    "authorization_token",
+    "column_break_cqdq",
+    "expires_at",
+    "more_details_tab",
+    "taxpayers_sector_of_activity",
+    "taxpayers_legal_form",
+    "the_taxpayers_commercial_register_number",
+    "the_taxpayers_tax_center",
+    "subject_to_vat",
+    "column_break_xego",
+    "system_identification_given_by_obr",
+    "type_of_taxpayer",
+    "subject_to_consumption_tax",
+    "subject_to_flatrate_withholding_tax",
+    "assujetti_au_pf",
+    "more_info_tab",
+    "maximum_attempts",
+    "column_break_qtoq",
+    "retry_delay_seconds",
+    "obr_posting_schedule_section",
+    "limit_invoice_posting_timeslot",
+    "invoice_start_time",
+    "invoice_end_time",
+    "limits_dont_apply_on_invoice",
+    "column_break_tqil",
+    "limit_stock_posting_timeslot",
+    "stock_start_time",
+    "stock_end_time",
+    "limits_dont_apply_on_stock",
+    "scheduler_events_section",
+    "invoice_event_frequency",
+    "invoice_cron_format",
+    "column_break_ngbk",
+    "stock_movement_event_frequency",
+    "stock_movement_cron_format",
+    "permisions_section",
+    "allow_obr_to_track_sales",
+    "column_break_ssmv",
+    "allow_obr_to_track_stock_movement"
+  ],
+  "fields": [
+    {
+      "fieldname": "username_and_password_are_provided_by_obr_section",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "column_break_xbtx",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "default": "0",
+      "description": "Tick if its testing",
+      "fieldname": "sandbox",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Sandbox",
+      "options": "\n",
+      "reqd": 1
+    },
+    {
+      "fieldname": "column_break_kuje",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "username",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Username",
+      "reqd": 1
+    },
+    {
+      "description": "Username and Password provided by OBR",
+      "fieldname": "password",
+      "fieldtype": "Password",
+      "label": "Password",
+      "reqd": 1
+    },
+    {
+      "fieldname": "more_details_tab",
+      "fieldtype": "Tab Break",
+      "label": "Tax Details"
+    },
+    {
+      "fieldname": "taxpayers_sector_of_activity",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Taxpayer's Sector of Activity",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "fieldname": "taxpayers_legal_form",
+      "fieldtype": "Data",
+      "label": "Taxpayer's Legal Form",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "description": "Le num\u00e9ro du registre de commerce du contribuable",
+      "fieldname": "the_taxpayers_commercial_register_number",
+      "fieldtype": "Int",
+      "label": "The taxpayer's commercial register number",
+      "reqd": 1
+    },
+    {
+      "fieldname": "the_taxpayers_tax_center",
+      "fieldtype": "Select",
+      "label": "The taxpayer's Tax Center/ Le centre fiscal du contribuable",
+      "options": "\nDGC\nDMC\nDPMC",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "fieldname": "column_break_xego",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "system_identification_given_by_obr",
+      "fieldtype": "Data",
+      "label": "System Identification(given by OBR)",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "default": "pour personne morale",
+      "description": "Valeur \u00ab\u00a01\u00a0\u00bb pour personne physique et \u00ab\u00a02\u00a0\u00bb pour personne morale",
+      "fieldname": "type_of_taxpayer",
+      "fieldtype": "Select",
+      "label": "Type of Taxpayer/ Type de contribuable.",
+      "options": "\npour personne physique et\npour personne morale",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "default": "pour un non assujetti ou",
+      "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
+      "fieldname": "subject_to_consumption_tax",
+      "fieldtype": "Select",
+      "label": "Subject to Consumption Tax/ Assujetti \u00e0 la taxe de consommation",
+      "options": "\npour un non assujetti ou\npour un assujetti",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "default": "pour un non assujetti ou",
+      "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
+      "fieldname": "subject_to_flatrate_withholding_tax",
+      "fieldtype": "Select",
+      "label": "Subject to FlatRate Withholding/ Assujetti au pr\u00e9l\u00e8vement forfaitaire lib\u00e9ratoire Tax",
+      "options": "\npour un non assujetti ou\npour un assujetti",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "fieldname": "more_info_tab",
+      "fieldtype": "Tab Break",
+      "label": "More Info"
+    },
+    {
+      "default": "1440",
+      "fieldname": "maximum_attempts",
+      "fieldtype": "Data",
+      "label": "Maximum Attempts",
+      "translatable": 1
+    },
+    {
+      "default": "60",
+      "fieldname": "retry_delay_seconds",
+      "fieldtype": "Data",
+      "label": "Retry Delay (Seconds)",
+      "translatable": 1
+    },
+    {
+      "default": "pour un assujetti",
+      "description": "Valeur\u00a0: \u00ab\u00a00\u00a0\u00bb pour un non assujetti ou \u00ab\u00a01\u00a0\u00bb pour un assujetti",
+      "fieldname": "subject_to_vat",
+      "fieldtype": "Select",
+      "label": "Subject to VAT/Assujetti \u00e0 la TVA",
+      "options": "\npour un non assujetti ou\npour un assujetti",
+      "reqd": 1,
+      "translatable": 1
+    },
+    {
+      "fieldname": "permisions_section",
+      "fieldtype": "Section Break",
+      "label": "eBMS Permissions"
+    },
+    {
+      "default": "0",
+      "fieldname": "allow_obr_to_track_sales",
+      "fieldtype": "Check",
+      "label": "Allow OBR to track sales"
+    },
+    {
+      "default": "0",
+      "fieldname": "allow_obr_to_track_stock_movement",
+      "fieldtype": "Check",
+      "label": "Allow OBR to track stock movement"
+    },
+    {
+      "fieldname": "column_break_ngbk",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "column_break_qtoq",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "column_break_ssmv",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Hourly",
+      "fieldname": "stock_movement_event_frequency",
+      "fieldtype": "Select",
+      "label": "Stock Movement Event Frequency",
+      "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
+    },
+    {
+      "depends_on": "eval:doc.stock_movement_event_frequency==='Cron'",
+      "description": "<pre>*  *  *  *  *\n\u252c  \u252c  \u252c  \u252c  \u252c\n\u2502  \u2502  \u2502  \u2502  \u2502\n\u2502  \u2502  \u2502  \u2502  \u2514 day of week (0 - 6) (0 is Sunday)\n\u2502  \u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500 month (1 - 12)\n\u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 day of month (1 - 31)\n\u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 hour (0 - 23)\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 minute (0 - 59)\n\n---\n\n* - Any value\n/ - Step values\n</pre>\n",
+      "fieldname": "stock_movement_cron_format",
+      "fieldtype": "Data",
+      "label": "Stock Movement Cron Format"
+    },
+    {
+      "default": "0",
+      "fieldname": "assujetti_au_pf",
+      "fieldtype": "Check",
+      "label": "Assujetti au PF"
+    },
+    {
+      "fetch_from": "company.tax_id",
+      "fieldname": "tin",
+      "fieldtype": "Data",
+      "label": "TIN"
+    },
+    {
+      "fieldname": "start_date",
+      "fieldtype": "Date",
+      "label": "Start Date",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "is_active",
+      "fieldtype": "Check",
+      "label": "Is Active"
+    },
+    {
+      "fieldname": "section_break_yait",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "authorization_token",
+      "fieldtype": "Small Text",
+      "label": "Authorization Token",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_cqdq",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "expires_at",
+      "fieldtype": "Datetime",
+      "label": "Expires At",
+      "read_only": 1
+    },
+    {
+      "default": "Daily",
+      "fieldname": "invoice_event_frequency",
+      "fieldtype": "Select",
+      "label": "Invoice Event Frequency",
+      "options": "All\nHourly\nDaily\nWeekly\nMonthly\nYearly\nCron"
+    },
+    {
+      "depends_on": "eval:doc.invoice_event_frequency==='Cron'",
+      "description": "<pre>*  *  *  *  *\n\u252c  \u252c  \u252c  \u252c  \u252c\n\u2502  \u2502  \u2502  \u2502  \u2502\n\u2502  \u2502  \u2502  \u2502  \u2514 day of week (0 - 6) (0 is Sunday)\n\u2502  \u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500 month (1 - 12)\n\u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 day of month (1 - 31)\n\u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 hour (0 - 23)\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 minute (0 - 59)\n\n---\n\n* - Any value\n/ - Step values\n</pre>\n",
+      "fieldname": "invoice_cron_format",
+      "fieldtype": "Data",
+      "label": "Invoice Cron Format"
+    },
+    {
+      "fieldname": "scheduler_events_section",
+      "fieldtype": "Section Break",
+      "label": "Scheduler Events"
+    },
+    {
+      "fieldname": "obr_posting_schedule_section",
+      "fieldtype": "Section Break",
+      "label": "OBR Posting Schedule"
+    },
+    {
+      "fieldname": "invoice_start_time",
+      "fieldtype": "Time",
+      "label": "Start Time",
+      "mandatory_depends_on": "eval:doc.limit_invoice_posting_timeslot===1;"
+    },
+    {
+      "fieldname": "stock_start_time",
+      "fieldtype": "Time",
+      "label": "Start Time",
+      "mandatory_depends_on": "eval:doc.limit_stock_posting_timeslot===1;"
+    },
+    {
+      "fieldname": "invoice_end_time",
+      "fieldtype": "Time",
+      "label": "End Time",
+      "mandatory_depends_on": "eval:doc.limit_invoice_posting_timeslot===1;"
+    },
+    {
+      "fieldname": "column_break_tqil",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "stock_end_time",
+      "fieldtype": "Time",
+      "label": "End Time",
+      "mandatory_depends_on": "eval:doc.limit_stock_posting_timeslot===1;"
+    },
+    {
+      "fieldname": "limits_dont_apply_on_invoice",
+      "fieldtype": "Select",
+      "label": "Limits don't apply on (Invoice)",
+      "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+    },
+    {
+      "fieldname": "limits_dont_apply_on_stock",
+      "fieldtype": "Select",
+      "label": "Limits don't apply on (Stock)",
+      "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+    },
+    {
+      "default": "0",
+      "fieldname": "limit_invoice_posting_timeslot",
+      "fieldtype": "Check",
+      "label": "Limit timeslot for Invoice Posting"
+    },
+    {
+      "default": "0",
+      "fieldname": "limit_stock_posting_timeslot",
+      "fieldtype": "Check",
+      "label": "Limit timeslot for Stock Posting"
+    },
+    {
+      "default": "1",
+      "fieldname": "verify_ssl",
+      "fieldtype": "Check",
+      "label": "Verify SSL"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-08-09 13:10:41.761949",
+  "modified_by": "Administrator",
+  "module": "Burundi Compliance",
+  "name": "eBMS Settings",
+  "naming_rule": "By fieldname",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "row_format": "Dynamic",
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
 }

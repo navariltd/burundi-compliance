@@ -178,7 +178,7 @@ doc_events = {
 
 scheduler_events = {
     "cron": {
-        "*/5 * * * *": [
+        "*/30 * * * *": [
             "burundi_compliance.burundi_compliance.background_tasks.stock_movement.send_stock_movement_to_obr"
         ],
     },
