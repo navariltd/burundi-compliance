@@ -127,6 +127,7 @@ def send_stock_movement_to_obr() -> None:
                         job_name=f"obr_stock_movement_submission_{sle_doc.name}",
                         doctype="Stock Ledger Entry",
                         document_name=sle_doc.name,
+                        verify_ssl=bool(settings_doc.verify_ssl),
                     )
 
                     sle_doc.db_set("custom_queued", 1)
