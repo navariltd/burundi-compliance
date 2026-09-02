@@ -1,5 +1,6 @@
 import frappe
 from bs4 import BeautifulSoup
+from erpnext.controllers.taxes_and_totals import get_itemised_tax_breakup_data
 from frappe import _
 from frappe.model.document import Document
 
@@ -154,48 +155,36 @@ def get_payment_method(payment_type: str) -> str:
 
 def get_invoice_items(doc):
     items = []
-
-    item_wise_tax_details = frappe.get_all(
-        "Item Wise Tax Detail", filters={"parent": doc.name}, fields=["*"]
-    )
+    itemised_tax_data = get_itemised_tax_breakup_data(doc)
 
     for item in doc.items:
-        item_taxes = [
-            tax
-            for tax in item_wise_tax_details
-            if str(tax["item_row"]) == str(item.name)
-        ]
-
+        tax_data = next(
+            (data for data in itemised_tax_data if data["item"] == item.item_code),
+            None,
+        )
         total_vat = 0
 
-        for tax in item_taxes:
-            if tax.get("rate", 0) > 0:
-                total_vat += tax.get("amount", 0)
+        if tax_data:
+            for _, v in frappe._dict(tax_data).items():
+                if isinstance(v, dict):
+                    if v.get("tax_rate"):
+                        total_vat += v.get("tax_amount", 0)
 
         item_designation = (
-            item.description
-            if item.description
-            else (
-                f"{item.item_code}-{item.batch_no}" if item.batch_no else item.item_code
-            )
+            item.item_code + "-" + item.batch_no if item.batch_no else item.item_code
         )
-
-        total_vat = abs(total_vat)
-        item_amount = abs(item.amount)
-
         items.append(
             {
                 "item_code": item.item_code,
                 "item_designation": item_designation,
                 "item_quantity": abs(item.qty),
                 "item_price": item.rate,
-                "item_total_amount": item_amount,
-                "vat": total_vat,
+                "item_total_amount": item.amount,
+                "vat": abs(int(total_vat)),
                 "item_ct": "0",
                 "item_tl": "0",
-                "item_price_nvat": item_amount,
-                "item_price_wvat": item_amount + total_vat,
+                "item_price_nvat": abs(int(item.amount)),
+                "item_price_wvat": abs(int(item.amount + total_vat)),
             }
         )
-
     return items
