@@ -8,12 +8,20 @@
   "header_icon": "file-check",
   "items": [
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "icon": "home",
+      "idx": 1,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Home",
       "link_type": "Workspace",
       "link_to": "Burundi Compliance",
-      "icon": "home",
-      "idx": 1
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
       "type": "Section Break",
