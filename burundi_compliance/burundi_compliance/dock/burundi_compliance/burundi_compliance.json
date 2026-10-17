@@ -1,0 +1,18 @@
+{
+  "doctype": "Dock",
+  "name": "burundi_compliance",
+  "app": "burundi_compliance",
+  "user": "",
+  "standard": 1,
+  "mount_on": "",
+  "items": [
+    {
+      "title": "Burundi Compliance",
+      "link_type": "Sidebar",
+      "link_to": "Burundi Compliance",
+      "icon": "file-check",
+      "added": 0,
+      "hidden": 0
+    }
+  ]
+}
