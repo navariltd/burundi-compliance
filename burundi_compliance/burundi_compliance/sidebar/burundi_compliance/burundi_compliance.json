@@ -201,45 +201,93 @@
       "type": "Link"
     },
     {
-      "type": "Section Break",
-      "label": "Transactions",
+      "child": 0,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
       "icon": "receipt",
-      "idx": 14
+      "idx": 14,
+      "indent": 1,
+      "keep_closed": 0,
+      "label": "Transactions",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Section Break"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 15,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Sales Invoice",
-      "link_type": "DocType",
       "link_to": "Sales Invoice",
-      "idx": 15
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 16,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Customer",
-      "link_type": "DocType",
       "link_to": "Customer",
-      "idx": 16
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 17,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Supplier",
-      "link_type": "DocType",
       "link_to": "Supplier",
-      "idx": 17
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 18,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Stock Entry",
-      "link_type": "DocType",
       "link_to": "Stock Entry",
-      "idx": 18
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 19,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Stock Reconciliation",
-      "link_type": "DocType",
       "link_to": "Stock Reconciliation",
-      "idx": 19
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     }
   ]
 }
