@@ -142,31 +142,63 @@
       "type": "Link"
     },
     {
-      "type": "Section Break",
-      "label": "eBMS Setup",
+      "child": 0,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
       "icon": "settings",
-      "idx": 10
+      "idx": 10,
+      "indent": 1,
+      "keep_closed": 0,
+      "label": "eBMS Setup",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Section Break"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 11,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "eBMS Settings",
-      "link_type": "DocType",
       "link_to": "eBMS Settings",
-      "idx": 11
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 12,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "eBMS API Methods",
-      "link_type": "DocType",
       "link_to": "eBMS API Methods",
-      "idx": 12
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 13,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "eBMS Endpoint URLs",
-      "link_type": "DocType",
       "link_to": "eBMS Endpoint URLs",
-      "idx": 13
+      "link_type": "DocType",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
       "type": "Section Break",
