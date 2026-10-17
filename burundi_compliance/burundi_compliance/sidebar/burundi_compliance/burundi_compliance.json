@@ -68,38 +68,78 @@
       "type": "Link"
     },
     {
-      "type": "Section Break",
-      "label": "Payroll Reports",
+      "child": 0,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
       "icon": "users",
-      "idx": 5
+      "idx": 5,
+      "indent": 1,
+      "keep_closed": 0,
+      "label": "Payroll Reports",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Section Break"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 6,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Burundi Bank Payroll Report",
-      "link_type": "Report",
       "link_to": "Burundi Bank Payroll Report",
-      "idx": 6
+      "link_type": "Report",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 7,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Burundi INSS Report",
-      "link_type": "Report",
       "link_to": "Burundi INSS Report",
-      "idx": 7
+      "link_type": "Report",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 8,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "IPRO1 Report",
-      "link_type": "Report",
       "link_to": "Burundi P10 Tax Report",
-      "idx": 8
+      "link_type": "Report",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 9,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Burundi Misante Report",
-      "link_type": "Report",
       "link_to": "MISANTE Report",
-      "idx": 9
+      "link_type": "Report",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
       "type": "Section Break",
