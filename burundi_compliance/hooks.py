@@ -8,6 +8,21 @@ app_email = "mania@navari.co.ke"
 app_license = "GNU Affero General Public License v3.0"
 required_apps = ["frappe/erpnext"]
 
+# Frappe v16 Apps Screen registration
+app_logo_url = "/assets/burundi_compliance/ebms_icon.png"
+app_home = "/app/burundi-compliance"
+
+add_to_apps_screen = [
+    {
+        "name": app_name,
+        "logo": app_logo_url,
+        "title": "Burundi Compliance",
+        "route": app_home,
+        "has_permission": "burundi_compliance.check_app_permission",
+        "sequence_id": 1,
+    }
+]
+
 fixtures = [
     "eBMS API Methods",
     "GST Category",
