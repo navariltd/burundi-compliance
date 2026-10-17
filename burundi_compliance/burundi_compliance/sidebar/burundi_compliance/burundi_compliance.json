@@ -24,24 +24,48 @@
       "type": "Link"
     },
     {
-      "type": "Section Break",
-      "label": "Accounting Reports",
+      "child": 0,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
       "icon": "file-text",
-      "idx": 2
+      "idx": 2,
+      "indent": 1,
+      "keep_closed": 0,
+      "label": "Accounting Reports",
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Section Break"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 3,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Burundi Purchase Tax Report",
       "link_type": "Report",
       "link_to": "Burundi Purchase Tax Report",
-      "idx": 3
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
-      "type": "Link",
+      "child": 1,
+      "collapsible": 1,
+      "doctype": "Sidebar Item",
+      "idx": 4,
+      "indent": 0,
+      "keep_closed": 0,
       "label": "Burundi Sales Tax Report",
       "link_type": "Report",
       "link_to": "Burundi Sales Tax Report",
-      "idx": 4
+      "parentfield": "items",
+      "parenttype": "Sidebar",
+      "show_arrow": 0,
+      "type": "Link"
     },
     {
       "type": "Section Break",
