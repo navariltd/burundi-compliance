@@ -1,0 +1,141 @@
+{
+  "doctype": "Sidebar",
+  "name": "Burundi Compliance",
+  "title": "Burundi Compliance",
+  "app": "burundi_compliance",
+  "module": "Burundi Compliance",
+  "standard": 1,
+  "header_icon": "file-check",
+  "items": [
+    {
+      "type": "Link",
+      "label": "Home",
+      "link_type": "Workspace",
+      "link_to": "Burundi Compliance",
+      "icon": "home",
+      "idx": 1
+    },
+    {
+      "type": "Section Break",
+      "label": "Accounting Reports",
+      "icon": "file-text",
+      "idx": 2
+    },
+    {
+      "type": "Link",
+      "label": "Burundi Purchase Tax Report",
+      "link_type": "Report",
+      "link_to": "Burundi Purchase Tax Report",
+      "idx": 3
+    },
+    {
+      "type": "Link",
+      "label": "Burundi Sales Tax Report",
+      "link_type": "Report",
+      "link_to": "Burundi Sales Tax Report",
+      "idx": 4
+    },
+    {
+      "type": "Section Break",
+      "label": "Payroll Reports",
+      "icon": "users",
+      "idx": 5
+    },
+    {
+      "type": "Link",
+      "label": "Burundi Bank Payroll Report",
+      "link_type": "Report",
+      "link_to": "Burundi Bank Payroll Report",
+      "idx": 6
+    },
+    {
+      "type": "Link",
+      "label": "Burundi INSS Report",
+      "link_type": "Report",
+      "link_to": "Burundi INSS Report",
+      "idx": 7
+    },
+    {
+      "type": "Link",
+      "label": "IPRO1 Report",
+      "link_type": "Report",
+      "link_to": "Burundi P10 Tax Report",
+      "idx": 8
+    },
+    {
+      "type": "Link",
+      "label": "Burundi Misante Report",
+      "link_type": "Report",
+      "link_to": "MISANTE Report",
+      "idx": 9
+    },
+    {
+      "type": "Section Break",
+      "label": "eBMS Setup",
+      "icon": "settings",
+      "idx": 10
+    },
+    {
+      "type": "Link",
+      "label": "eBMS Settings",
+      "link_type": "DocType",
+      "link_to": "eBMS Settings",
+      "idx": 11
+    },
+    {
+      "type": "Link",
+      "label": "eBMS API Methods",
+      "link_type": "DocType",
+      "link_to": "eBMS API Methods",
+      "idx": 12
+    },
+    {
+      "type": "Link",
+      "label": "eBMS Endpoint URLs",
+      "link_type": "DocType",
+      "link_to": "eBMS Endpoint URLs",
+      "idx": 13
+    },
+    {
+      "type": "Section Break",
+      "label": "Transactions",
+      "icon": "receipt",
+      "idx": 14
+    },
+    {
+      "type": "Link",
+      "label": "Sales Invoice",
+      "link_type": "DocType",
+      "link_to": "Sales Invoice",
+      "idx": 15
+    },
+    {
+      "type": "Link",
+      "label": "Customer",
+      "link_type": "DocType",
+      "link_to": "Customer",
+      "idx": 16
+    },
+    {
+      "type": "Link",
+      "label": "Supplier",
+      "link_type": "DocType",
+      "link_to": "Supplier",
+      "idx": 17
+    },
+    {
+      "type": "Link",
+      "label": "Stock Entry",
+      "link_type": "DocType",
+      "link_to": "Stock Entry",
+      "idx": 18
+    },
+    {
+      "type": "Link",
+      "label": "Stock Reconciliation",
+      "link_type": "DocType",
+      "link_to": "Stock Reconciliation",
+      "idx": 19
+    }
+  ]
+}
