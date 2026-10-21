@@ -16,7 +16,7 @@ add_to_apps_screen = [
     {
         "name": app_name,
         "logo": app_logo_url,
-        "title": "Burundi Compliance",
+        "title": "eBMS",
         "route": app_home,
         "has_permission": "burundi_compliance.check_app_permission",
         "sequence_id": 1,
