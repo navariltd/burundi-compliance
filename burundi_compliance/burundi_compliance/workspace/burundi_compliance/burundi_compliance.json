@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xS8zxMKXit\",\"type\":\"card\",\"data\":{\"card_name\":\"Setups\",\"col\":4}},{\"id\":\"KzR2ci9mJ_\",\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"id\":\"jbnHVN_eEh\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Docs\",\"col\":4}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
+ "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">eBMS</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xS8zxMKXit\",\"type\":\"card\",\"data\":{\"card_name\":\"Setups\",\"col\":4}},{\"id\":\"KzR2ci9mJ_\",\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"id\":\"jbnHVN_eEh\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Docs\",\"col\":4}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
  "creation": "2024-03-06 21:09:27.172909",
  "custom_blocks": [],
  "docstatus": 0,
@@ -11,7 +11,7 @@
  "idx": 0,
  "indicator_color": "",
  "is_hidden": 0,
- "label": "Burundi Compliance",
+ "label": "eBMS",
  "links": [
   {
    "hidden": 0,
