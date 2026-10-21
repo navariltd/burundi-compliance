@@ -6,4 +6,3 @@
 # Patches added in this section will be executed after doctypes are migrated
 burundi_compliance.burundi_compliance.patches.delete_old_custom_fields
 burundi_compliance.patches.update_ebms_workspace
-burundi_compliance.patches.import_ebms_sidebar
