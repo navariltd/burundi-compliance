@@ -1,7 +1,7 @@
 {
   "doctype": "Sidebar",
-  "name": "Burundi Compliance",
-  "title": "Burundi Compliance",
+  "name": "eBMS",
+  "title": "eBMS",
   "app": "burundi_compliance",
   "module": "Burundi Compliance",
   "standard": 1,
