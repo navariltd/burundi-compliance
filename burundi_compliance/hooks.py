@@ -10,7 +10,7 @@ required_apps = ["frappe/erpnext"]
 
 # Frappe v16 Apps Screen registration
 app_logo_url = "/assets/burundi_compliance/ebms_icon.png"
-app_home = "/app/burundi-compliance"
+app_home = "/desk/burundi-compliance"
 
 add_to_apps_screen = [
     {
