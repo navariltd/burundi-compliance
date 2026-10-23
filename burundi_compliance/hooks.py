@@ -1,5 +1,5 @@
 app_name = "burundi_compliance"
-app_title = "Burundi Compliance"
+app_title = "eBMS"
 app_publisher = "Navari Limited"
 app_description = (
     "Burundian Revenue Authority (OBR) Integration with ERPNext by Navari Ltd"
