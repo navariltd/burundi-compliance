@@ -75,7 +75,7 @@ doctype_list_js = {
 # Svg Icons
 # ------------------
 # include app icons in desk
-# app_include_icons = "burundi_compliance/public/icons.svg"
+app_include_icons = ["assets/burundi_compliance/ebms-icon.svg"]
 
 # Home Pages
 # ----------

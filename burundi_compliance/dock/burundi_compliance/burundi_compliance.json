@@ -1,0 +1,24 @@
+{
+ "app": "burundi_compliance",
+ "creation": "2026-10-26 13:06:25.992036",
+ "docstatus": 0,
+ "doctype": "Dock",
+ "idx": 0,
+ "items": [
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "ebms-duotone",
+   "link_to": "eBMS",
+   "link_type": "Sidebar",
+   "title": "eBMS"
+  }
+ ],
+ "modified": "2026-10-26 13:06:25.992036",
+ "modified_by": "Administrator",
+ "mount_on": "",
+ "name": "burundi_compliance",
+ "owner": "Administrator",
+ "standard": 1,
+ "user": ""
+}
