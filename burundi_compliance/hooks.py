@@ -1,5 +1,5 @@
 app_name = "burundi_compliance"
-app_title = "Burundi Compliance"
+app_title = "eBMS"
 app_publisher = "Navari Limited"
 app_description = (
     "Burundian Revenue Authority (OBR) Integration with ERPNext by Navari Ltd"
@@ -7,6 +7,21 @@ app_description = (
 app_email = "mania@navari.co.ke"
 app_license = "GNU Affero General Public License v3.0"
 required_apps = ["frappe/erpnext"]
+
+# Frappe v16 Apps Screen registration
+app_logo_url = "/assets/burundi_compliance/ebms_icon.png"
+app_home = "/desk/burundi-compliance"
+
+add_to_apps_screen = [
+    {
+        "name": app_name,
+        "logo": app_logo_url,
+        "title": app_title,
+        "route": app_home,
+        "has_permission": "burundi_compliance.check_app_permission",
+        "sequence_id": 1,
+    }
+]
 
 fixtures = [
     "eBMS API Methods",
@@ -60,7 +75,7 @@ doctype_list_js = {
 # Svg Icons
 # ------------------
 # include app icons in desk
-# app_include_icons = "burundi_compliance/public/icons.svg"
+app_include_icons = ["assets/burundi_compliance/ebms-icon.svg"]
 
 # Home Pages
 # ----------
