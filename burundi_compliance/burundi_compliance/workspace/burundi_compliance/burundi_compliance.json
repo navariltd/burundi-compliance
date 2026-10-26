@@ -1,290 +1,292 @@
 {
- "charts": [],
- "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Burundi Compliance</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xS8zxMKXit\",\"type\":\"card\",\"data\":{\"card_name\":\"Setups\",\"col\":4}},{\"id\":\"KzR2ci9mJ_\",\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"id\":\"jbnHVN_eEh\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Docs\",\"col\":4}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
- "creation": "2024-03-06 21:09:27.172909",
- "custom_blocks": [],
- "docstatus": 0,
- "doctype": "Workspace",
- "for_user": "",
- "hide_custom": 0,
- "icon": "milestone",
- "idx": 0,
- "indicator_color": "",
- "is_hidden": 0,
- "label": "Burundi Compliance",
- "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Accounting Reports",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi Purchase Tax Report",
-   "link_count": 0,
-   "link_to": "Burundi Purchase Tax Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi Sales Tax Report",
-   "link_count": 0,
-   "link_to": "Burundi Sales Tax Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Payroll Reports",
-   "link_count": 4,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi Bank Payroll Report",
-   "link_count": 0,
-   "link_to": "Burundi Bank Payroll Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi INSS Report",
-   "link_count": 0,
-   "link_to": "Burundi INSS Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "IPRO1 Report",
-   "link_count": 0,
-   "link_to": "Burundi P10 Tax Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Burundi Misante Report",
-   "link_count": 0,
-   "link_to": "MISANTE Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Setups",
-   "link_count": 4,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "eBMS Settings",
-   "link_count": 0,
-   "link_to": "eBMS Settings",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "eBMS API Methods",
-   "link_count": 0,
-   "link_to": "eBMS API Methods",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "eBMS Endpoint URLs",
-   "link_count": 0,
-   "link_to": "eBMS Endpoint URLs",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Item",
-   "link_count": 0,
-   "link_to": "Item",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Logs",
-   "link_count": 4,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Integration Request",
-   "link_count": 0,
-   "link_to": "Integration Request",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Error Logs",
-   "link_count": 0,
-   "link_to": "Error Log",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Background Jobs",
-   "link_count": 0,
-   "link_to": "RQ Job",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Schedulers",
-   "link_count": 0,
-   "link_to": "Scheduled Job Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Other Docs",
-   "link_count": 5,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Invoice",
-   "link_count": 0,
-   "link_to": "Sales Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Customer",
-   "link_count": 0,
-   "link_to": "Customer",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Supplier",
-   "link_count": 0,
-   "link_to": "Supplier",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Stock Entry",
-   "link_count": 0,
-   "link_to": "Stock Entry",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Stock Reconciliation",
-   "link_count": 0,
-   "link_to": "Stock Reconciliation",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  }
- ],
- "modified": "2024-09-27 13:38:46.131154",
- "modified_by": "Administrator",
- "module": "Burundi Compliance",
- "name": "Burundi Compliance",
- "number_cards": [],
- "owner": "Administrator",
- "parent_page": "Accounting",
- "public": 1,
- "quick_lists": [],
- "roles": [],
- "sequence_id": 19.0,
- "shortcuts": [
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "eBMS Settings",
-   "link_to": "eBMS Settings",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "eBMS API Methods",
-   "link_to": "eBMS API Methods",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "eBMS Endpoint URLs",
-   "link_to": "eBMS Endpoint URLs",
-   "stats_filter": "[]",
-   "type": "DocType"
-  }
- ],
- "title": "Burundi Compliance"
+  "charts": [],
+  "content": "[{\"id\":\"oE48-UPkjk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">eBMS</span>\",\"col\":12}},{\"id\":\"nCW0NE2eCp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Settings\",\"col\":4}},{\"id\":\"A5HKlWbshP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS API Methods\",\"col\":4}},{\"id\":\"iaS5QLhKbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"eBMS Endpoint URLs\",\"col\":4}},{\"id\":\"O-o93xq_N3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xS8zxMKXit\",\"type\":\"card\",\"data\":{\"card_name\":\"Setups\",\"col\":4}},{\"id\":\"KzR2ci9mJ_\",\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"id\":\"jbnHVN_eEh\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Docs\",\"col\":4}},{\"id\":\"otaS1PwilI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uDqdQk21Yy\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting Reports\",\"col\":5}},{\"id\":\"d99kTHwWpL\",\"type\":\"card\",\"data\":{\"card_name\":\"Payroll Reports\",\"col\":5}}]",
+  "creation": "2024-03-06 21:09:27.172909",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "milestone",
+  "idx": 0,
+  "indicator_color": "",
+  "is_hidden": 0,
+  "label": "eBMS",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Accounting Reports",
+      "link_count": 2,
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Card Break",
+      "idx": 1
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Burundi Purchase Tax Report",
+      "link_count": 0,
+      "link_to": "Burundi Purchase Tax Report",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 2
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Burundi Sales Tax Report",
+      "link_count": 0,
+      "link_to": "Burundi Sales Tax Report",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 3
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Payroll Reports",
+      "link_count": 4,
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Card Break",
+      "idx": 4
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Burundi Bank Payroll Report",
+      "link_count": 0,
+      "link_to": "Burundi Bank Payroll Report",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 5
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Burundi INSS Report",
+      "link_count": 0,
+      "link_to": "Burundi INSS Report",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 6
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "IPRO1 Report",
+      "link_count": 0,
+      "link_to": "Burundi P10 Tax Report",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 7
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Burundi Misante Report",
+      "link_count": 0,
+      "link_to": "MISANTE Report",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 8
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Setups",
+      "link_count": 4,
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Card Break",
+      "idx": 9
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "eBMS Settings",
+      "link_count": 0,
+      "link_to": "eBMS Settings",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 10
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "eBMS API Methods",
+      "link_count": 0,
+      "link_to": "eBMS API Methods",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 11
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "eBMS Endpoint URLs",
+      "link_count": 0,
+      "link_to": "eBMS Endpoint URLs",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 12
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Item",
+      "link_count": 0,
+      "link_to": "Item",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 13
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Customer",
+      "link_count": 0,
+      "link_to": "Customer",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 14
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Supplier",
+      "link_count": 0,
+      "link_to": "Supplier",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 15
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Logs",
+      "link_count": 4,
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Card Break",
+      "idx": 16
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Integration Request",
+      "link_count": 0,
+      "link_to": "Integration Request",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 17
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Error Logs",
+      "link_count": 0,
+      "link_to": "Error Log",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 18
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Background Jobs",
+      "link_count": 0,
+      "link_to": "RQ Job",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 19
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Schedulers",
+      "link_count": 0,
+      "link_to": "Scheduled Job Type",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 20
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Other Docs",
+      "link_count": 5,
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Card Break",
+      "idx": 21
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Sales Invoice",
+      "link_count": 0,
+      "link_to": "Sales Invoice",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link",
+      "idx": 22
+    }
+  ],
+  "modified": "2024-09-27 13:38:46.131154",
+  "modified_by": "Administrator",
+  "module": "Burundi Compliance",
+  "name": "Burundi Compliance",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Accounting",
+  "public": 1,
+  "quick_lists": [],
+  "roles": [],
+  "sequence_id": 19.0,
+  "shortcuts": [
+    {
+      "color": "Grey",
+      "doc_view": "List",
+      "label": "eBMS Settings",
+      "link_to": "eBMS Settings",
+      "stats_filter": "[]",
+      "type": "DocType"
+    },
+    {
+      "color": "Grey",
+      "doc_view": "List",
+      "label": "eBMS API Methods",
+      "link_to": "eBMS API Methods",
+      "stats_filter": "[]",
+      "type": "DocType"
+    },
+    {
+      "color": "Grey",
+      "doc_view": "List",
+      "label": "eBMS Endpoint URLs",
+      "link_to": "eBMS Endpoint URLs",
+      "stats_filter": "[]",
+      "type": "DocType"
+    }
+  ],
+  "title": "Burundi Compliance"
 }
